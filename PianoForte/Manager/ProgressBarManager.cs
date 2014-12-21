@@ -15,7 +15,9 @@ namespace PianoForte.Manager
             QUERY,
             CREATE_FILE,
             GENERATE_DATE,
-            BACKUP_DATABASE
+            BACKUP_DATABASE,
+            UPDATE_STUDENT_STATUS,
+            UPDATE_CLASSROOM_STATUS
         }
 
         public static void showProgressBar(bool isVisible)
@@ -41,17 +43,27 @@ namespace PianoForte.Manager
                     break;
                 case ProgressBarState.CREATE_FILE:
                     progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
-                    progressBarDialogBox.update("Creating file " + progressPercentage.ToString() + "% Complete");
+                    progressBarDialogBox.update("Creating file", progressPercentage);
                     progressBarDialogBox.update(progressPercentage);
                     break;
                 case ProgressBarState.GENERATE_DATE:
                     progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
-                    progressBarDialogBox.update("Generating data " + progressPercentage.ToString() + "% Complete");
+                    progressBarDialogBox.update("Generating data", progressPercentage);
                     progressBarDialogBox.update(progressPercentage);
                     break;
                 case ProgressBarState.BACKUP_DATABASE:
                     progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Marquee);
                     progressBarDialogBox.update("Backing up Database");
+                    progressBarDialogBox.update(progressPercentage);
+                    break;
+                case ProgressBarState.UPDATE_STUDENT_STATUS:
+                    progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
+                    progressBarDialogBox.update("Updating students' status", progressPercentage);
+                    progressBarDialogBox.update(progressPercentage);
+                    break;
+                case ProgressBarState.UPDATE_CLASSROOM_STATUS:
+                    progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
+                    progressBarDialogBox.update("Updating classrooms' status", progressPercentage);
                     progressBarDialogBox.update(progressPercentage);
                     break;
             }

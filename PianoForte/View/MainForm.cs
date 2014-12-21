@@ -135,11 +135,13 @@ namespace PianoForte.View
 
         public void loginSuccess(User user)
         {
-            this.classroomDetailtimer.Enabled = true;
+            this.updateClassroomDetailtimer.Enabled = true;
 
             this.user = user;
             dailyPaymentReportForm.init(this.user.Role);
             this.switchForm(paymentForm2);
+
+            this.updateClassroomDetailtimer.Start();
         }
 
         public User getUser()
@@ -202,7 +204,6 @@ namespace PianoForte.View
         private void ToolStripButton_DailyPaymentReport_Click(object sender, EventArgs e)
         {
             dailyPaymentReportForm.reset();
-            dailyPaymentReportForm.loadUnpaidPayments();
             this.switchForm(dailyPaymentReportForm);
         }
 
@@ -222,11 +223,13 @@ namespace PianoForte.View
 
         private void ToolStripButton_Logout_Click(object sender, EventArgs e)
         {
-            this.classroomDetailtimer.Enabled = false;
+            this.updateClassroomDetailtimer.Enabled = false;
 
             this.user = null;
             loginForm.reset();
             this.switchForm(loginForm);
+
+            this.updateClassroomDetailtimer.Stop();
         }
 
         private void initialForm(Form form)
@@ -305,32 +308,133 @@ namespace PianoForte.View
             this.ToolStripButton_Logout.Enabled = isLoggedIn;
         }
 
-        private void classroomDetailtimer_Tick(object sender, EventArgs e)
-        {
-            //To Do
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            BackupDatabase.RunWorkerAsync();
+            this.PreCloseWorker.RunWorkerAsync();
             ProgressBarManager.showProgressBar(true);
         }
 
-        private void BackupDatabase_DoWork(object sender, DoWorkEventArgs e)
+        private void PreCloseWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackupDatabase.ReportProgress(0, ProgressBarManager.ProgressBarState.BACKUP_DATABASE);
+            this.PreCloseWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.BACKUP_DATABASE);
             DatabaseManager.backup();
         }
 
-        private void BackupDatabase_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void PreCloseWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
             ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState); 
         }
 
-        private void BackupDatabase_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void PreCloseWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ProgressBarManager.showProgressBar(false);
+        }
+
+        private void updateClassroomDetailtimer_Tick(object sender, EventArgs e)
+        {
+            if (this.user != null)
+            {
+                if (this.updateClassroomDetailWorker.IsBusy == false)
+                {
+                    this.updateClassroomDetailWorker.RunWorkerAsync();
+                }
+            }
+        }
+
+        private void updateClassroomDetailWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByEndDate(DateTime.Today);
+
+            foreach (ClassroomDetail cd in tempClassroomDetailList)
+            {
+                bool isPass = false;
+                DateTime today = DateTime.Today;
+
+                if (cd.ClassroomDate < today)
+                {
+                    isPass = true;
+                }
+                else
+                {
+                    TimeSpan time = TimeSpan.Parse(cd.ClassroomTime.Replace(".", ":"));
+                    DateTime classroomEndTime = DateTime.Today.Add(time).AddMinutes(cd.ClassroomDuration);
+
+                    if (classroomEndTime <= DateTime.Now)
+                    {
+                        isPass = true;
+                    }
+                }
+
+                if (isPass == true)
+                {
+                    cd.PreviousStatus = cd.CurrentStatus;
+                    cd.CurrentStatus = ClassroomDetail.ClassroomStatus.CHECKED_IN.ToString();
+
+                    ClassroomDetailManager.updateClassroomDetail(cd);
+                }
+            }
+        }
+
+        private void updateClassroomDetailWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            // Do Nothing
+        }
+
+        private void updateClassroomDetailWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (this.updateStudentStatusWorker.IsBusy == false)
+            {
+                //this.updateStudentStatusWorker.RunWorkerAsync();
+            }
+        }
+
+        private void updateStudentStatusWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<Student> tempStudentList = StudentManager.findAllStudent(Student.StudentStatus.ACTIVE);
+
+            foreach (Student s in tempStudentList)
+            {
+                bool hasActiveClassroom = false;
+                List<Enrollment> tempEnrollmentList = EnrollmentManager.findAllEnrollmentByStudentId(s.Id);
+
+                foreach (Enrollment en in tempEnrollmentList)
+                {
+                    List<Classroom> tempClassroomList = ClassroomManager.findAllClassroom(en.Id);
+
+                    foreach (Classroom c in tempClassroomList)
+                    {
+                        List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByClassroomId(c.Id);
+
+                        if (tempClassroomDetailList.Count > 0)
+                        {
+                            hasActiveClassroom = true;
+                            break;
+                        }
+                    }
+
+                    if (hasActiveClassroom == true)
+                    {
+                        break;
+                    }
+                }
+
+                if (hasActiveClassroom == false)
+                {
+                    s.Status = Student.StudentStatus.INACTIVE.ToString();
+                    StudentManager.updateStudent(s);
+                }
+            }
+        }
+
+        private void updateStudentStatusWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void updateStudentStatusWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
         }
     }
 }

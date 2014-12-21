@@ -33,7 +33,7 @@ namespace PianoForte.Model
         };
         
         private Address address;
-        private DateTime lastDateOfClass;
+        private DateTime? lastDateOfClass;
         private List<Enrollment> currentCourseList;
         private List<Enrollment> previousCourseList;
 
@@ -76,7 +76,7 @@ namespace PianoForte.Model
             }
         }
 
-        public DateTime LastDateOfClass
+        public DateTime? LastDateOfClass
         {
             get
             {

@@ -38,6 +38,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaymentForm2));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -126,6 +131,11 @@
             this.Button_SelectCourse = new System.Windows.Forms.Button();
             this.CheckBox_AddFirstRegisterCost = new System.Windows.Forms.CheckBox();
             this.Button_Save = new System.Windows.Forms.Button();
+            this.panel26 = new System.Windows.Forms.Panel();
+            this.DataGridView_UnpaidSavedPayment = new System.Windows.Forms.DataGridView();
+            this.Col_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Col_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label28 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_PaymentDetail_Summary)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -152,6 +162,8 @@
             this.panel28.SuspendLayout();
             this.panel22.SuspendLayout();
             this.panel25.SuspendLayout();
+            this.panel26.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_UnpaidSavedPayment)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -206,6 +218,7 @@
             // 
             this.TextBox_Barcode.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.TextBox_Barcode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBox_Barcode.Enabled = false;
             this.TextBox_Barcode.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBox_Barcode.Location = new System.Drawing.Point(2, 3);
             this.TextBox_Barcode.Name = "TextBox_Barcode";
@@ -273,7 +286,7 @@
             this.DataGridView_PaymentDetail_Summary.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.DataGridView_PaymentDetail_Summary.RowHeadersVisible = false;
             this.DataGridView_PaymentDetail_Summary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridView_PaymentDetail_Summary.Size = new System.Drawing.Size(990, 264);
+            this.DataGridView_PaymentDetail_Summary.Size = new System.Drawing.Size(796, 264);
             this.DataGridView_PaymentDetail_Summary.TabIndex = 15;
             this.DataGridView_PaymentDetail_Summary.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_PaymentDetail_Summary_CellMouseClick);
             this.DataGridView_PaymentDetail_Summary.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_PaymentDetail_Summary_CellMouseLeave);
@@ -304,7 +317,7 @@
             this.ItemName.ReadOnly = true;
             this.ItemName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ItemName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ItemName.Width = 485;
+            this.ItemName.Width = 340;
             // 
             // Quantity
             // 
@@ -317,7 +330,7 @@
             this.Quantity.ReadOnly = true;
             this.Quantity.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Quantity.Width = 80;
+            this.Quantity.Width = 66;
             // 
             // Discount
             // 
@@ -332,6 +345,7 @@
             this.Discount.ReadOnly = true;
             this.Discount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Discount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Discount.Width = 81;
             // 
             // Price
             // 
@@ -346,7 +360,7 @@
             this.Price.ReadOnly = true;
             this.Price.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Price.Width = 108;
+            this.Price.Width = 91;
             // 
             // TotalPrice
             // 
@@ -378,9 +392,9 @@
             this.RadioButton_CreditCard.ForeColor = System.Drawing.Color.MidnightBlue;
             this.RadioButton_CreditCard.Location = new System.Drawing.Point(115, 34);
             this.RadioButton_CreditCard.Name = "RadioButton_CreditCard";
-            this.RadioButton_CreditCard.Size = new System.Drawing.Size(192, 18);
+            this.RadioButton_CreditCard.Size = new System.Drawing.Size(172, 18);
             this.RadioButton_CreditCard.TabIndex = 25;
-            this.RadioButton_CreditCard.Text = "บัตรเครดิต (Credit Card) No :";
+            this.RadioButton_CreditCard.Text = "บัตรเครดิต (Credit Card) :";
             this.RadioButton_CreditCard.UseVisualStyleBackColor = true;
             this.RadioButton_CreditCard.CheckedChanged += new System.EventHandler(this.RadioButton_CreditCard_CheckedChanged);
             // 
@@ -427,7 +441,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.panel1.Controls.Add(this.panel8);
-            this.panel1.Location = new System.Drawing.Point(904, 12);
+            this.panel1.Location = new System.Drawing.Point(709, 13);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(100, 33);
             this.panel1.TabIndex = 27;
@@ -465,7 +479,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Location = new System.Drawing.Point(866, 12);
+            this.panel2.Location = new System.Drawing.Point(671, 13);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(39, 33);
             this.panel2.TabIndex = 28;
@@ -487,7 +501,7 @@
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label6);
-            this.panel3.Location = new System.Drawing.Point(866, 44);
+            this.panel3.Location = new System.Drawing.Point(671, 45);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(39, 33);
             this.panel3.TabIndex = 30;
@@ -520,7 +534,7 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.panel4.Controls.Add(this.panel5);
-            this.panel4.Location = new System.Drawing.Point(904, 44);
+            this.panel4.Location = new System.Drawing.Point(709, 45);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(100, 33);
             this.panel4.TabIndex = 29;
@@ -656,7 +670,7 @@
             this.panel11.Controls.Add(this.panel10);
             this.panel11.Controls.Add(this.panel6);
             this.panel11.Controls.Add(this.panel9);
-            this.panel11.Location = new System.Drawing.Point(578, 82);
+            this.panel11.Location = new System.Drawing.Point(383, 83);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(426, 83);
             this.panel11.TabIndex = 35;
@@ -673,13 +687,13 @@
             this.panel12.Controls.Add(this.panel13);
             this.panel12.Location = new System.Drawing.Point(12, 171);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(992, 42);
+            this.panel12.Size = new System.Drawing.Size(797, 42);
             this.panel12.TabIndex = 43;
             // 
             // panel20
             // 
             this.panel20.BackColor = System.Drawing.Color.White;
-            this.panel20.Location = new System.Drawing.Point(971, 1);
+            this.panel20.Location = new System.Drawing.Point(776, 1);
             this.panel20.Name = "panel20";
             this.panel20.Size = new System.Drawing.Size(20, 40);
             this.panel20.TabIndex = 50;
@@ -689,7 +703,7 @@
             this.panel19.BackColor = System.Drawing.Color.White;
             this.panel19.Controls.Add(this.label19);
             this.panel19.Controls.Add(this.label20);
-            this.panel19.Location = new System.Drawing.Point(855, 1);
+            this.panel19.Location = new System.Drawing.Point(660, 1);
             this.panel19.Name = "panel19";
             this.panel19.Size = new System.Drawing.Size(115, 40);
             this.panel19.TabIndex = 49;
@@ -722,9 +736,9 @@
             this.panel18.BackColor = System.Drawing.Color.White;
             this.panel18.Controls.Add(this.label17);
             this.panel18.Controls.Add(this.label18);
-            this.panel18.Location = new System.Drawing.Point(747, 1);
+            this.panel18.Location = new System.Drawing.Point(569, 1);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(107, 40);
+            this.panel18.Size = new System.Drawing.Size(90, 40);
             this.panel18.TabIndex = 48;
             // 
             // label17
@@ -732,7 +746,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label17.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label17.Location = new System.Drawing.Point(21, 20);
+            this.label17.Location = new System.Drawing.Point(12, 20);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(65, 14);
             this.label17.TabIndex = 45;
@@ -743,7 +757,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label18.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label18.Location = new System.Drawing.Point(13, 6);
+            this.label18.Location = new System.Drawing.Point(5, 6);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(80, 14);
             this.label18.TabIndex = 44;
@@ -755,9 +769,9 @@
             this.panel17.BackColor = System.Drawing.Color.White;
             this.panel17.Controls.Add(this.label15);
             this.panel17.Controls.Add(this.label16);
-            this.panel17.Location = new System.Drawing.Point(647, 1);
+            this.panel17.Location = new System.Drawing.Point(488, 1);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(99, 40);
+            this.panel17.Size = new System.Drawing.Size(80, 40);
             this.panel17.TabIndex = 47;
             // 
             // label15
@@ -765,7 +779,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label15.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label15.Location = new System.Drawing.Point(19, 20);
+            this.label15.Location = new System.Drawing.Point(10, 20);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(61, 14);
             this.label15.TabIndex = 45;
@@ -776,7 +790,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label16.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label16.Location = new System.Drawing.Point(27, 6);
+            this.label16.Location = new System.Drawing.Point(17, 6);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(45, 14);
             this.label16.TabIndex = 44;
@@ -788,9 +802,9 @@
             this.panel16.BackColor = System.Drawing.Color.White;
             this.panel16.Controls.Add(this.label13);
             this.panel16.Controls.Add(this.label14);
-            this.panel16.Location = new System.Drawing.Point(567, 1);
+            this.panel16.Location = new System.Drawing.Point(422, 1);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(79, 40);
+            this.panel16.Size = new System.Drawing.Size(65, 40);
             this.panel16.TabIndex = 46;
             // 
             // label13
@@ -798,7 +812,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label13.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label13.Location = new System.Drawing.Point(9, 20);
+            this.label13.Location = new System.Drawing.Point(2, 20);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 14);
             this.label13.TabIndex = 45;
@@ -809,7 +823,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label14.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label14.Location = new System.Drawing.Point(18, 6);
+            this.label14.Location = new System.Drawing.Point(12, 6);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(42, 14);
             this.label14.TabIndex = 44;
@@ -823,7 +837,7 @@
             this.panel15.Controls.Add(this.label12);
             this.panel15.Location = new System.Drawing.Point(82, 1);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(484, 40);
+            this.panel15.Size = new System.Drawing.Size(339, 40);
             this.panel15.TabIndex = 46;
             // 
             // label11
@@ -831,7 +845,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(204, 20);
+            this.label11.Location = new System.Drawing.Point(131, 20);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(76, 14);
             this.label11.TabIndex = 45;
@@ -842,7 +856,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label12.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label12.Location = new System.Drawing.Point(218, 6);
+            this.label12.Location = new System.Drawing.Point(146, 6);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(47, 14);
             this.label12.TabIndex = 44;
@@ -888,7 +902,7 @@
             this.panel14.Controls.Add(this.DataGridView_PaymentDetail_Summary);
             this.panel14.Location = new System.Drawing.Point(12, 212);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(992, 266);
+            this.panel14.Size = new System.Drawing.Size(797, 266);
             this.panel14.TabIndex = 44;
             // 
             // panel21
@@ -899,14 +913,14 @@
             this.panel21.Controls.Add(this.panel28);
             this.panel21.Location = new System.Drawing.Point(12, 477);
             this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(992, 60);
+            this.panel21.Size = new System.Drawing.Size(797, 60);
             this.panel21.TabIndex = 45;
             // 
             // panel23
             // 
             this.panel23.BackColor = System.Drawing.Color.White;
             this.panel23.Controls.Add(this.TextBox_GrandTotal);
-            this.panel23.Location = new System.Drawing.Point(855, 1);
+            this.panel23.Location = new System.Drawing.Point(660, 1);
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(136, 58);
             this.panel23.TabIndex = 49;
@@ -930,9 +944,9 @@
             this.panel24.BackColor = System.Drawing.Color.White;
             this.panel24.Controls.Add(this.label23);
             this.panel24.Controls.Add(this.label24);
-            this.panel24.Location = new System.Drawing.Point(747, 1);
+            this.panel24.Location = new System.Drawing.Point(553, 1);
             this.panel24.Name = "panel24";
-            this.panel24.Size = new System.Drawing.Size(107, 58);
+            this.panel24.Size = new System.Drawing.Size(106, 58);
             this.panel24.TabIndex = 48;
             // 
             // label23
@@ -974,7 +988,7 @@
             this.panel28.Controls.Add(this.RadioButton_Cash);
             this.panel28.Location = new System.Drawing.Point(1, 1);
             this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(745, 58);
+            this.panel28.Size = new System.Drawing.Size(551, 58);
             this.panel28.TabIndex = 44;
             // 
             // TextBox_CreditCardNumber4
@@ -983,10 +997,10 @@
             this.TextBox_CreditCardNumber4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBox_CreditCardNumber4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.TextBox_CreditCardNumber4.ForeColor = System.Drawing.Color.Gray;
-            this.TextBox_CreditCardNumber4.Location = new System.Drawing.Point(649, 32);
+            this.TextBox_CreditCardNumber4.Location = new System.Drawing.Point(500, 32);
             this.TextBox_CreditCardNumber4.MaxLength = 4;
             this.TextBox_CreditCardNumber4.Name = "TextBox_CreditCardNumber4";
-            this.TextBox_CreditCardNumber4.Size = new System.Drawing.Size(91, 20);
+            this.TextBox_CreditCardNumber4.Size = new System.Drawing.Size(45, 20);
             this.TextBox_CreditCardNumber4.TabIndex = 53;
             this.TextBox_CreditCardNumber4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBox_CreditCardNumber4.TextChanged += new System.EventHandler(this.TextBox_CreditCardNumber4_TextChanged);
@@ -997,7 +1011,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label25.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label25.Location = new System.Drawing.Point(631, 36);
+            this.label25.Location = new System.Drawing.Point(482, 36);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(12, 14);
             this.label25.TabIndex = 52;
@@ -1010,10 +1024,10 @@
             this.TextBox_CreditCardNumber3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBox_CreditCardNumber3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.TextBox_CreditCardNumber3.ForeColor = System.Drawing.Color.Gray;
-            this.TextBox_CreditCardNumber3.Location = new System.Drawing.Point(534, 32);
+            this.TextBox_CreditCardNumber3.Location = new System.Drawing.Point(431, 32);
             this.TextBox_CreditCardNumber3.MaxLength = 4;
             this.TextBox_CreditCardNumber3.Name = "TextBox_CreditCardNumber3";
-            this.TextBox_CreditCardNumber3.Size = new System.Drawing.Size(91, 20);
+            this.TextBox_CreditCardNumber3.Size = new System.Drawing.Size(45, 20);
             this.TextBox_CreditCardNumber3.TabIndex = 51;
             this.TextBox_CreditCardNumber3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBox_CreditCardNumber3.TextChanged += new System.EventHandler(this.TextBox_CreditCardNumber3_TextChanged);
@@ -1024,7 +1038,7 @@
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label22.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label22.Location = new System.Drawing.Point(516, 36);
+            this.label22.Location = new System.Drawing.Point(413, 36);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(12, 14);
             this.label22.TabIndex = 50;
@@ -1037,10 +1051,10 @@
             this.TextBox_CreditCardNumber2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBox_CreditCardNumber2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.TextBox_CreditCardNumber2.ForeColor = System.Drawing.Color.Gray;
-            this.TextBox_CreditCardNumber2.Location = new System.Drawing.Point(419, 32);
+            this.TextBox_CreditCardNumber2.Location = new System.Drawing.Point(362, 32);
             this.TextBox_CreditCardNumber2.MaxLength = 4;
             this.TextBox_CreditCardNumber2.Name = "TextBox_CreditCardNumber2";
-            this.TextBox_CreditCardNumber2.Size = new System.Drawing.Size(91, 20);
+            this.TextBox_CreditCardNumber2.Size = new System.Drawing.Size(45, 20);
             this.TextBox_CreditCardNumber2.TabIndex = 49;
             this.TextBox_CreditCardNumber2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBox_CreditCardNumber2.TextChanged += new System.EventHandler(this.TextBox_CreditCardNumber2_TextChanged);
@@ -1051,7 +1065,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.label21.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label21.Location = new System.Drawing.Point(401, 36);
+            this.label21.Location = new System.Drawing.Point(344, 36);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(12, 14);
             this.label21.TabIndex = 48;
@@ -1064,10 +1078,10 @@
             this.TextBox_CreditCardNumber1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBox_CreditCardNumber1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.TextBox_CreditCardNumber1.ForeColor = System.Drawing.Color.Gray;
-            this.TextBox_CreditCardNumber1.Location = new System.Drawing.Point(304, 32);
+            this.TextBox_CreditCardNumber1.Location = new System.Drawing.Point(293, 32);
             this.TextBox_CreditCardNumber1.MaxLength = 4;
             this.TextBox_CreditCardNumber1.Name = "TextBox_CreditCardNumber1";
-            this.TextBox_CreditCardNumber1.Size = new System.Drawing.Size(91, 20);
+            this.TextBox_CreditCardNumber1.Size = new System.Drawing.Size(45, 20);
             this.TextBox_CreditCardNumber1.TabIndex = 47;
             this.TextBox_CreditCardNumber1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBox_CreditCardNumber1.TextChanged += new System.EventHandler(this.TextBox_CreditCardNumber1_TextChanged);
@@ -1082,7 +1096,7 @@
             this.TextBox_GrandTotalText.ForeColor = System.Drawing.Color.Gray;
             this.TextBox_GrandTotalText.Location = new System.Drawing.Point(181, 6);
             this.TextBox_GrandTotalText.Name = "TextBox_GrandTotalText";
-            this.TextBox_GrandTotalText.Size = new System.Drawing.Size(559, 20);
+            this.TextBox_GrandTotalText.Size = new System.Drawing.Size(364, 20);
             this.TextBox_GrandTotalText.TabIndex = 46;
             this.TextBox_GrandTotalText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1122,6 +1136,7 @@
             this.Button_SearchBarcode.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Button_SearchBarcode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Button_SearchBarcode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Button_SearchBarcode.Enabled = false;
             this.Button_SearchBarcode.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
             this.Button_SearchBarcode.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Window;
             this.Button_SearchBarcode.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Window;
@@ -1139,7 +1154,7 @@
             // Button_Reset
             // 
             this.Button_Reset.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.Button_Reset.Location = new System.Drawing.Point(929, 543);
+            this.Button_Reset.Location = new System.Drawing.Point(734, 543);
             this.Button_Reset.Name = "Button_Reset";
             this.Button_Reset.Size = new System.Drawing.Size(75, 23);
             this.Button_Reset.TabIndex = 48;
@@ -1151,7 +1166,7 @@
             // 
             this.Button_Pay.Enabled = false;
             this.Button_Pay.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.Button_Pay.Location = new System.Drawing.Point(848, 543);
+            this.Button_Pay.Location = new System.Drawing.Point(653, 543);
             this.Button_Pay.Name = "Button_Pay";
             this.Button_Pay.Size = new System.Drawing.Size(75, 23);
             this.Button_Pay.TabIndex = 47;
@@ -1169,6 +1184,7 @@
             // 
             // Button_AddOther
             // 
+            this.Button_AddOther.Enabled = false;
             this.Button_AddOther.Image = global::PianoForte.Properties.Resources.basket_add;
             this.Button_AddOther.Location = new System.Drawing.Point(350, 137);
             this.Button_AddOther.Name = "Button_AddOther";
@@ -1179,6 +1195,7 @@
             // 
             // Button_SelectCD
             // 
+            this.Button_SelectCD.Enabled = false;
             this.Button_SelectCD.Image = global::PianoForte.Properties.Resources.cd;
             this.Button_SelectCD.Location = new System.Drawing.Point(317, 137);
             this.Button_SelectCD.Name = "Button_SelectCD";
@@ -1189,6 +1206,7 @@
             // 
             // Button_SelectBook
             // 
+            this.Button_SelectBook.Enabled = false;
             this.Button_SelectBook.Image = global::PianoForte.Properties.Resources.book;
             this.Button_SelectBook.Location = new System.Drawing.Point(284, 137);
             this.Button_SelectBook.Name = "Button_SelectBook";
@@ -1199,6 +1217,7 @@
             // 
             // Button_SelectCourse
             // 
+            this.Button_SelectCourse.Enabled = false;
             this.Button_SelectCourse.Image = global::PianoForte.Properties.Resources.music;
             this.Button_SelectCourse.Location = new System.Drawing.Point(251, 137);
             this.Button_SelectCourse.Name = "Button_SelectCourse";
@@ -1211,12 +1230,13 @@
             // 
             this.CheckBox_AddFirstRegisterCost.AutoSize = true;
             this.CheckBox_AddFirstRegisterCost.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.CheckBox_AddFirstRegisterCost.Location = new System.Drawing.Point(383, 143);
+            this.CheckBox_AddFirstRegisterCost.Location = new System.Drawing.Point(12, 107);
             this.CheckBox_AddFirstRegisterCost.Name = "CheckBox_AddFirstRegisterCost";
             this.CheckBox_AddFirstRegisterCost.Size = new System.Drawing.Size(190, 20);
             this.CheckBox_AddFirstRegisterCost.TabIndex = 49;
             this.CheckBox_AddFirstRegisterCost.Text = "ค่าลงทะเบียนแรกเข้า 300 บาท";
             this.CheckBox_AddFirstRegisterCost.UseVisualStyleBackColor = true;
+            this.CheckBox_AddFirstRegisterCost.Visible = false;
             this.CheckBox_AddFirstRegisterCost.CheckedChanged += new System.EventHandler(this.CheckBox_AddFirstRegisterCost_CheckedChanged);
             // 
             // Button_Save
@@ -1231,12 +1251,106 @@
             this.Button_Save.UseVisualStyleBackColor = true;
             this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
+            // panel26
+            // 
+            this.panel26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel26.Controls.Add(this.DataGridView_UnpaidSavedPayment);
+            this.panel26.Location = new System.Drawing.Point(815, 45);
+            this.panel26.Name = "panel26";
+            this.panel26.Size = new System.Drawing.Size(189, 492);
+            this.panel26.TabIndex = 51;
+            // 
+            // DataGridView_UnpaidSavedPayment
+            // 
+            this.DataGridView_UnpaidSavedPayment.AllowUserToAddRows = false;
+            this.DataGridView_UnpaidSavedPayment.AllowUserToDeleteRows = false;
+            this.DataGridView_UnpaidSavedPayment.AllowUserToResizeColumns = false;
+            this.DataGridView_UnpaidSavedPayment.AllowUserToResizeRows = false;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_UnpaidSavedPayment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.DataGridView_UnpaidSavedPayment.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.DataGridView_UnpaidSavedPayment.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridView_UnpaidSavedPayment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
+            this.DataGridView_UnpaidSavedPayment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridView_UnpaidSavedPayment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.DataGridView_UnpaidSavedPayment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView_UnpaidSavedPayment.ColumnHeadersVisible = false;
+            this.DataGridView_UnpaidSavedPayment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Col_No,
+            this.Col_Name});
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridView_UnpaidSavedPayment.DefaultCellStyle = dataGridViewCellStyle14;
+            this.DataGridView_UnpaidSavedPayment.GridColor = System.Drawing.Color.White;
+            this.DataGridView_UnpaidSavedPayment.Location = new System.Drawing.Point(1, 1);
+            this.DataGridView_UnpaidSavedPayment.MultiSelect = false;
+            this.DataGridView_UnpaidSavedPayment.Name = "DataGridView_UnpaidSavedPayment";
+            this.DataGridView_UnpaidSavedPayment.ReadOnly = true;
+            this.DataGridView_UnpaidSavedPayment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.DataGridView_UnpaidSavedPayment.RowHeadersVisible = false;
+            this.DataGridView_UnpaidSavedPayment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridView_UnpaidSavedPayment.Size = new System.Drawing.Size(188, 491);
+            this.DataGridView_UnpaidSavedPayment.TabIndex = 15;
+            this.DataGridView_UnpaidSavedPayment.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_UnpaidSavedPayment_CellDoubleClick);
+            // 
+            // Col_No
+            // 
+            this.Col_No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Col_No.DefaultCellStyle = dataGridViewCellStyle12;
+            this.Col_No.HeaderText = "#";
+            this.Col_No.Name = "Col_No";
+            this.Col_No.ReadOnly = true;
+            this.Col_No.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Col_No.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Col_No.Width = 25;
+            // 
+            // Col_Name
+            // 
+            this.Col_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Col_Name.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Col_Name.HeaderText = "ชื่อ - สกลุ";
+            this.Col_Name.Name = "Col_Name";
+            this.Col_Name.ReadOnly = true;
+            this.Col_Name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Col_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Col_Name.Width = 161;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.label28.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label28.Location = new System.Drawing.Point(815, 20);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(179, 18);
+            this.label28.TabIndex = 52;
+            this.label28.Text = "รายชื่อนักเรียนที่ค้างชำระ";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // PaymentForm2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1016, 600);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.panel26);
             this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.CheckBox_AddFirstRegisterCost);
             this.Controls.Add(this.Button_Reset);
@@ -1301,6 +1415,8 @@
             this.panel22.ResumeLayout(false);
             this.panel25.ResumeLayout(false);
             this.panel25.PerformLayout();
+            this.panel26.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_UnpaidSavedPayment)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1376,13 +1492,6 @@
         private System.Windows.Forms.Panel panel22;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.Button Button_SearchBarcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn No;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalPrice;
-        private System.Windows.Forms.DataGridViewImageColumn DeleteButton;
         private System.Windows.Forms.TextBox TextBox_CreditCardNumber4;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox TextBox_CreditCardNumber3;
@@ -1396,5 +1505,17 @@
         private System.Windows.Forms.Button Button_Save;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.DataGridViewTextBoxColumn No;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Discount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalPrice;
+        private System.Windows.Forms.DataGridViewImageColumn DeleteButton;
+        private System.Windows.Forms.Panel panel26;
+        private System.Windows.Forms.DataGridView DataGridView_UnpaidSavedPayment;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Col_No;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Col_Name;
     }
 }

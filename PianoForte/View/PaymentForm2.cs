@@ -22,8 +22,10 @@ namespace PianoForte.View
         private OtherCost firstRegister;
         private Enrollment enrollment;
         private List<PaymentDetail> paymentDetailList;
-        private List<SavedPayment> savedPaymentList;
-        private int savedPaymentListSelectedIndex = 0;
+        private List<SavedPayment> studentSavedPaymentList;
+        private int selectedStudentSavedPaymentIndex = 0;
+        private Dictionary<int, SavedPayment> unpaidSavedPaymentDictionary;
+        private int unpaidSavedPaymentId = 0;
 
         public PaymentForm2()
         {
@@ -37,11 +39,13 @@ namespace PianoForte.View
             this.student = null;            
             this.enrollment = null;
             this.paymentDetailList = new List<PaymentDetail>();
-            this.savedPaymentList = new List<SavedPayment>();
+            this.studentSavedPaymentList = new List<SavedPayment>();
+            this.unpaidSavedPaymentDictionary = new Dictionary<int, SavedPayment>();
 
             this.firstRegister = OtherCostManager.findOtherCost(4000001);
 
             this.initTextBoxPaymentDate();
+            this.updateUnpaidSavedPaymentDataGridView();
             this.initPaymentDetailSummaryDataGridView();
         }
 
@@ -84,6 +88,17 @@ namespace PianoForte.View
                 this.TextBox_StudentFullName.Text = student.Firstname + " " + student.Lastname;
                 this.TextBox_StudentPhoneNumber.Text = student.Phone2;
 
+                this.TextBox_Barcode.Enabled = true;
+                this.Button_SearchBarcode.Enabled = true;
+                this.Button_SelectBook.Enabled = true;
+                this.Button_SelectCD.Enabled = true;
+                this.Button_AddOther.Enabled = true;
+
+                if (student.Id != 1)
+                {
+                    this.Button_SelectCourse.Enabled = true;
+                }
+                
                 this.TextBox_Barcode.Focus();
 
                 this.searchUnpaidPayment(student.Id);
@@ -177,7 +192,7 @@ namespace PianoForte.View
                 {
                     this.Button_SelectCourse.Enabled = false;
 
-                    if (this.savedPaymentListSelectedIndex != 0)
+                    if (this.selectedStudentSavedPaymentIndex != 0)
                     {
                         this.enrollment = EnrollmentManager.findEnrollmentBySavedPaymentId(paymentDetail.SavedPaymentId);
                     }
@@ -191,7 +206,7 @@ namespace PianoForte.View
                 }
 
                 this.sortPaymentDetailList();
-                this.updateDataGridViewPaymentDetailSummary();
+                this.updatePaymentDetailSummaryDataGridView();
                 this.updateTextBoxGrandTotal();
             }
 
@@ -215,7 +230,7 @@ namespace PianoForte.View
             this.paymentDetailList.Clear();
 
             this.sortPaymentDetailList();
-            this.updateDataGridViewPaymentDetailSummary();
+            this.updatePaymentDetailSummaryDataGridView();
             this.updateTextBoxGrandTotal();
             this.updateButtonPay();
             this.updateButtonSave();
@@ -243,11 +258,13 @@ namespace PianoForte.View
                     {
                         this.enrollment = null;
                         this.Button_SelectCourse.Enabled = true;
+
+                        this.removePaymentDetail(this.firstRegister.Id);
                     }
                 }
 
                 this.sortPaymentDetailList();
-                this.updateDataGridViewPaymentDetailSummary();
+                this.updatePaymentDetailSummaryDataGridView();
                 this.updateTextBoxGrandTotal();
             }
 
@@ -262,8 +279,10 @@ namespace PianoForte.View
             this.student = null;
             this.enrollment = null;
             this.paymentDetailList.Clear();
-            this.savedPaymentList.Clear();
-            this.savedPaymentListSelectedIndex = 0;
+            this.studentSavedPaymentList.Clear();
+            this.selectedStudentSavedPaymentIndex = 0;
+            this.unpaidSavedPaymentDictionary.Clear();
+            this.unpaidSavedPaymentId = 0;
 
             this.TextBox_StudentId.Text = "";
             this.TextBox_StudentId.Focus();
@@ -278,15 +297,15 @@ namespace PianoForte.View
             this.TextBox_StudentPhoneNumber.Text = "";
             this.TextBox_PaymentDate.Text = DateTime.Today.ToShortDateString();
 
-            this.TextBox_Barcode.Enabled = true;
+            this.TextBox_Barcode.Enabled = false;
             this.TextBox_Barcode.Text = "";
-            this.Button_SearchBarcode.Enabled = true;
+            this.Button_SearchBarcode.Enabled = false;
 
-            this.Button_SelectCourse.Enabled = true;
-            this.Button_SelectBook.Enabled = true;
-            this.Button_SelectCD.Enabled = true;
-            this.Button_AddOther.Enabled = true;
-            this.CheckBox_AddFirstRegisterCost.Enabled = true;
+            this.Button_SelectCourse.Enabled = false;
+            this.Button_SelectBook.Enabled = false;
+            this.Button_SelectCD.Enabled = false;
+            this.Button_AddOther.Enabled = false;
+            this.CheckBox_AddFirstRegisterCost.Enabled = false;
 
             this.TextBox_GrandTotalText.Text = "";
             this.TextBox_GrandTotal.Text = "0.00";
@@ -301,7 +320,8 @@ namespace PianoForte.View
             this.Button_Pay.Enabled = false;
             this.Button_Save.Enabled = false;
 
-            this.updateDataGridViewPaymentDetailSummary();
+            this.updateUnpaidSavedPaymentDataGridView();
+            this.updatePaymentDetailSummaryDataGridView();
         }
 
         private void initTextBoxPaymentDate()
@@ -323,20 +343,17 @@ namespace PianoForte.View
             }
         }
 
-        private void resetPaymentDetailSummaryDataGridView()
+        private void initUnpaidSavedPaymentDataGridView()
         {
-            for (int i = 0; i < 12; i++)
+            for (int i = 1; i <= 12; i++)
             {
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["No"].Value = "";
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["ItemName"].Value = "";
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Quantity"].Value = "";
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Discount"].Value = "";
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Price"].Value = "";
-                this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["TotalPrice"].Value = "";
+                int n = this.DataGridView_UnpaidSavedPayment.Rows.Add();
+                this.DataGridView_UnpaidSavedPayment.Rows[n].Cells["Col_No"].Value = "";
+                this.DataGridView_PaymentDetail_Summary.Rows[n].Cells["Col_Name"].Value = "";
             }
         }
 
-        private void updateDataGridViewPaymentDetailSummary()
+        private void updatePaymentDetailSummaryDataGridView()
         {
             int numberOfPaymentDetailList = this.paymentDetailList.Count;
 
@@ -354,7 +371,7 @@ namespace PianoForte.View
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Price"].Value = product.Price;
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["TotalPrice"].Value = (product.Price * paymentDetail.Quantity) - paymentDetail.Discount;
 
-                    if (this.savedPaymentListSelectedIndex == 0)
+                    if (this.selectedStudentSavedPaymentIndex == 0)
                     {
                         ((DataGridViewImageCell)this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["DeleteButton"]).Value = PianoForte.Properties.Resources.Delete;
                     }
@@ -373,6 +390,29 @@ namespace PianoForte.View
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["TotalPrice"].Value = "";
 
                     ((DataGridViewImageCell)this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["DeleteButton"]).Value = PianoForte.Properties.Resources.Empty;
+                }
+            }
+        }
+
+        private void updateUnpaidSavedPaymentDataGridView()
+        {
+            List<SavedPayment> unpaidSavedPaymentDictionary = SavedPaymentManager.findAllSavedPayment(SavedPayment.SavedPaymentStatus.NOT_PAID);
+
+            this.unpaidSavedPaymentDictionary.Clear();
+            this.DataGridView_UnpaidSavedPayment.Rows.Clear();
+
+            foreach (SavedPayment sp in unpaidSavedPaymentDictionary)
+            {
+                Student s = StudentManager.findStudent(sp.StudentId);
+
+                if (s != null)
+                {
+                    int n = this.DataGridView_UnpaidSavedPayment.Rows.Add();
+
+                    this.DataGridView_UnpaidSavedPayment.Rows[n].Cells["Col_No"].Value = n + 1;
+                    this.DataGridView_UnpaidSavedPayment.Rows[n].Cells["Col_Name"].Value = s.Firstname + " (" + s.Nickname + ")";
+
+                    this.unpaidSavedPaymentDictionary.Add(n, sp);
                 }
             }
         }
@@ -405,39 +445,48 @@ namespace PianoForte.View
 
         private void searchStudent(int studentId)
         {
+            this.reset(true);
+
             Student searchedStudent = StudentManager.findStudent(studentId);
 
-            if (this.savedPaymentListSelectedIndex != 0)
-            {
-                this.reset(true);
-            }
-            else
-            {
-                this.TextBox_StudentNickname.Text = "";
-                this.TextBox_StudentFullName.Text = "";
-                this.TextBox_StudentPhoneNumber.Text = "";
-            }
+            //if (this.selectedStudentSavedPaymentIndex != 0)
+            //{
+            //    this.reset(true);
+            //}
+            //else
+            //{
+            //    this.TextBox_StudentNickname.Text = "";
+            //    this.TextBox_StudentFullName.Text = "";
+            //    this.TextBox_StudentPhoneNumber.Text = "";
+            //}
 
             setStudent(searchedStudent);
         }        
 
         private void searchUnpaidPayment(int studentId)
         {
-            this.savedPaymentList = SavedPaymentManager.findAllSavedPaymentByStudentId(studentId, SavedPayment.SavedPaymentStatus.NOT_PAID);
-            int numberOfSavedPayment = this.savedPaymentList.Count;
+            this.studentSavedPaymentList = SavedPaymentManager.findAllSavedPaymentByStudentId(studentId, SavedPayment.SavedPaymentStatus.NOT_PAID);
+            int numberOfSavedPayment = this.studentSavedPaymentList.Count;
+            int selectedIndex = 0;
 
             if (numberOfSavedPayment > 0)
             {
                 this.ComboBox_Unpaid_Payment.Visible = true;
                 this.ComboBox_Unpaid_Payment.Items.Clear();
                 this.ComboBox_Unpaid_Payment.Items.Add("ทำรายการใหม่");
+                this.ComboBox_Unpaid_Payment.SelectedIndex = 0;
 
                 for (int i = 0; i < numberOfSavedPayment; i++)
                 {
                     this.ComboBox_Unpaid_Payment.Items.Add("ค้างชำระ " + (i+1));
+
+                    if (this.unpaidSavedPaymentId == this.studentSavedPaymentList[i].Id)
+                    {
+                        selectedIndex = i + 1;
+                    }
                 }
 
-                this.ComboBox_Unpaid_Payment.SelectedIndex = 0;
+                this.ComboBox_Unpaid_Payment.SelectedIndex = selectedIndex;
             }
             else
             {
@@ -625,7 +674,7 @@ namespace PianoForte.View
         {
             bool isEnableButtonSave = false;
 
-            if ((this.student != null) && (this.paymentDetailList.Count > 0) && (this.savedPaymentListSelectedIndex == 0))
+            if ((this.student != null) && (this.paymentDetailList.Count > 0) && (this.selectedStudentSavedPaymentIndex == 0))
             {
                 isEnableButtonSave = true;
             }
@@ -673,9 +722,9 @@ namespace PianoForte.View
 
             if (newPayment != null)
             {
-                if (this.savedPaymentListSelectedIndex != 0)
+                if (this.selectedStudentSavedPaymentIndex != 0)
                 {
-                    SavedPayment savedPayment = this.savedPaymentList[this.savedPaymentListSelectedIndex - 1];
+                    SavedPayment savedPayment = this.studentSavedPaymentList[this.selectedStudentSavedPaymentIndex - 1];
 
                     if (savedPayment != null)
                     {
@@ -780,7 +829,22 @@ namespace PianoForte.View
                                     this.enrollment.Status = Enrollment.EnrollmentStatus.NOT_PAID.ToString();
                                 }
                                 
-                                EnrollmentManager.processEnrollment(this.enrollment);
+                                if ((EnrollmentManager.processEnrollment(this.enrollment) == true) && (this.student != null))
+                                {
+                                    foreach (Classroom c in this.enrollment.ClassroomList)
+                                    {
+                                        foreach (ClassroomDetail cd in this.enrollment.ClassroomIdClassroomDetailListDictionary[c.Id])
+                                        {
+                                            if ((this.student.LastDateOfClass == null) ||
+                                                (this.student.LastDateOfClass < cd.ClassroomDate))
+                                            {
+                                                this.student.LastDateOfClass = cd.ClassroomDate;
+                                            }
+                                        }
+                                    }
+
+                                    StudentManager.updateStudent(this.student);
+                                }
                             }
 
                             if (this.student != null)
@@ -921,7 +985,7 @@ namespace PianoForte.View
 
         private void DataGridView_PaymentDetail_Summary_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.savedPaymentListSelectedIndex == 0)
+            if (this.selectedStudentSavedPaymentIndex == 0)
             {
                 int numberOfPaymentDetailList = this.paymentDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
@@ -945,7 +1009,7 @@ namespace PianoForte.View
 
         private void DataGridView_PaymentDetail_Summary_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (this.savedPaymentListSelectedIndex == 0)
+            if (this.selectedStudentSavedPaymentIndex == 0)
             {
                 int numberOfPaymentDetailList = this.paymentDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
@@ -970,7 +1034,7 @@ namespace PianoForte.View
 
         private void DataGridView_PaymentDetail_Summary_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.savedPaymentListSelectedIndex == 0)
+            if (this.selectedStudentSavedPaymentIndex == 0)
             {
                 int numberOfPaymentDetailList = this.paymentDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
@@ -995,6 +1059,19 @@ namespace PianoForte.View
                 }
 
                 this.Cursor = Cursors.Arrow;
+            }
+        }
+
+        private void DataGridView_UnpaidSavedPayment_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowIndex = e.RowIndex;
+            SavedPayment sp = this.unpaidSavedPaymentDictionary[rowIndex];
+
+            if (sp != null)
+            {
+                this.selectedStudentSavedPaymentIndex = 0;
+                this.unpaidSavedPaymentId = sp.Id;
+                this.searchStudent(sp.StudentId);
             }
         }
 
@@ -1152,7 +1229,7 @@ namespace PianoForte.View
         private void Button_Reset_Click(object sender, EventArgs e)
         {
             this.reset(true);
-            this.updateDataGridViewPaymentDetailSummary();
+            //this.updateDataGridViewPaymentDetailSummary();
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
@@ -1164,6 +1241,28 @@ namespace PianoForte.View
         {
             EnrollmentPopUp enrollmentPopUp = new EnrollmentPopUp();
             Enrollment enrollment = enrollmentPopUp.showFormDialog(this);
+
+            if (this.student != null)
+            {
+                if (this.student.Status == Student.StudentStatus.INACTIVE.ToString())
+                {
+                    DateTime? lastDateOfClass = this.student.LastDateOfClass;
+                    if ((lastDateOfClass == null) || (lastDateOfClass < DateTime.Today.AddDays(-90)))
+                    {
+                        Product product = new Product();
+                        product.Id = this.firstRegister.Id;
+                        product.Type = Product.ProductType.OTHER.ToString();
+                        product.Name = this.firstRegister.Name;
+                        product.Price = this.firstRegister.Price;
+
+                        PaymentDetail paymentDetail = new PaymentDetail();
+                        paymentDetail.Product = product;
+                        paymentDetail.Quantity = 1;
+
+                        this.addPaymentDetail(paymentDetail);
+                    }
+                }
+            }
 
             this.updateEnrollment(enrollment);
         }
@@ -1233,7 +1332,7 @@ namespace PianoForte.View
 
         private void ComboBox_Unpaid_Payment_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.savedPaymentListSelectedIndex = this.ComboBox_Unpaid_Payment.SelectedIndex;
+            this.selectedStudentSavedPaymentIndex = this.ComboBox_Unpaid_Payment.SelectedIndex;
 
             if (this.paymentDetailList.Count > 0)
             {
@@ -1241,11 +1340,11 @@ namespace PianoForte.View
                 this.TextBox_StudentId.Focus();
             }
 
-            if (this.savedPaymentListSelectedIndex > 0)
+            if (this.selectedStudentSavedPaymentIndex > 0)
             {
                 this.applyUnpaidPaymentView(true);
 
-                SavedPayment savedPayment = this.savedPaymentList[this.savedPaymentListSelectedIndex - 1];
+                SavedPayment savedPayment = this.studentSavedPaymentList[this.selectedStudentSavedPaymentIndex - 1];
 
                 if (savedPayment != null)
                 {

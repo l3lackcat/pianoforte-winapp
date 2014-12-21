@@ -150,4 +150,10 @@
         UpaNIn0YAPEvB0dVTi+A+03eCfYl8BaazUUuAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="Col_No.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Col_Name.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

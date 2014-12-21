@@ -21,10 +21,18 @@ namespace PianoForte.Dao
 
         List<ClassroomDetail> findAllClassroomDetailByClassroomId(int classroomId);
         List<ClassroomDetail> findAllClassroomDetailByClassroomId(int classroomId, List<ClassroomDetail.ClassroomType> typeList, string columnForArrange);
+        
+        List<ClassroomDetail> findAllActiveClassroomDetailByClassroomId(int classroomId);
+
+        List<ClassroomDetail> findAllActiveClassroomDetailByEndDate(DateTime endDate);
+
+        List<ClassroomDetail> findAllActiveClassroomDetailByClassroomIdAndFromDate(int classroomId, DateTime fromDate);
 
         List<ClassroomDetail> findAllClassroomDetailByRoomDetailId(int roomDetailId);
 
         List<ClassroomDetail> findAllClassroomDetailByTeacherIdAndDate(int teacherId, DateTime date);
         List<ClassroomDetail> findAllClassroomDetailByTeacherIdAndDate(int teacherId, DateTime date, List<ClassroomDetail.ClassroomStatus> statusList, string columnForArrange);
+
+        List<ClassroomDetail> findLastDateOfClassroomDetailByClassroomId(int classroomId);
     }
 }

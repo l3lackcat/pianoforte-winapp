@@ -47,8 +47,10 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ToolStripButton_Logout = new System.Windows.Forms.ToolStripButton();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
-            this.classroomDetailtimer = new System.Windows.Forms.Timer(this.components);
-            this.BackupDatabase = new System.ComponentModel.BackgroundWorker();
+            this.updateClassroomDetailtimer = new System.Windows.Forms.Timer(this.components);
+            this.PreCloseWorker = new System.ComponentModel.BackgroundWorker();
+            this.updateClassroomDetailWorker = new System.ComponentModel.BackgroundWorker();
+            this.updateStudentStatusWorker = new System.ComponentModel.BackgroundWorker();
             this.Panel_Menu.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -265,18 +267,34 @@
             this.StatusStrip.Size = new System.Drawing.Size(1018, 22);
             this.StatusStrip.TabIndex = 9;
             // 
-            // classroomDetailtimer
+            // updateClassroomDetailtimer
             // 
-            this.classroomDetailtimer.Interval = 5000;
-            this.classroomDetailtimer.Tick += new System.EventHandler(this.classroomDetailtimer_Tick);
+            this.updateClassroomDetailtimer.Interval = 1800000;
+            this.updateClassroomDetailtimer.Tick += new System.EventHandler(this.updateClassroomDetailtimer_Tick);
             // 
-            // BackupDatabase
+            // PreCloseWorker
             // 
-            this.BackupDatabase.WorkerReportsProgress = true;
-            this.BackupDatabase.WorkerSupportsCancellation = true;
-            this.BackupDatabase.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackupDatabase_DoWork);
-            this.BackupDatabase.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackupDatabase_RunWorkerCompleted);
-            this.BackupDatabase.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackupDatabase_ProgressChanged);
+            this.PreCloseWorker.WorkerReportsProgress = true;
+            this.PreCloseWorker.WorkerSupportsCancellation = true;
+            this.PreCloseWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreCloseWorker_DoWork);
+            this.PreCloseWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreCloseWorker_RunWorkerCompleted);
+            this.PreCloseWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreCloseWorker_ProgressChanged);
+            // 
+            // updateClassroomDetailWorker
+            // 
+            this.updateClassroomDetailWorker.WorkerReportsProgress = true;
+            this.updateClassroomDetailWorker.WorkerSupportsCancellation = true;
+            this.updateClassroomDetailWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateClassroomDetailWorker_DoWork);
+            this.updateClassroomDetailWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateClassroomDetailWorker_RunWorkerCompleted);
+            this.updateClassroomDetailWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateClassroomDetailWorker_ProgressChanged);
+            // 
+            // updateStudentStatusWorker
+            // 
+            this.updateStudentStatusWorker.WorkerReportsProgress = true;
+            this.updateStudentStatusWorker.WorkerSupportsCancellation = true;
+            this.updateStudentStatusWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateStudentStatusWorker_DoWork);
+            this.updateStudentStatusWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateStudentStatusWorker_RunWorkerCompleted);
+            this.updateStudentStatusWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateStudentStatusWorker_ProgressChanged);
             // 
             // MainForm
             // 
@@ -322,8 +340,10 @@
         private System.Windows.Forms.ToolStripButton ToolStripButton_DailyPaymentReport;
         private System.Windows.Forms.ToolStripButton toolStripButton_CheckIn;
         private System.Windows.Forms.StatusStrip StatusStrip;
-        private System.Windows.Forms.Timer classroomDetailtimer;
-        public System.ComponentModel.BackgroundWorker BackupDatabase;
+        private System.Windows.Forms.Timer updateClassroomDetailtimer;
+        public System.ComponentModel.BackgroundWorker PreCloseWorker;
+        public System.ComponentModel.BackgroundWorker updateClassroomDetailWorker;
+        public System.ComponentModel.BackgroundWorker updateStudentStatusWorker;
 
     }
 }

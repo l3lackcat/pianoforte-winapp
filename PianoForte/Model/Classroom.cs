@@ -15,15 +15,6 @@ namespace PianoForte.Model
         public static string columnClassDayOfWeek = "classDayOfWeek";
         public static string columnClassTime = "classTime";
         public static string columnClassDuration = "classDuration";
-        public static string columnStatus = "status";
-
-        public enum ClassroomStatus
-        {
-            ALL,
-            ACTIVE,
-            INACTIVE,            
-            CANCELED
-        };
 
         public enum ClassroomPerWeek
         {
@@ -40,7 +31,6 @@ namespace PianoForte.Model
         private string classDayOfWeek;
         private string classTime;
         private int classDuration;
-        private string status;
 
         public int Id
         {
@@ -130,19 +120,6 @@ namespace PianoForte.Model
             set
             {
                 this.classDuration = value;
-            }
-        }
-
-        public string Status
-        {
-            get
-            {
-                return this.status;
-            }
-
-            set
-            {
-                this.status = value;
             }
         }
     }

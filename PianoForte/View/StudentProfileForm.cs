@@ -156,9 +156,12 @@ namespace PianoForte.View
                     {
                         bool isActive = false;
                         List<Classroom> classroomList = ClassroomManager.findAllClassroom(tempEnrollment.Id);
-                        for (int j = 0; j < classroomList.Count; j++)
+
+                        foreach (Classroom classroom in classroomList)
                         {
-                            if (classroomList[j].Status == Classroom.ClassroomStatus.ACTIVE.ToString())
+                            List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByClassroomIdAndFromDate(classroom.Id, DateTime.Today);
+
+                            if (tempClassroomDetailList.Count > 0)
                             {
                                 isActive = true;
                                 break;
@@ -235,19 +238,14 @@ namespace PianoForte.View
             this.classroomDetailList.Clear();
 
             List<Classroom> tempClassroomList = ClassroomManager.findAllClassroom(enrollmentId);
-            for (int i = 0; i < tempClassroomList.Count; i++)
+
+            foreach (Classroom c in tempClassroomList)
             {
-                Classroom tempClassroom = tempClassroomList[i];
-                if (tempClassroom != null)
+                List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(c.Id);
+
+                foreach (ClassroomDetail cd in tempClassroomDetailList)
                 {
-                    if (tempClassroom.Status != Classroom.ClassroomStatus.CANCELED.ToString())
-                    {
-                        List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(tempClassroom.Id);
-                        for (int j = 0; j < tempClassroomDetailList.Count; j++)
-                        {
-                            this.classroomDetailList.Add(tempClassroomDetailList[j]);
-                        }
-                    }                    
+                    this.classroomDetailList.Add(cd);
                 }
             }
 
@@ -448,7 +446,7 @@ namespace PianoForte.View
             if (enrollment != null)
             {
                 enrollment.Student = this.student;
-                if (EnrollmentManager.processEnrollment(enrollment))
+                if (EnrollmentManager.processEnrollment(enrollment) == true)
                 {
                     //MessageBox.Show(DatabaseConstant.INSERT_DATA_SUCCESS);
                     this.initEnrolledCourse();

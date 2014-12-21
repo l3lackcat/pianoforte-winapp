@@ -62,6 +62,27 @@ namespace PianoForte.Manager
 
         //--------------------------------------------------------------------------------
 
+        public static List<ClassroomDetail> findAllActiveClassroomDetailByClassroomId(int classroomId)
+        {
+            return classroomDetailDao.findAllActiveClassroomDetailByClassroomId(classroomId);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public static List<ClassroomDetail> findAllActiveClassroomDetailByEndDate(DateTime endDate)
+        {
+            return classroomDetailDao.findAllActiveClassroomDetailByEndDate(endDate);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public static List<ClassroomDetail> findAllActiveClassroomDetailByClassroomIdAndFromDate(int classroomId, DateTime fromDate)
+        {
+            return classroomDetailDao.findAllActiveClassroomDetailByClassroomIdAndFromDate(classroomId, fromDate);
+        }
+
+        //--------------------------------------------------------------------------------
+
         public static List<ClassroomDetail> findAllClassroomDetailByRoomDetailId(int roomDetailId)
         {
             return classroomDetailDao.findAllClassroomDetailByRoomDetailId(roomDetailId);
@@ -77,6 +98,13 @@ namespace PianoForte.Manager
         public static List<ClassroomDetail> findAllClassroomDetailByTeacherIdAndDate(int teacherId, DateTime date, List<ClassroomDetail.ClassroomStatus> statusList, string columnForArrange)
         {
             return classroomDetailDao.findAllClassroomDetailByTeacherIdAndDate(teacherId, date, statusList, columnForArrange);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public static List<ClassroomDetail> findLastDateOfClassroomDetailByClassroomId(int classroomId)
+        {
+            return classroomDetailDao.findLastDateOfClassroomDetailByClassroomId(classroomId);
         }
 
         //--------------------------------------------------------------------------------
@@ -169,22 +197,13 @@ namespace PianoForte.Manager
         public static int getNumberOfClassroomDetail(int enrollmentId)
         {
             int numberOfClassroomDetail = 0;
-
             List<Classroom> tempClassroomList = ClassroomManager.findAllClassroom(enrollmentId);
-            for (int i = 0; i < tempClassroomList.Count; i++)
+
+            foreach (Classroom c in tempClassroomList)
             {
-                Classroom tempClassroom = tempClassroomList[i];
-                if (tempClassroom != null)
-                {
-                    if (tempClassroom.Status != Classroom.ClassroomStatus.CANCELED.ToString())
-                    {
-                        List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(tempClassroom.Id);
-                        for (int j = 0; j < tempClassroomDetailList.Count; j++)
-                        {
-                            numberOfClassroomDetail++;
-                        }
-                    }
-                }
+                List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(c.Id);
+
+                numberOfClassroomDetail += tempClassroomDetailList.Count;
             }
 
             return numberOfClassroomDetail;

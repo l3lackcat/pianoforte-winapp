@@ -557,12 +557,11 @@ namespace PianoForte.View
         private Classroom createClassroom1()
         {
             Classroom classroom = new Classroom();
-            classroom.Id = 1;
+            classroom.Id = -1;
             classroom.TeacherId = this.teacherList[this.ComboBox_Classroom1_Teacher.SelectedIndex].Id;
             classroom.StartDate = this.DateTimePicker_Classroom1_StartDate.Value;
             classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
             classroom.ClassTime = this.ComboBox_Classroom1_Time.Text;
-            classroom.Status = Classroom.ClassroomStatus.ACTIVE.ToString();
 
             try
             {
@@ -584,12 +583,11 @@ namespace PianoForte.View
                 this.RadioButton_TwoClassPerDay.Checked)
             {
                 classroom = new Classroom();
-                classroom.Id = 2;
+                classroom.Id = -2;
                 classroom.TeacherId = this.teacherList[this.ComboBox_Classroom2_Teacher.SelectedIndex].Id;
                 classroom.StartDate = this.DateTimePicker_Classroom2_StartDate.Value;
                 classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
                 classroom.ClassTime = this.ComboBox_Classroom2_Time.Text;
-                classroom.Status = Classroom.ClassroomStatus.ACTIVE.ToString();
 
                 try
                 {

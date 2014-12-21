@@ -971,7 +971,7 @@ namespace PianoForte.Dao.MySql
             string lastDateOfClass = data.Tables[Student.tableName].Rows[index][Student.columnLastDateOfClass].ToString();
             if (lastDateOfClass == "")
             {
-                student.LastDateOfClass = DateTime.Today;
+                student.LastDateOfClass = null;
             }
             else
             {

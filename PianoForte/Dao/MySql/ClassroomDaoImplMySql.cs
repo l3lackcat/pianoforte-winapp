@@ -25,16 +25,14 @@ namespace PianoForte.Dao.MySql
                          Classroom.columnStartDate + ", " +
                          Classroom.columnClassDayOfWeek + ", " +
                          Classroom.columnClassTime + ", " +
-                         Classroom.columnClassDuration + ", " +
-                         Classroom.columnStatus + ") " +
+                         Classroom.columnClassDuration + ") " +
                          "VALUES(" +
                          "?" + Classroom.columnEnrollmentId + ", " +
                          "?" + Classroom.columnTeacherId + ", " +
                          "?" + Classroom.columnStartDate + ", " +
                          "?" + Classroom.columnClassDayOfWeek + ", " +
                          "?" + Classroom.columnClassTime + ", " +
-                         "?" + Classroom.columnClassDuration + ", " +
-                         "?" + Classroom.columnStatus + ")";
+                         "?" + Classroom.columnClassDuration + ")";
 
             return this.processInsertCommand(sql, classroom);
         }
@@ -48,8 +46,7 @@ namespace PianoForte.Dao.MySql
                          Classroom.columnStartDate + " = ?" + Classroom.columnStartDate + ", " +
                          Classroom.columnClassDayOfWeek + " = ?" + Classroom.columnClassDayOfWeek + ", " +
                          Classroom.columnClassTime + " = ?" + Classroom.columnClassTime + ", " +
-                         Classroom.columnClassDuration + " = ?" + Classroom.columnClassDuration + ", " +
-                         Classroom.columnStatus + " = ?" + Classroom.columnStatus + " " +
+                         Classroom.columnClassDuration + " = ?" + Classroom.columnClassDuration + " " +
                          "WHERE " + Classroom.columnClassroomId + " = ?" + Classroom.columnClassroomId;
 
             return this.processUpdateCommand(sql, classroom);
@@ -146,7 +143,6 @@ namespace PianoForte.Dao.MySql
                         command.Parameters.AddWithValue(Classroom.columnClassDayOfWeek, classroom.ClassDayOfWeek);
                         command.Parameters.AddWithValue(Classroom.columnClassTime, classroom.ClassTime);
                         command.Parameters.AddWithValue(Classroom.columnClassDuration, classroom.ClassDuration);
-                        command.Parameters.AddWithValue(Classroom.columnStatus, classroom.Status);
 
                         int affectedRow = command.ExecuteNonQuery();
                         if (affectedRow != -1)
@@ -197,7 +193,6 @@ namespace PianoForte.Dao.MySql
                         command.Parameters.AddWithValue(Classroom.columnStartDate, classroom.StartDate);
                         command.Parameters.AddWithValue(Classroom.columnClassDayOfWeek, classroom.ClassDayOfWeek);
                         command.Parameters.AddWithValue(Classroom.columnClassTime, classroom.ClassTime);
-                        command.Parameters.AddWithValue(Classroom.columnStatus, classroom.Status);
                         command.Parameters.AddWithValue(Classroom.columnClassDuration, classroom.ClassDuration);
                         command.Parameters.AddWithValue(Classroom.columnClassroomId, classroom.Id);
 
@@ -322,7 +317,6 @@ namespace PianoForte.Dao.MySql
             classroom.ClassDayOfWeek = data.Tables[Classroom.tableName].Rows[index][Classroom.columnClassDayOfWeek].ToString();
             classroom.ClassTime = data.Tables[Classroom.tableName].Rows[index][Classroom.columnClassTime].ToString();
             classroom.ClassDuration = Convert.ToInt32(data.Tables[Classroom.tableName].Rows[index][Classroom.columnClassDuration].ToString());
-            classroom.Status = data.Tables[Classroom.tableName].Rows[index][Classroom.columnStatus].ToString();
 
             return classroom;
         }
@@ -380,7 +374,6 @@ namespace PianoForte.Dao.MySql
             classroom.StartDate = (DateTime)data.Tables[Classroom.tableName].Rows[index][Classroom.columnStartDate];
             classroom.ClassDayOfWeek = data.Tables[Classroom.tableName].Rows[index][Classroom.columnClassDayOfWeek].ToString();
             classroom.ClassTime = data.Tables[Classroom.tableName].Rows[index][Classroom.columnClassTime].ToString();
-            classroom.Status = data.Tables[Classroom.tableName].Rows[index][Classroom.columnStatus].ToString();
 
             return classroom;
         }

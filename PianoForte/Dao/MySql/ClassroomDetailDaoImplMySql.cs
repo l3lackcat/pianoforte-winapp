@@ -163,6 +163,46 @@ namespace PianoForte.Dao.MySql
 
         //--------------------------------------------------------------------------------
 
+        public List<ClassroomDetail> findAllActiveClassroomDetailByClassroomId(int classroomId)
+        {
+            string sql = "SELECT * " +
+                         "FROM " + ClassroomDetail.tableName + " " +
+                         "WHERE " + ClassroomDetail.columnClassroomId + " = " + classroomId + " " +
+                         "AND " + ClassroomDetail.columnCurrentStatus + " = '" + ClassroomDetail.ClassroomStatus.WAITING + "' " +
+                         "ORDER BY " + ClassroomDetail.columnClassroomDetailId + " ASC";
+
+            return this.processSelectCommand(sql);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public List<ClassroomDetail> findAllActiveClassroomDetailByEndDate(DateTime endDate)
+        {
+            string sql = "SELECT * " +
+                         "FROM " + ClassroomDetail.tableName + " " +
+                         "WHERE " + ClassroomDetail.columnClassroomDate + " <= '" + endDate.ToString(DatabaseManager.DATABASE_DATE_FORMAT) + "' " +
+                         "AND " + ClassroomDetail.columnCurrentStatus + " = '" + ClassroomDetail.ClassroomStatus.WAITING + "' " +
+                         "ORDER BY " + ClassroomDetail.columnClassroomDetailId + " ASC";
+
+            return this.processSelectCommand(sql);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public List<ClassroomDetail> findAllActiveClassroomDetailByClassroomIdAndFromDate(int classroomId, DateTime fromDate)
+        {
+            string sql = "SELECT * " +
+                         "FROM " + ClassroomDetail.tableName + " " +
+                         "WHERE " + ClassroomDetail.columnClassroomId + " = " + classroomId + " " +
+                         "AND " + ClassroomDetail.columnClassroomDate + " >= '" + fromDate.ToString(DatabaseManager.DATABASE_DATE_FORMAT) + "' " +
+                         "AND " + ClassroomDetail.columnCurrentStatus + " = '" + ClassroomDetail.ClassroomStatus.WAITING + "' " +
+                         "ORDER BY " + ClassroomDetail.columnClassroomDetailId + " ASC";
+
+            return this.processSelectCommand(sql);
+        }
+
+        //--------------------------------------------------------------------------------
+
         public List<ClassroomDetail> findAllClassroomDetailByRoomDetailId(int roomDetailId)
         {
             string sql = "SELECT * " +
@@ -206,6 +246,21 @@ namespace PianoForte.Dao.MySql
             }
                                                  
             sql += "ORDER BY " + ClassroomDetail.columnClassroomTime + " ASC";
+
+            return this.processSelectCommand(sql);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        public List<ClassroomDetail> findLastDateOfClassroomDetailByClassroomId(int classroomId)
+        {
+            string sql = "SELECT * " +
+                         "FROM " + ClassroomDetail.tableName + " " +
+                         "WHERE " + ClassroomDetail.columnClassroomId + " = " + classroomId + " " +
+                         "AND " + ClassroomDetail.columnClassroomDate + " = (" +
+                         "SELECT MAX(" + ClassroomDetail.columnClassroomDate + ") " +
+                         "FROM " + ClassroomDetail.tableName + " " +
+                         "WHERE " + ClassroomDetail.columnClassroomId + " = " + classroomId + ")";
 
             return this.processSelectCommand(sql);
         }

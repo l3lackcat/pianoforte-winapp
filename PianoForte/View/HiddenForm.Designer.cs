@@ -30,7 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Button_Update_ClassroomStatus = new System.Windows.Forms.Button();
+            this.Button_Update_StudentStatus = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Button_Generate_Json = new System.Windows.Forms.Button();
             this.CheckBox_generate_printed_payments = new System.Windows.Forms.CheckBox();
             this.CheckBox_generate_payment_types = new System.Windows.Forms.CheckBox();
             this.Button_Generate_MySql = new System.Windows.Forms.Button();
@@ -49,7 +52,8 @@
             this.CheckBox_generate_users = new System.Windows.Forms.CheckBox();
             this.CheckBox_generate_teachers = new System.Windows.Forms.CheckBox();
             this.CheckBox_generate_students = new System.Windows.Forms.CheckBox();
-            this.Button_Generate_Json = new System.Windows.Forms.Button();
+            this.updateClassroomDetailStatusWorker = new System.ComponentModel.BackgroundWorker();
+            this.updateStudentStatusWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -66,6 +70,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.Button_Update_ClassroomStatus);
+            this.tabPage1.Controls.Add(this.Button_Update_StudentStatus);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -74,6 +80,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Database Migration";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // Button_Update_ClassroomStatus
+            // 
+            this.Button_Update_ClassroomStatus.Location = new System.Drawing.Point(6, 192);
+            this.Button_Update_ClassroomStatus.Name = "Button_Update_ClassroomStatus";
+            this.Button_Update_ClassroomStatus.Size = new System.Drawing.Size(150, 23);
+            this.Button_Update_ClassroomStatus.TabIndex = 2;
+            this.Button_Update_ClassroomStatus.Text = "Update Classroom Status";
+            this.Button_Update_ClassroomStatus.UseVisualStyleBackColor = true;
+            this.Button_Update_ClassroomStatus.Click += new System.EventHandler(this.Button_Update_ClassroomStatus_Click);
+            // 
+            // Button_Update_StudentStatus
+            // 
+            this.Button_Update_StudentStatus.Location = new System.Drawing.Point(6, 221);
+            this.Button_Update_StudentStatus.Name = "Button_Update_StudentStatus";
+            this.Button_Update_StudentStatus.Size = new System.Drawing.Size(150, 23);
+            this.Button_Update_StudentStatus.TabIndex = 1;
+            this.Button_Update_StudentStatus.Text = "Update Student Status";
+            this.Button_Update_StudentStatus.UseVisualStyleBackColor = true;
+            this.Button_Update_StudentStatus.Click += new System.EventHandler(this.Button_Update_StudentStatus_Click);
             // 
             // groupBox1
             // 
@@ -102,6 +128,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Generate Query (.sql)";
+            // 
+            // Button_Generate_Json
+            // 
+            this.Button_Generate_Json.Location = new System.Drawing.Point(659, 122);
+            this.Button_Generate_Json.Name = "Button_Generate_Json";
+            this.Button_Generate_Json.Size = new System.Drawing.Size(75, 23);
+            this.Button_Generate_Json.TabIndex = 18;
+            this.Button_Generate_Json.Text = "Json";
+            this.Button_Generate_Json.UseVisualStyleBackColor = true;
+            this.Button_Generate_Json.Click += new System.EventHandler(this.Button_Generate_Json_Click);
             // 
             // CheckBox_generate_printed_payments
             // 
@@ -283,15 +319,21 @@
             this.CheckBox_generate_students.Text = "students";
             this.CheckBox_generate_students.UseVisualStyleBackColor = true;
             // 
-            // Button_Generate_Json
+            // updateClassroomDetailStatusWorker
             // 
-            this.Button_Generate_Json.Location = new System.Drawing.Point(659, 122);
-            this.Button_Generate_Json.Name = "Button_Generate_Json";
-            this.Button_Generate_Json.Size = new System.Drawing.Size(75, 23);
-            this.Button_Generate_Json.TabIndex = 18;
-            this.Button_Generate_Json.Text = "Json";
-            this.Button_Generate_Json.UseVisualStyleBackColor = true;
-            this.Button_Generate_Json.Click += new System.EventHandler(this.Button_Generate_Json_Click);
+            this.updateClassroomDetailStatusWorker.WorkerReportsProgress = true;
+            this.updateClassroomDetailStatusWorker.WorkerSupportsCancellation = true;
+            this.updateClassroomDetailStatusWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateClassroomDetailStatusWorker_DoWork);
+            this.updateClassroomDetailStatusWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateClassroomDetailStatusWorker_RunWorkerCompleted);
+            this.updateClassroomDetailStatusWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateClassroomDetailStatusWorker_ProgressChanged);
+            // 
+            // updateStudentStatusWorker
+            // 
+            this.updateStudentStatusWorker.WorkerReportsProgress = true;
+            this.updateStudentStatusWorker.WorkerSupportsCancellation = true;
+            this.updateStudentStatusWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateStudentStatusWorker_DoWork);
+            this.updateStudentStatusWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateStudentStatusWorker_RunWorkerCompleted);
+            this.updateStudentStatusWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateStudentStatusWorker_ProgressChanged);
             // 
             // HiddenForm
             // 
@@ -333,5 +375,9 @@
         private System.Windows.Forms.CheckBox CheckBox_generate_printed_payments;
         private System.Windows.Forms.CheckBox CheckBox_generate_payment_types;
         private System.Windows.Forms.Button Button_Generate_Json;
+        private System.Windows.Forms.Button Button_Update_StudentStatus;
+        private System.Windows.Forms.Button Button_Update_ClassroomStatus;
+        public System.ComponentModel.BackgroundWorker updateClassroomDetailStatusWorker;
+        public System.ComponentModel.BackgroundWorker updateStudentStatusWorker;
     }
 }

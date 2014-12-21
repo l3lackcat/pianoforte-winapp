@@ -370,55 +370,31 @@ namespace PianoForte.Manager
                 if (isUpdateEnrollmentComplete)
                 {
                     returnFlag = true;
-
                     List<Classroom> tempClassroomList = ClassroomManager.findAllClassroom(enrollment.Id);
-                    for (int i = 0; i < tempClassroomList.Count; i++)
-                    {
-                        if (returnFlag)
-                        {
-                            Classroom tempClassroom = tempClassroomList[i];
-                            if (tempClassroomList != null)
-                            {
-                                tempClassroom.Status = Classroom.ClassroomStatus.CANCELED.ToString();
 
-                                bool isUpdateClassroomComplete = ClassroomManager.updateClassroom(tempClassroom);
-                                if (isUpdateClassroomComplete)
+                    foreach (Classroom c in tempClassroomList)
+                    {
+                        List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(c.Id);
+
+                        foreach (ClassroomDetail cd in tempClassroomDetailList)
+                        {
+                            if (returnFlag == true)
+                            {
+                                cd.PreviousStatus = cd.CurrentStatus;
+                                cd.CurrentStatus = ClassroomDetail.ClassroomStatus.CANCELED.ToString();
+
+                                if (ClassroomDetailManager.updateClassroomDetail(cd) == true)
                                 {
                                     returnFlag = true;
-
-                                    List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(tempClassroom.Id);
-                                    for (int j = 0; j < tempClassroomDetailList.Count; j++)
-                                    {
-                                        if (returnFlag)
-                                        {
-                                            ClassroomDetail tempClassroomDetail = tempClassroomDetailList[j];
-                                            if (tempClassroomDetail != null)
-                                            {
-                                                tempClassroomDetail.CurrentStatus = ClassroomDetail.ClassroomStatus.CANCELED.ToString();
-
-                                                bool isUpdateClassroomDetailComplete = ClassroomDetailManager.updateClassroomDetail(tempClassroomDetail);
-                                                if (isUpdateClassroomDetailComplete)
-                                                {
-                                                    returnFlag = true;
-                                                }
-                                                else
-                                                {
-                                                    LogManager.writeLog("Error Occur : updateClassroomDetail failed at PaymentMainForm.cancelEnrollment()");
-                                                    returnFlag = false;
-                                                    break;
-                                                }
-                                            }
-                                        }                                        
-                                    }
                                 }
                                 else
                                 {
-                                    LogManager.writeLog("Error Occur : updateClassroom failed at PaymentMainForm.cancelEnrollment()");
+                                    LogManager.writeLog("Error Occur : updateClassroomDetail failed at PaymentMainForm.cancelEnrollment()");
                                     returnFlag = false;
                                     break;
                                 }
                             }
-                        }  
+                        }
                     }
                 }
                 else
@@ -433,10 +409,15 @@ namespace PianoForte.Manager
         public static bool processEnrollment(Enrollment enrollment)
         {
             bool returnFlag = false;
-            
+
             if (enrollment.Id != 0)
-            {                
+            {      
                 returnFlag = EnrollmentManager.updateEnrollment(enrollment);
+
+                if (returnFlag == false)
+                {
+                    LogManager.writeLog("Error occur : UPDATE Enrollment failed at EnrollmentManager.processEnrollment where enrollmentId = " + enrollment.Id.ToString());
+                }
             }
             else
             {
@@ -445,42 +426,115 @@ namespace PianoForte.Manager
                 {
                     returnFlag = true;
 
-                    for (int i = 0; i < enrollment.ClassroomList.Count; i++)
+                    foreach (Classroom c in enrollment.ClassroomList)
                     {
-                        int classroomIdBuffer = enrollment.ClassroomList[i].Id;
+                        c.EnrollmentId = enrollment.Id;
 
-                        enrollment.ClassroomList[i].EnrollmentId = enrollment.Id;
-                        Classroom tempClassroom = ClassroomManager.insertClassroom(enrollment.ClassroomList[i]);
+                        int tempClassroomId = c.Id;
+                        Classroom tempClassroom = ClassroomManager.insertClassroom(c);
+
                         if (tempClassroom != null)
                         {
-                            returnFlag = true;
-                            enrollment.ClassroomList[i].Id = tempClassroom.Id;
-
-                            for (int j = 0; j < enrollment.ClassroomIdClassroomDetailListDictionary[classroomIdBuffer].Count; j++)
+                            foreach (ClassroomDetail cd in enrollment.ClassroomIdClassroomDetailListDictionary[tempClassroomId])
                             {
-                                enrollment.ClassroomIdClassroomDetailListDictionary[classroomIdBuffer][j].ClassroomId = enrollment.ClassroomList[i].Id;
-                                returnFlag = ClassroomDetailManager.insertClassroomDetail(enrollment.ClassroomIdClassroomDetailListDictionary[classroomIdBuffer][j]);
-                                if (!returnFlag)
+                                cd.ClassroomId = tempClassroom.Id;
+
+                                if (ClassroomDetailManager.insertClassroomDetail(cd) == true)
                                 {
-                                    LogManager.writeLog("Error occur : INSERT ClassroomDetail failed at StudentProfileForm.processEnrollment where classroomId = " + enrollment.ClassroomList[i].Id.ToString());
+                                    if (enrollment.ClassroomIdClassroomDetailListDictionary.ContainsKey(tempClassroom.Id) == false)
+                                    {
+                                        List<ClassroomDetail> newClassroomDetailList = new List<ClassroomDetail>();
+                                        newClassroomDetailList.Add(cd);
+
+                                        enrollment.ClassroomIdClassroomDetailListDictionary.Add(tempClassroom.Id, newClassroomDetailList);
+                                    }
+                                    else
+                                    {
+                                        enrollment.ClassroomIdClassroomDetailListDictionary[tempClassroom.Id].Add(cd);
+                                    }
+                                }
+                                else
+                                {
+                                    returnFlag = false;
+                                    LogManager.writeLog("Error occur : INSERT ClassroomDetail failed at EnrollmentManager.processEnrollment where classroomId = " + c.Id.ToString());
                                     break;
                                 }
                             }
+
+                            enrollment.ClassroomIdClassroomDetailListDictionary.Remove(tempClassroomId);
                         }
                         else
                         {
                             returnFlag = false;
-                            LogManager.writeLog("Error occur : INSERT Classroom failed at StudentProfileForm.processEnrollment where enrollmentId = " + enrollment.Id.ToString());
+                            LogManager.writeLog("Error occur : INSERT Classroom failed at EnrollmentManager.processEnrollment where enrollmentId = " + enrollment.Id.ToString());
                             break;
                         }
 
-                        if (!returnFlag)
+                        if (returnFlag == false)
                         {
                             break;
                         }
                     }
+
+                    //List<Classroom> tempClassroomList = enrollment.ClassroomList;
+                    //int numberOfClassroom = tempClassroomList.Count;
+
+                    //for (int i = 0; i < numberOfClassroom ; i++)
+                    //{
+                    //    Classroom c = tempClassroomList[i];
+                    //    c.EnrollmentId = enrollment.Id;
+
+                    //    int tempClassroomId = c.Id;
+                    //    Classroom tempClassroom = ClassroomManager.insertClassroom(c);
+
+                    //    if (tempClassroom != null)
+                    //    {
+                    //        List<ClassroomDetail> tempClassroomDetailList = enrollment.ClassroomIdClassroomDetailListDictionary[tempClassroomId];
+                    //        int numberOfClassroomDetail = tempClassroomDetailList.Count;
+
+                    //        for (int j = 0; j < numberOfClassroomDetail; j++)
+                    //        {
+                    //            ClassroomDetail cd = tempClassroomDetailList[j];
+                    //            cd.ClassroomId = tempClassroom.Id;
+
+                    //            if (ClassroomDetailManager.insertClassroomDetail(cd) == true)
+                    //            {
+                    //                if (enrollment.ClassroomIdClassroomDetailListDictionary.ContainsKey(tempClassroom.Id) == false)
+                    //                {
+                    //                    List<ClassroomDetail> newClassroomDetailList = new List<ClassroomDetail>();
+                    //                    newClassroomDetailList.Add(cd);
+
+                    //                    enrollment.ClassroomIdClassroomDetailListDictionary.Add(tempClassroom.Id, newClassroomDetailList);
+                    //                }
+                    //                else
+                    //                {
+                    //                    enrollment.ClassroomIdClassroomDetailListDictionary[tempClassroom.Id].Add(cd);
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //                returnFlag = false;
+                    //                LogManager.writeLog("Error occur : INSERT ClassroomDetail failed at EnrollmentManager.processEnrollment where classroomId = " + c.Id.ToString());
+                    //                break;
+                    //            }
+                    //        }
+
+                    //        enrollment.ClassroomIdClassroomDetailListDictionary.Remove(tempClassroomId);
+                    //    }
+                    //    else
+                    //    {
+                    //        returnFlag = false;
+                    //        LogManager.writeLog("Error occur : INSERT Classroom failed at EnrollmentManager.processEnrollment where enrollmentId = " + enrollment.Id.ToString());
+                    //        break;
+                    //    }
+
+                    //    if (returnFlag == false)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
                 }
-            }            
+            }
 
             return returnFlag;
         }

@@ -26,6 +26,11 @@ namespace PianoForte.View
             this.Text = text;
         }
 
+        public void update(string text, int percentage)
+        {
+            this.Text = text + " " + percentage.ToString() + "% Complete";
+        }
+
         public void update(int percentage)
         {
             this.progressBar.Value = percentage;

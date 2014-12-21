@@ -706,24 +706,7 @@ namespace PianoForte.View
                     insertString += "'" + classroom.TeacherId + "', ";
                     insertString += "'" + classroom.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "', ";
                     insertString += "'" + classroom.ClassTime + "', ";
-                    insertString += "'" + classroom.ClassDuration + "', ";
-
-                    if (classroom.Status == Classroom.ClassroomStatus.ACTIVE.ToString())
-                    {
-                        insertString += "'1');";
-                    }
-                    else if (classroom.Status == Classroom.ClassroomStatus.INACTIVE.ToString())
-                    {
-                        insertString += "'2');";
-                    }
-                    else if (classroom.Status == Enrollment.EnrollmentStatus.CANCELED.ToString())
-                    {
-                        insertString += "'7');";
-                    }
-                    else
-                    {
-                        insertString += "'0');";
-                    }
+                    insertString += "'" + classroom.ClassDuration + "'";
 
                     file.WriteLine(insertString);
                 }                
@@ -1525,6 +1508,151 @@ namespace PianoForte.View
 
             string json = JsonConvert.SerializeObject(newOtherItemList);
             System.IO.File.WriteAllText(PianoForte.Constant.Constant.STARTUP_PATH + "\\json\\other_items.json", json);
+        }
+
+        private void Button_Update_ClassroomStatus_Click(object sender, EventArgs e)
+        {
+            this.updateClassroomDetailStatusWorker.RunWorkerAsync();
+            ProgressBarManager.showProgressBar(true);
+        }
+
+        private void Button_Update_StudentStatus_Click(object sender, EventArgs e)
+        {
+            this.updateStudentStatusWorker.RunWorkerAsync();
+            ProgressBarManager.showProgressBar(true);
+        }
+
+        private void updateClassroomDetailStatusWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByEndDate(DateTime.Today);
+            int numberOfClassroomDetail = tempClassroomDetailList.Count;
+            int index = 0;
+
+            this.updateClassroomDetailStatusWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.UPDATE_CLASSROOM_STATUS);
+
+            foreach (ClassroomDetail cd in tempClassroomDetailList)
+            {
+                bool isPass = false;
+                DateTime today = DateTime.Today;
+
+                if (cd.ClassroomDate < today)
+                {
+                    isPass = true;
+                }
+                else
+                {
+                    TimeSpan time = TimeSpan.Parse(cd.ClassroomTime.Replace(".", ":"));
+                    DateTime classroomEndTime = DateTime.Today.Add(time).AddMinutes(cd.ClassroomDuration);
+
+                    if (classroomEndTime <= DateTime.Now)
+                    {
+                        isPass = true;
+                    }
+                }
+
+                if (isPass == true)
+                {
+                    cd.PreviousStatus = cd.CurrentStatus;
+                    cd.CurrentStatus = ClassroomDetail.ClassroomStatus.CHECKED_IN.ToString();
+
+                    ClassroomDetailManager.updateClassroomDetail(cd);
+                }
+
+                this.updateClassroomDetailStatusWorker.ReportProgress((index * 100) / numberOfClassroomDetail, ProgressBarManager.ProgressBarState.UPDATE_CLASSROOM_STATUS); 
+                index++;
+            }
+        }
+
+        private void updateClassroomDetailStatusWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
+            ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState);
+        }
+
+        private void updateClassroomDetailStatusWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ProgressBarManager.showProgressBar(false);
+        }
+
+        private void updateStudentStatusWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<Student> studentList = StudentManager.findAllStudent();
+            int numberOfStudent = studentList.Count;
+            int index = 0;
+
+            this.updateStudentStatusWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.UPDATE_STUDENT_STATUS);
+
+            foreach (Student s in studentList)
+            {
+                DateTime? lastDate = null;
+                bool isActive = false;
+                List<Enrollment> enrollmentList = EnrollmentManager.findAllEnrollmentByStudentId(s.Id);
+
+                foreach (Enrollment en in enrollmentList)
+                {
+                    List<Classroom> classroomList = ClassroomManager.findAllClassroom(en.Id);
+
+                    foreach (Classroom c in classroomList)
+                    {
+                        List<ClassroomDetail> classroomDetailList;
+
+                        if (isActive == false) {
+                            classroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByClassroomId(c.Id);
+
+                            if (classroomDetailList.Count > 0)
+                            {
+                                isActive = true;
+                            }
+
+                            classroomDetailList.Clear();
+                        }
+
+
+                        classroomDetailList = ClassroomDetailManager.findLastDateOfClassroomDetailByClassroomId(c.Id);
+
+                        if (classroomDetailList.Count > 0)
+                        {
+                            ClassroomDetail cd = classroomDetailList[0];
+
+                            if (cd != null)
+                            {
+                                if ((lastDate == null) || (lastDate < cd.ClassroomDate))
+                                {
+                                    lastDate = cd.ClassroomDate;
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                if (isActive == true)
+                {
+                    s.Status = Student.StudentStatus.ACTIVE.ToString();
+                }
+                else
+                {
+                    s.Status = Student.StudentStatus.INACTIVE.ToString();
+                }
+
+                s.LastDateOfClass = lastDate;
+
+                StudentManager.updateStudent(s);
+
+                this.updateStudentStatusWorker.ReportProgress((index * 100) / numberOfStudent, ProgressBarManager.ProgressBarState.UPDATE_STUDENT_STATUS);
+                index++;
+            }
+        }
+
+        private void updateStudentStatusWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
+            ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState);
+        }
+
+        private void updateStudentStatusWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ProgressBarManager.showProgressBar(false);
         }
     }
 }
