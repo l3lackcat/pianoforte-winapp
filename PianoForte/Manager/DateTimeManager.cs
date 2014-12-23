@@ -309,13 +309,13 @@ namespace PianoForte.Manager
 
         public static string getCurrentTime()
         {
-            return String.Format("{0:0.00}", (double)DateTime.Now.Hour + ((double)DateTime.Now.Minute / 100));
+            return String.Format("{0:0.00}", (double)DateTime.Now.Hour + ((double)DateTime.Now.Minute / 100)).Replace(".", ":");
         }
 
         public static string addMinute(string time, int minuteToAdd)
         {
             string[] tempString1 = new string[2];
-            tempString1 = time.Split('.');
+            tempString1 = time.Split(':');
 
             int time_hour = Convert.ToInt32(tempString1[0]);
             int time_minute = Convert.ToInt32(tempString1[1]);
@@ -324,7 +324,7 @@ namespace PianoForte.Manager
             time_hour = time_hour + (totalMinute / 60);
             time_minute = totalMinute % 60;
 
-            return String.Format("{0:00.00}", (double)time_hour + ((double)time_minute / 100));
+            return String.Format("{0:00.00}", (double)time_hour + ((double)time_minute / 100)).Replace(".", ":");
         }
 
         public static bool isBetweenTimeInterval(string startTime, string endTime, string timeToBeCheck)
