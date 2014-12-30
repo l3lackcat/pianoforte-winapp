@@ -1,53 +1,32 @@
-/*01*/
-/*UPDATE classroom_detail SET classroomTime = REPLACE(classroomTime, ".", ":");*/
+CREATE TABLE `saved_payment` (                                                 
+`savedPaymentId` int(10) NOT NULL AUTO_INCREMENT,                            
+`studentId` int(10) NOT NULL,                                                
+`receiverId` int(10) NOT NULL,                                               
+`totalPrice` double NOT NULL,                                                
+`savedDate` date NOT NULL,                                                   
+`paymentId` int(10) NOT NULL DEFAULT '0',                                    
+`status` varchar(31) COLLATE utf8_unicode_ci NOT NULL,                       
+PRIMARY KEY (`savedPaymentId`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/*02*/
-/*SELECT * FROM enrollment WHERE status = 'NOT_PAID'*/
-/*UPDATE enrollment SET status = 'CENCELED' WHERE status = 'NOT_PAID'*/
+UPDATE classroom_detail SET classroomTime = REPLACE(classroomTime, '.', ':');
 
-/*03*/
-/*SELECT * FROM classroom_detail WHERE currentStatus = 'CHECKED_IN'*/
-/*UPDATE classroom_detail SET previousStatus = 'WAITING' WHERE currentStatus = 'CHECKED_IN'*/
+UPDATE enrollment SET status = 'CENCELED' WHERE status = 'NOT_PAID';
 
-/*04*/
-/*SELECT * FROM classroom_detail WHERE currentStatus = 'CANCELED'*/
-/*UPDATE classroom_detail SET previousStatus = 'WAITING' WHERE currentStatus = 'CANCELED'*/
+UPDATE classroom_detail SET previousStatus = 'WAITING' WHERE currentStatus = 'CHECKED_IN' OR 'CANCELED';
 
-/*05*/
-/*SELECT * FROM classroom_detail WHERE currentStatus = 'WAITING' AND classroomDate < CURDATE()*/
-/*
 UPDATE classroom_detail
 SET previousStatus = currentStatus, currentStatus = 'CHECKED_IN'
 WHERE currentStatus = 'WAITING'
-AND classroomDate < CURDATE()
-*/
+AND classroomDate < CURDATE();
 
-/*06*/
-/*
-SELECT *
-FROM classroom_detail
-WHERE currentStatus = 'WAITING'
-AND classroomDate = CURDATE()
-AND ADDTIME(STR_TO_DATE(classroomTime, '%H:%i:%s'), classroomDuration * 100) < CURTIME()
-*/
-/*
 UPDATE classroom_detail
 SET previousStatus = currentStatus, currentStatus = 'CHECKED_IN'
 WHERE currentStatus = 'WAITING'
 AND classroomDate = CURDATE()
-AND ADDTIME(STR_TO_DATE(classroomTime, '%H:%i:%s'), classroomDuration * 100) < CURTIME()
-*/
+AND ADDTIME(STR_TO_DATE(classroomTime, '%H:%i:%s'), classroomDuration * 100) < CURTIME();
 
-/*07*/
-/*SELECT * FROM student WHERE studentId = 1*/
-/*UPDATE student SET lastDateOfClass = NULL, status = 'INACTIVE' WHERE studentId = 1*/
+UPDATE student SET lastDateOfClass = NULL, status = 'INACTIVE';
 
-/*08*/
-/*SELECT * FROM student WHERE studentId <> 1*/
-/*UPDATE student SET lastDateOfClass = NULL, status = 'INACTIVE' WHERE studentId <> 1*/
-
-/*09*/
-/*
 UPDATE student AS s1, (
 SELECT sub_e.studentId AS studentId
 FROM classroom_detail AS sub_cd, classroom AS sub_c, enrollment AS sub_e
@@ -57,11 +36,8 @@ AND sub_c.enrollmentId = sub_e.enrollmentId
 GROUP BY sub_e.studentId) AS result
 SET s1.status = 'ACTIVE'
 WHERE s1.studentId = result.studentId
-AND s1.status <> 'ACTIVE'
-*/
+AND s1.status <> 'ACTIVE';
 
-/*10*/
-/*
 UPDATE student AS s1, (
 SELECT sub_s.studentId AS studentId, MAX(sub_cd.classroomDate) AS maxDate
 FROM classroom AS sub_c, classroom_detail AS sub_cd, enrollment AS sub_e, student AS sub_s
@@ -72,7 +48,4 @@ AND sub_c.classroomId = sub_cd.classroomId
 GROUP BY sub_s.studentId
 ORDER BY sub_s.studentId) AS result
 SET s1.lastDateOfClass = result.maxDate
-WHERE s1.studentId = result.studentId
-*/
-
-/*SELECT * FROM payment WHERE studentId IN (SELECT studentId FROM student WHERE ISNULL(lastDateOfClass) AND studentId <> 1)*/
+WHERE s1.studentId = result.studentId;

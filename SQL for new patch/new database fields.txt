@@ -1,0 +1,20 @@
+classroom
+del	status
+
+enrollment
+add	savedPaymentId  	int(10)      	(NULL)           	NO      	0
+
+payment_detail
+add	savedPaymentId   	int(10)       	(NULL)           	NO      	0
+
+saved_payment
+add	savedPaymentId  	int(10)      	(NULL)           	NO	PRI     	(NULL)
+add	studentId       	int(10)      	(NULL)           	NO              	(NULL)
+add	receiverId      	int(10)      	(NULL)           	NO              	(NULL)
+add	totalPrice      	double       	(NULL)           	NO              	(NULL)
+add	savedDate     	date         	(NULL)           	NO              	(NULL)
+add	paymentId       	int(10)      	(NULL)           	NO              	0
+add	status          	varchar(31)  	utf8_unicode_ci  	NO              	(NULL)
+
+classroom_detail
+replace	classroomTime	'.' with ':'

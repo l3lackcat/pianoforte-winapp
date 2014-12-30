@@ -428,12 +428,9 @@ namespace PianoForte.View
 
         private void systemUpdateTimer_Tick(object sender, EventArgs e)
         {
-            if ((DatabaseManager.SYSTEM_UPDATE == true) && (this.user != null))
+            if ((DatabaseManager.SYSTEM_UPDATE == true) && (this.user != null) && (this.systemUpdateWorker.IsBusy == false))
             {
-                if (this.systemUpdateWorker.IsBusy == false)
-                {
-                    this.systemUpdateWorker.RunWorkerAsync();
-                }
+                this.systemUpdateWorker.RunWorkerAsync();
             }
         }
 

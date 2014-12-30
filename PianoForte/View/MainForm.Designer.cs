@@ -268,7 +268,7 @@
             // 
             // systemUpdatetimer
             // 
-            this.systemUpdatetimer.Interval = 5000;
+            this.systemUpdatetimer.Interval = 900000;
             this.systemUpdatetimer.Tick += new System.EventHandler(this.systemUpdateTimer_Tick);
             // 
             // PreCloseWorker
