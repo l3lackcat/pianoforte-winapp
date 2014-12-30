@@ -13,8 +13,6 @@ namespace PianoForte.Dao
         bool updateClassroomDetail(ClassroomDetail classroomDetail);
         bool deleteClassroomDetail(int classroomDetailId);
 
-        // bool updateClassroomDetailStatus
-
         ClassroomDetail findClassroomDetail(int classroomDetailId);
 
         ClassroomDetail findClassroomDetailByRegularClassroomDetail(int regularClassroomDetailId);

@@ -20,6 +20,7 @@ namespace PianoForte.Manager
         public static string DATABASE_PASSWORD;
         public static string DATABASE_DATE_FORMAT = "yyyy-MM-dd";
         public static bool DATABASE_BACKUP;
+        public static bool SYSTEM_UPDATE;
 
         public static void readDatabaseConfiguration()
         {
@@ -58,6 +59,11 @@ namespace PianoForte.Manager
                         if (elementName == "Backup")
                         {
                             DATABASE_BACKUP = Convert.ToBoolean(reader.Value);
+                        }
+
+                        if (elementName == "SystemUpdate")
+                        {
+                            SYSTEM_UPDATE = Convert.ToBoolean(reader.Value);
                         }
 
                         break;
