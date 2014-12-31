@@ -3391,14 +3391,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PianoForte Management Setup"
-        "ProductCode" = "8:{572AA8F8-8FE7-437F-8373-4A9D287DB59E}"
-        "PackageCode" = "8:{1E571540-17B4-43C8-B6D9-3F78F41776D6}"
+        "ProductCode" = "8:{4A054629-D2D3-4005-A25C-E21CE75E9E5A}"
+        "PackageCode" = "8:{F6D1CBAC-0827-462E-B87F-F5905FEFD1B5}"
         "UpgradeCode" = "8:{BE54E5C5-65ED-4053-9D7F-D65C5813931C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.31"
+        "ProductVersion" = "8:2.0.32"
         "Manufacturer" = "8:PianoForte"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -3940,7 +3940,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_70E1C30E9B70497F8E740C1A39EF0841"
             {
-            "SourcePath" = "8:..\\PianoForte\\obj\\Release\\PianoForte.exe"
+            "SourcePath" = "8:..\\PianoForte\\obj\\Debug\\PianoForte.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_48DC1FD09F0B4B018E0F7BF9162E7901"

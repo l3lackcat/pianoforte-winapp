@@ -158,6 +158,31 @@ namespace PianoForte.View
             return true;
         }
 
+        public void addFirstRegisterToPaymentDetail()
+        {
+            if (this.student != null)
+            {
+                if (this.student.Status == Student.StudentStatus.INACTIVE.ToString())
+                {
+                    DateTime? lastDateOfClass = this.student.LastDateOfClass;
+                    if ((lastDateOfClass == null) || (lastDateOfClass < DateTime.Today.AddDays(-90)))
+                    {
+                        Product product = new Product();
+                        product.Id = this.firstRegister.Id;
+                        product.Type = Product.ProductType.OTHER.ToString();
+                        product.Name = this.firstRegister.Name;
+                        product.Price = this.firstRegister.Price;
+
+                        PaymentDetail paymentDetail = new PaymentDetail();
+                        paymentDetail.Product = product;
+                        paymentDetail.Quantity = 1;
+
+                        this.addPaymentDetail(paymentDetail);
+                    }
+                }
+            }
+        }
+
         public bool addPaymentDetail(PaymentDetail paymentDetail)
         {
             bool isSuccess = false;
@@ -191,6 +216,8 @@ namespace PianoForte.View
                 if (paymentDetail.Product.Type == Product.ProductType.COURSE.ToString())
                 {
                     this.Button_SelectCourse.Enabled = false;
+
+                    this.addFirstRegisterToPaymentDetail();
 
                     if (this.selectedStudentSavedPaymentIndex != 0)
                     {
@@ -371,7 +398,7 @@ namespace PianoForte.View
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Price"].Value = product.Price;
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["TotalPrice"].Value = (product.Price * paymentDetail.Quantity) - paymentDetail.Discount;
 
-                    if (this.selectedStudentSavedPaymentIndex == 0)
+                    if ((this.selectedStudentSavedPaymentIndex == 0) && (product.Id != this.firstRegister.Id))
                     {
                         ((DataGridViewImageCell)this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["DeleteButton"]).Value = PianoForte.Properties.Resources.Delete;
                     }
@@ -995,7 +1022,12 @@ namespace PianoForte.View
                     {
                         if (e.ColumnIndex == 6)
                         {
-                            this.Cursor = Cursors.Hand;
+                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
+
+                            if (productId != this.firstRegister.Id)
+                            {
+                                this.Cursor = Cursors.Hand;
+                            }                            
                         }
                     }
                 } 
@@ -1019,11 +1051,15 @@ namespace PianoForte.View
                     {
                         if (e.ColumnIndex == 6)
                         {
-                            if (ConfirmDialogBox.show("คุณต้องการลบรายการนี้?"))
+                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
+
+                            if (productId != this.firstRegister.Id)
                             {
-                                int productId = this.paymentDetailList[e.RowIndex].Product.Id;
-                                this.removePaymentDetail(productId);
-                            }
+                                if (ConfirmDialogBox.show("คุณต้องการลบรายการนี้?"))
+                                {
+                                    this.removePaymentDetail(productId);
+                                }
+                            }                            
                         }
                     }
                 }
@@ -1240,29 +1276,7 @@ namespace PianoForte.View
         private void Button_SelectCourse_Click(object sender, EventArgs e)
         {
             EnrollmentPopUp enrollmentPopUp = new EnrollmentPopUp();
-            Enrollment enrollment = enrollmentPopUp.showFormDialog(this);
-
-            if (this.student != null)
-            {
-                if (this.student.Status == Student.StudentStatus.INACTIVE.ToString())
-                {
-                    DateTime? lastDateOfClass = this.student.LastDateOfClass;
-                    if ((lastDateOfClass == null) || (lastDateOfClass < DateTime.Today.AddDays(-90)))
-                    {
-                        Product product = new Product();
-                        product.Id = this.firstRegister.Id;
-                        product.Type = Product.ProductType.OTHER.ToString();
-                        product.Name = this.firstRegister.Name;
-                        product.Price = this.firstRegister.Price;
-
-                        PaymentDetail paymentDetail = new PaymentDetail();
-                        paymentDetail.Product = product;
-                        paymentDetail.Quantity = 1;
-
-                        this.addPaymentDetail(paymentDetail);
-                    }
-                }
-            }
+            Enrollment enrollment = enrollmentPopUp.showFormDialog(this);            
 
             this.updateEnrollment(enrollment);
         }
