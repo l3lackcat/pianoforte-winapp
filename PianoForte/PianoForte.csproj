@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{243000DD-FF1B-4721-9E0D-B5CA80F87C31}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -115,17 +115,23 @@
     <Compile Include="Dao\EnrollmentDao.cs" />
     <Compile Include="Dao\HolidayDao.cs" />
     <Compile Include="Dao\MySql\ProductDaoImplMySql.cs" />
+    <Compile Include="Dao\MySql\ReceiptDaoImplMySql.cs" />
     <Compile Include="Dao\MySql\SavedPaymentDaoImplMySql.cs" />
+    <Compile Include="Dao\MySql\TransactionDaoImplMySql.cs" />
+    <Compile Include="Dao\MySql\TransactionDetailDaoImplMySql.cs" />
     <Compile Include="Dao\OtherCostDao.cs" />
     <Compile Include="Dao\PaymentDao.cs" />
     <Compile Include="Dao\PaymentDetailDao.cs" />
     <Compile Include="Dao\ProductDao.cs" />
+    <Compile Include="Dao\ReceiptDao.cs" />
     <Compile Include="Dao\RoomDao.cs" />
     <Compile Include="Dao\RoomDetailDao.cs" />
     <Compile Include="Dao\SavedPaymentDao.cs" />
     <Compile Include="Dao\StudentDao.cs" />
     <Compile Include="Dao\TeacherDao.cs" />
     <Compile Include="Dao\TeachingCourseDao.cs" />
+    <Compile Include="Dao\TransactionDao.cs" />
+    <Compile Include="Dao\TransactionDetailDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
     <Compile Include="Dao\MySql\BookDaoImplMySql.cs" />
     <Compile Include="Dao\MySql\CdDaoImplMySql.cs" />
@@ -226,12 +232,19 @@
     <Compile Include="Manager\PrinterManager.cs" />
     <Compile Include="Manager\ProductManager.cs" />
     <Compile Include="Manager\ProgressBarManager.cs" />
+    <Compile Include="Manager\ReceiptManager.cs" />
+    <Compile Include="Manager\ReportManager.cs" />
     <Compile Include="Manager\SavedPaymentManager.cs" />
     <Compile Include="Manager\SystemUpdateManager.cs" />
     <Compile Include="Manager\TeachingCourseManager.cs" />
+    <Compile Include="Manager\TransactionDetailManager.cs" />
+    <Compile Include="Manager\TransactionManager.cs" />
     <Compile Include="Model\ProductPriceHistory.cs" />
     <Compile Include="Model\Holiday.cs" />
+    <Compile Include="Model\Receipt.cs" />
     <Compile Include="Model\SavedPayment.cs" />
+    <Compile Include="Model\Transaction.cs" />
+    <Compile Include="Model\TransactionDetail.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -306,7 +319,6 @@
     <Compile Include="Manager\OtherCostManager.cs" />
     <Compile Include="Manager\PaymentDetailManager.cs" />
     <Compile Include="Manager\PaymentManager.cs" />
-    <Compile Include="Manager\ReceiptManager.cs" />
     <Compile Include="Manager\RoomDetailManager.cs" />
     <Compile Include="Manager\RoomManager.cs" />
     <Compile Include="Manager\StudentManager.cs" />

@@ -18,15 +18,13 @@ namespace PianoForte.Dao.MySql
         {
             string sql = "INSERT INTO " +
                          Enrollment.tableName + " (" +
-                         Enrollment.columnPaymentId + ", " +
-                         Enrollment.columnSavedPaymentId + ", " +
+                         Enrollment.columnTransactionId + ", " +
                          Enrollment.columnStudentId + ", " +
                          Enrollment.columnCourseId + ", " +
                          Enrollment.columnEnrollmentDate + ", " +
                          Enrollment.columnStatus + ") " +
                          "VALUES(" +
-                         "?" + Enrollment.columnPaymentId + ", " +
-                         "?" + Enrollment.columnSavedPaymentId + ", " +
+                         "?" + Enrollment.columnTransactionId + ", " +
                          "?" + Enrollment.columnStudentId + ", " +
                          "?" + Enrollment.columnCourseId + ", " +
                          "?" + Enrollment.columnEnrollmentDate + ", " +
@@ -39,8 +37,7 @@ namespace PianoForte.Dao.MySql
         {
             string sql = "UPDATE " +
                          Enrollment.tableName + " SET " +
-                         Enrollment.columnPaymentId + " = ?" + Enrollment.columnPaymentId + ", " +
-                         Enrollment.columnSavedPaymentId + " = ?" + Enrollment.columnSavedPaymentId + ", " +
+                         Enrollment.columnTransactionId + " = ?" + Enrollment.columnTransactionId + ", " +
                          Enrollment.columnStudentId + " = ?" + Enrollment.columnStudentId + ", " +
                          Enrollment.columnCourseId + " = ?" + Enrollment.columnCourseId + ", " +
                          Enrollment.columnEnrollmentDate + " = ?" + Enrollment.columnEnrollmentDate + ", " +
@@ -94,40 +91,6 @@ namespace PianoForte.Dao.MySql
             return enrollment;
         }
 
-        public Enrollment findEnrollmentByPaymentId(int paymentId)
-        {
-            Enrollment enrollment = null;
-
-            string sql = "SELECT * " +
-                         "FROM " + Enrollment.tableName + " " +
-                         "WHERE " + Enrollment.columnPaymentId + " = " + paymentId;
-
-            List<Enrollment> enrollmentList = this.processSelectCommand(sql);
-            if (enrollmentList.Count > 0)
-            {
-                enrollment = enrollmentList[0];
-            }
-
-            return enrollment;
-        }
-
-        public Enrollment findEnrollmentBySavedPaymentId(int savedPaymentId)
-        {
-            Enrollment enrollment = null;
-
-            string sql = "SELECT * " +
-                         "FROM " + Enrollment.tableName + " " +
-                         "WHERE " + Enrollment.columnSavedPaymentId + " = " + savedPaymentId;
-
-            List<Enrollment> enrollmentList = this.processSelectCommand(sql);
-            if (enrollmentList.Count > 0)
-            {
-                enrollment = enrollmentList[0];
-            }
-
-            return enrollment;
-        }
-
         public List<Enrollment> findAllEnrollment()
         {
             string sql = "SELECT * " +
@@ -137,11 +100,11 @@ namespace PianoForte.Dao.MySql
             return this.processSelectCommand(sql);
         }
 
-        public List<Enrollment> findAllEnrollmentByPaymentId(int paymentId)
+        public List<Enrollment> findAllEnrollmentByTransactionId(int transactionId)
         {
             string sql = "SELECT * " +
                          "FROM " + Enrollment.tableName + " " +
-                         "WHERE " + Enrollment.columnPaymentId + " = " + paymentId + " " +
+                         "WHERE " + Enrollment.columnTransactionId + " = " + transactionId + " " +
                          "ORDER BY " + Enrollment.columnEnrollmentId + " ASC";
 
             return this.processSelectCommand(sql);
@@ -227,8 +190,7 @@ namespace PianoForte.Dao.MySql
                         conn.Open();
 
                         MySqlCommand command = new MySqlCommand(sql, conn);
-                        command.Parameters.AddWithValue(Enrollment.columnPaymentId, enrollment.PaymentId);
-                        command.Parameters.AddWithValue(Enrollment.columnSavedPaymentId, enrollment.SavedPaymentId);
+                        command.Parameters.AddWithValue(Enrollment.columnTransactionId, enrollment.TransactionId);
                         command.Parameters.AddWithValue(Enrollment.columnStudentId, enrollment.Student.Id);
                         command.Parameters.AddWithValue(Enrollment.columnCourseId, enrollment.Course.Id);
                         command.Parameters.AddWithValue(Enrollment.columnEnrollmentDate, enrollment.EnrolledDate);
@@ -277,8 +239,7 @@ namespace PianoForte.Dao.MySql
                         conn.Open();
 
                         MySqlCommand command = new MySqlCommand(sql, conn);
-                        command.Parameters.AddWithValue(Enrollment.columnPaymentId, enrollment.PaymentId);
-                        command.Parameters.AddWithValue(Enrollment.columnSavedPaymentId, enrollment.SavedPaymentId);
+                        command.Parameters.AddWithValue(Enrollment.columnTransactionId, enrollment.TransactionId);
                         command.Parameters.AddWithValue(Enrollment.columnStudentId, enrollment.Student.Id);
                         command.Parameters.AddWithValue(Enrollment.columnCourseId, enrollment.Course.Id);
                         command.Parameters.AddWithValue(Enrollment.columnEnrollmentDate, enrollment.EnrolledDate);
@@ -400,8 +361,7 @@ namespace PianoForte.Dao.MySql
         {
             Enrollment enrollment = new Enrollment();
             enrollment.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnEnrollmentId].ToString());
-            enrollment.PaymentId = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnPaymentId].ToString());
-            enrollment.SavedPaymentId = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnSavedPaymentId].ToString());
+            enrollment.TransactionId = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnTransactionId].ToString());
             enrollment.Student.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnStudentId].ToString());
             enrollment.Course.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnCourseId].ToString());
             enrollment.EnrolledDate = (DateTime)data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnEnrollmentDate];
@@ -457,7 +417,7 @@ namespace PianoForte.Dao.MySql
         {
             Enrollment enrollment = new Enrollment();
             enrollment.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnEnrollmentId].ToString());
-            enrollment.PaymentId = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnPaymentId].ToString());
+            enrollment.TransactionId = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnTransactionId].ToString());
             enrollment.Student.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnStudentId].ToString());
             enrollment.Course.Id = Convert.ToInt32(data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnCourseId].ToString());
             enrollment.EnrolledDate = (DateTime)data.Tables[Enrollment.tableName].Rows[index][Enrollment.columnEnrollmentDate];

@@ -17,13 +17,9 @@ namespace PianoForte.Dao
 
         Enrollment findEnrollment(int enrollmentId);
 
-        Enrollment findEnrollmentByPaymentId(int paymentId);
-
-        Enrollment findEnrollmentBySavedPaymentId(int savedPaymentId);
-
         List<Enrollment> findAllEnrollment();
 
-        List<Enrollment> findAllEnrollmentByPaymentId(int paymentId);
+        List<Enrollment> findAllEnrollmentByTransactionId(int transactionId);
 
         List<Enrollment> findAllEnrollmentByStudentId(int studentId);
         List<Enrollment> findAllEnrollmentByStudentId(int studentId, Enrollment.EnrollmentStatus status);

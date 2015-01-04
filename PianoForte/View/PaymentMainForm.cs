@@ -883,12 +883,12 @@ namespace PianoForte.View
                                     bool isUpdateComplete = PaymentManager.updatePayment(tempPayment);
                                     if (isUpdateComplete)
                                     {
-                                        ReceiptManager.printReceipt(tempPayment);
+                                        ReportManager.printReceipt(tempPayment);
                                     }
                                 }
                                 else
                                 {
-                                    ReceiptManager.printReceipt(tempPayment);
+                                    ReportManager.printReceipt(tempPayment);
                                 }
                             }
                         }

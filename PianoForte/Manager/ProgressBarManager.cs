@@ -16,8 +16,7 @@ namespace PianoForte.Manager
             CREATE_FILE,
             GENERATE_DATE,
             BACKUP_DATABASE,
-            UPDATE_STUDENT_STATUS,
-            UPDATE_CLASSROOM_STATUS
+            INITIAL_TRANSACTION
         }
 
         public static void showProgressBar(bool isVisible)
@@ -56,14 +55,9 @@ namespace PianoForte.Manager
                     progressBarDialogBox.update("Backing up Database");
                     progressBarDialogBox.update(progressPercentage);
                     break;
-                case ProgressBarState.UPDATE_STUDENT_STATUS:
+                case ProgressBarState.INITIAL_TRANSACTION:
                     progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
-                    progressBarDialogBox.update("Updating students' status", progressPercentage);
-                    progressBarDialogBox.update(progressPercentage);
-                    break;
-                case ProgressBarState.UPDATE_CLASSROOM_STATUS:
-                    progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
-                    progressBarDialogBox.update("Updating classrooms' status", progressPercentage);
+                    progressBarDialogBox.update("Create data for new tables " + progressPercentage + "% completed");
                     progressBarDialogBox.update(progressPercentage);
                     break;
             }

@@ -36,17 +36,20 @@ namespace PianoForte.Model
         private DateTime? lastDateOfClass;
         private List<Enrollment> currentCourseList;
         private List<Enrollment> previousCourseList;
+        private List<Transaction> unpaidTransactionList;
 
         public Student()
         {
             this.currentCourseList = new List<Enrollment>();
             this.previousCourseList = new List<Enrollment>();
+            this.unpaidTransactionList = new List<Transaction>();
         }
 
         public Student(Student student)
         {
             this.currentCourseList = new List<Enrollment>();
             this.previousCourseList = new List<Enrollment>();
+            this.unpaidTransactionList = new List<Transaction>();
 
             this.Id = student.Id;
             this.Firstname = student.Firstname;
@@ -112,6 +115,19 @@ namespace PianoForte.Model
             set
             {
                 this.previousCourseList = value;
+            }
+        }
+
+        public List<Transaction> UnpaidTransactionList
+        {
+            get
+            {
+                return this.unpaidTransactionList;
+            }
+
+            set
+            {
+                this.unpaidTransactionList = value;
             }
         }
     }

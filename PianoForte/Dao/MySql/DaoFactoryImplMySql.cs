@@ -84,6 +84,11 @@ namespace PianoForte.Dao.MySql
             return new PaymentDetailDaoImplMySql();
         }
 
+        public override ReceiptDao getReceiptDao()
+        {
+            return new ReceiptDaoImplMySql();
+        }
+
         public override RoomDao getRoomDao()
         {
             return new RoomDaoImplMySql();
@@ -112,6 +117,16 @@ namespace PianoForte.Dao.MySql
         public override TeachingCourseDao getTeachingCourseDao()
         {
             return new TeachingCourseDaoImplMySql();
+        }
+
+        public override TransactionDao getTransactionDao()
+        {
+            return new TransactionDaoImplMySql();
+        }
+
+        public override TransactionDetailDao getTransactionDetailDao()
+        {
+            return new TransactionDetailDaoImplMySql();
         }
 
         public override UserDao getUserDao()

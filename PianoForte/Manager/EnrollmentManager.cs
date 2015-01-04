@@ -55,27 +55,6 @@ namespace PianoForte.Manager
             return enrollment;
         }
 
-
-        public static Enrollment findEnrollmentBySavedPaymentId(int savedPaymentId)
-        {
-            Enrollment enrollment = enrollmentDao.findEnrollmentBySavedPaymentId(savedPaymentId);
-
-            if (enrollment != null)
-            {
-                enrollment.Student = StudentManager.findStudent(enrollment.Student.Id);
-                enrollment.Course = CourseManager.findCourse(enrollment.Course.Id);
-                enrollment.ClassroomList = ClassroomManager.findAllClassroom(enrollment.Id);
-
-                for (int j = 0; j < enrollment.ClassroomList.Count; j++)
-                {
-                    List<ClassroomDetail> tempClassroomDetilList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(enrollment.ClassroomList[j].Id);
-                    enrollment.ClassroomIdClassroomDetailListDictionary.Add(enrollment.ClassroomList[j].Id, tempClassroomDetilList);
-                }
-            }
-
-            return enrollment;
-        }
-
         public static List<Enrollment> findAllEnrollment()
         {
             List<Enrollment> enrollmentList = enrollmentDao.findAllEnrollment();
@@ -97,9 +76,9 @@ namespace PianoForte.Manager
             return enrollmentList;
         }
 
-        public static List<Enrollment> findAllEnrollmentByPaymentId(int paymentId)
+        public static List<Enrollment> findAllEnrollmentByTransactionId(int transactionId)
         {
-            List<Enrollment> enrollmentList = enrollmentDao.findAllEnrollmentByPaymentId(paymentId);
+            List<Enrollment> enrollmentList = enrollmentDao.findAllEnrollmentByTransactionId(transactionId);
             for (int i = 0; i < enrollmentList.Count; i++)
             {
                 if (enrollmentList[i] != null)
@@ -338,7 +317,7 @@ namespace PianoForte.Manager
         {
             bool isCancelComplete = false;
 
-            List<Enrollment> tempEnrollmentList = EnrollmentManager.findAllEnrollmentByPaymentId(paymentId);
+            List<Enrollment> tempEnrollmentList = EnrollmentManager.findAllEnrollmentByTransactionId(paymentId);
             for (int i = 0; i < tempEnrollmentList.Count; i++)
             {
                 Enrollment tempEnrollment = tempEnrollmentList[i];

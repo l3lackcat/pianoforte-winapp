@@ -21,10 +21,9 @@ namespace PianoForte.View
         private Student student;
         private OtherCost firstRegister;
         private Enrollment enrollment;
-        private List<PaymentDetail> paymentDetailList;
-        private List<SavedPayment> studentSavedPaymentList;
+        private List<TransactionDetail> transactionDetailList;
         private int selectedStudentSavedPaymentIndex = 0;
-        private Dictionary<int, SavedPayment> unpaidSavedPaymentDictionary;
+        private Dictionary<int, Transaction> unpaidTransactionDictionary;
         private int unpaidSavedPaymentId = 0;
 
         public PaymentForm2()
@@ -38,9 +37,9 @@ namespace PianoForte.View
 
             this.student = null;            
             this.enrollment = null;
-            this.paymentDetailList = new List<PaymentDetail>();
+            this.transactionDetailList = new List<PaymentDetail>();
             this.studentSavedPaymentList = new List<SavedPayment>();
-            this.unpaidSavedPaymentDictionary = new Dictionary<int, SavedPayment>();
+            this.unpaidTransactionDictionary = new Dictionary<int, Transaction>();
 
             this.firstRegister = OtherCostManager.findOtherCost(4000001);
 
@@ -63,10 +62,10 @@ namespace PianoForte.View
         {
             int quantity = 0;
 
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
             for (int i = 0; i < numberOfPaymentDetailList; i++)
             {
-                PaymentDetail paymentDetail = this.paymentDetailList[i];
+                PaymentDetail paymentDetail = this.transactionDetailList[i];
                 if (paymentDetail.Product.Id == productId)
                 {
                     quantity = paymentDetail.Quantity;
@@ -192,17 +191,17 @@ namespace PianoForte.View
             {
                 if (paymentDetail.Product.Id != 4000001)
                 {
-                    this.paymentDetailList[index].Quantity += paymentDetail.Quantity;
+                    this.transactionDetailList[index].Quantity += paymentDetail.Quantity;
                 }
 
                 isSuccess = true;
             }
             else
             {
-                int numberOfPaymentDetail = this.paymentDetailList.Count;
+                int numberOfPaymentDetail = this.transactionDetailList.Count;
                 if (numberOfPaymentDetail < 12)
                 {
-                    this.paymentDetailList.Add(paymentDetail);
+                    this.transactionDetailList.Add(paymentDetail);
                     isSuccess = true;
                 }
                 else
@@ -245,7 +244,7 @@ namespace PianoForte.View
 
         private void clearPaymentDetail()
         {
-            foreach (PaymentDetail paymentDetail in this.paymentDetailList)
+            foreach (PaymentDetail paymentDetail in this.transactionDetailList)
             {
                 if (paymentDetail.Product.Type == Product.ProductType.COURSE.ToString())
                 {
@@ -254,7 +253,7 @@ namespace PianoForte.View
                 }
             }
 
-            this.paymentDetailList.Clear();
+            this.transactionDetailList.Clear();
 
             this.sortPaymentDetailList();
             this.updatePaymentDetailSummaryDataGridView();
@@ -271,9 +270,9 @@ namespace PianoForte.View
             int index = this.getPaymentDetailListIndex(productId);
             if (index >= 0)
             {
-                paymentDetail = this.paymentDetailList[index];
+                paymentDetail = this.transactionDetailList[index];
 
-                this.paymentDetailList.Remove(this.paymentDetailList[index]);
+                this.transactionDetailList.Remove(this.transactionDetailList[index]);
                 isSuccess = true;
             }
 
@@ -305,10 +304,10 @@ namespace PianoForte.View
         {
             this.student = null;
             this.enrollment = null;
-            this.paymentDetailList.Clear();
+            this.transactionDetailList.Clear();
             this.studentSavedPaymentList.Clear();
             this.selectedStudentSavedPaymentIndex = 0;
-            this.unpaidSavedPaymentDictionary.Clear();
+            this.unpaidTransactionDictionary.Clear();
             this.unpaidSavedPaymentId = 0;
 
             this.TextBox_StudentId.Text = "";
@@ -382,13 +381,13 @@ namespace PianoForte.View
 
         private void updatePaymentDetailSummaryDataGridView()
         {
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
 
             for (int i = 0; i < 12; i++)
             {
                 if (i < numberOfPaymentDetailList)
                 {
-                    PaymentDetail paymentDetail = this.paymentDetailList[i];
+                    PaymentDetail paymentDetail = this.transactionDetailList[i];
                     Product product = paymentDetail.Product;
 
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["No"].Value = i + 1;
@@ -425,7 +424,7 @@ namespace PianoForte.View
         {
             List<SavedPayment> unpaidSavedPaymentDictionary = SavedPaymentManager.findAllSavedPayment(SavedPayment.SavedPaymentStatus.NOT_PAID);
 
-            this.unpaidSavedPaymentDictionary.Clear();
+            this.unpaidTransactionDictionary.Clear();
             this.DataGridView_UnpaidSavedPayment.Rows.Clear();
 
             foreach (SavedPayment sp in unpaidSavedPaymentDictionary)
@@ -439,7 +438,7 @@ namespace PianoForte.View
                     this.DataGridView_UnpaidSavedPayment.Rows[n].Cells["Col_No"].Value = n + 1;
                     this.DataGridView_UnpaidSavedPayment.Rows[n].Cells["Col_Name"].Value = s.Firstname + " (" + s.Nickname + ")";
 
-                    this.unpaidSavedPaymentDictionary.Add(n, sp);
+                    this.unpaidTransactionDictionary.Add(n, sp);
                 }
             }
         }
@@ -448,11 +447,11 @@ namespace PianoForte.View
         {
             double grandTotalPrice = 0;
 
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
 
             for (int i = 0; i < numberOfPaymentDetailList; i++)
             {
-                PaymentDetail paymentDetail = this.paymentDetailList[i];
+                PaymentDetail paymentDetail = this.transactionDetailList[i];
                 Product product = paymentDetail.Product;
 
                 grandTotalPrice += ((product.Price * paymentDetail.Quantity) - paymentDetail.Discount);
@@ -616,11 +615,11 @@ namespace PianoForte.View
         private int getCourseIndexInPaymentDetailList()
         {
             int courseIndex = -1;
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
 
             for (int i = 0; i < numberOfPaymentDetailList; i++)
             {
-                if (this.paymentDetailList[i].Product.Type == Product.ProductType.COURSE.ToString())
+                if (this.transactionDetailList[i].Product.Type == Product.ProductType.COURSE.ToString())
                 {
                     courseIndex = i;
                     break;
@@ -633,11 +632,11 @@ namespace PianoForte.View
         private int getPaymentDetailListIndex(int productId)
         {
             int index = -1;
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
 
             for (int i = 0; i < numberOfPaymentDetailList; i++)
             {
-                if (this.paymentDetailList[i].Product.Id == productId)
+                if (this.transactionDetailList[i].Product.Id == productId)
                 {
                     index = i;
                     break;
@@ -649,16 +648,16 @@ namespace PianoForte.View
 
         private void sortPaymentDetailList()
         {
-            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            int numberOfPaymentDetailList = this.transactionDetailList.Count;
             for (int i = 0; i < numberOfPaymentDetailList; i++)
             {
                 for (int j = i + 1; j < numberOfPaymentDetailList; j++)
                 {
-                    if (this.paymentDetailList[j].Product.Id < this.paymentDetailList[i].Product.Id)
+                    if (this.transactionDetailList[j].Product.Id < this.transactionDetailList[i].Product.Id)
                     {
-                        PaymentDetail tempPaymentDetail = this.paymentDetailList[i];
-                        this.paymentDetailList[i] = this.paymentDetailList[j];
-                        this.paymentDetailList[j] = tempPaymentDetail;
+                        PaymentDetail tempPaymentDetail = this.transactionDetailList[i];
+                        this.transactionDetailList[i] = this.transactionDetailList[j];
+                        this.transactionDetailList[j] = tempPaymentDetail;
 
                         break;
                     }
@@ -670,7 +669,7 @@ namespace PianoForte.View
         {
             bool isEnableButtonPay = false;
 
-            if ((this.student != null) && (this.paymentDetailList.Count > 0))
+            if ((this.student != null) && (this.transactionDetailList.Count > 0))
             {
                 if (this.RadioButton_CreditCard.Checked == true)
                 {
@@ -701,7 +700,7 @@ namespace PianoForte.View
         {
             bool isEnableButtonSave = false;
 
-            if ((this.student != null) && (this.paymentDetailList.Count > 0) && (this.selectedStudentSavedPaymentIndex == 0))
+            if ((this.student != null) && (this.transactionDetailList.Count > 0) && (this.selectedStudentSavedPaymentIndex == 0))
             {
                 isEnableButtonSave = true;
             }
@@ -765,7 +764,7 @@ namespace PianoForte.View
                         {
                             if (this.enrollment != null)
                             {
-                                this.enrollment.PaymentId = newPayment.Id;
+                                this.enrollment.TransactionId = newPayment.Id;
                                 this.enrollment.Status = Enrollment.EnrollmentStatus.PAID.ToString();
 
                                 isUpdateComplete = EnrollmentManager.updateEnrollment(this.enrollment);
@@ -773,7 +772,7 @@ namespace PianoForte.View
 
                             if (isUpdateComplete == true)
                             {
-                                foreach (PaymentDetail paymentDetail in this.paymentDetailList)
+                                foreach (PaymentDetail paymentDetail in this.transactionDetailList)
                                 {
                                     paymentDetail.PaymentId = newPayment.Id;
 
@@ -827,9 +826,9 @@ namespace PianoForte.View
         {
             bool isAddComplete = false;
 
-            for (int i = 0; i < this.paymentDetailList.Count; i++)
+            for (int i = 0; i < this.transactionDetailList.Count; i++)
             {
-                PaymentDetail paymentDetail = this.paymentDetailList[i];
+                PaymentDetail paymentDetail = this.transactionDetailList[i];
                 if (paymentDetail != null)
                 {
                     paymentDetail.PaymentId = paymentId;
@@ -843,8 +842,7 @@ namespace PianoForte.View
                         {
                             if (this.enrollment != null)
                             {
-                                this.enrollment.PaymentId = paymentId;
-                                this.enrollment.SavedPaymentId = savedPaymentId;
+                                this.enrollment.TransactionId = paymentId;
                                 this.enrollment.Student = this.student;
 
                                 if (paymentStatus == Payment.PaymentStatus.PAID)
@@ -924,7 +922,7 @@ namespace PianoForte.View
 
         private void printReceipt(int paymentId)
         {
-            if (!ReceiptManager.printReceipt(paymentId))
+            if (!ReportManager.printReceipt(paymentId))
             {
                 MessageBox.Show(PianoForte.Constant.Constant.PRINTER_NOT_FOUND);
             }
@@ -1014,7 +1012,7 @@ namespace PianoForte.View
         {
             if (this.selectedStudentSavedPaymentIndex == 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
+                int numberOfPaymentDetailList = this.transactionDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
                 {
                     int rowIndex = e.RowIndex;
@@ -1022,7 +1020,7 @@ namespace PianoForte.View
                     {
                         if (e.ColumnIndex == 6)
                         {
-                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
+                            int productId = this.transactionDetailList[e.RowIndex].Product.Id;
 
                             if (productId != this.firstRegister.Id)
                             {
@@ -1043,7 +1041,7 @@ namespace PianoForte.View
         {
             if (this.selectedStudentSavedPaymentIndex == 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
+                int numberOfPaymentDetailList = this.transactionDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
                 {
                     int rowIndex = e.RowIndex;
@@ -1051,7 +1049,7 @@ namespace PianoForte.View
                     {
                         if (e.ColumnIndex == 6)
                         {
-                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
+                            int productId = this.transactionDetailList[e.RowIndex].Product.Id;
 
                             if (productId != this.firstRegister.Id)
                             {
@@ -1072,13 +1070,13 @@ namespace PianoForte.View
         {
             if (this.selectedStudentSavedPaymentIndex == 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
+                int numberOfPaymentDetailList = this.transactionDetailList.Count;
                 if (numberOfPaymentDetailList > 0)
                 {
                     int rowIndex = e.RowIndex;
                     if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
                     {
-                        PaymentDetail paymentDetail = this.paymentDetailList[rowIndex];
+                        PaymentDetail paymentDetail = this.transactionDetailList[rowIndex];
 
                         if (paymentDetail.Product.Type == Product.ProductType.COURSE.ToString())
                         {
@@ -1101,7 +1099,7 @@ namespace PianoForte.View
         private void DataGridView_UnpaidSavedPayment_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
-            SavedPayment sp = this.unpaidSavedPaymentDictionary[rowIndex];
+            SavedPayment sp = this.unpaidTransactionDictionary[rowIndex];
 
             if (sp != null)
             {
@@ -1348,7 +1346,7 @@ namespace PianoForte.View
         {
             this.selectedStudentSavedPaymentIndex = this.ComboBox_Unpaid_Payment.SelectedIndex;
 
-            if (this.paymentDetailList.Count > 0)
+            if (this.transactionDetailList.Count > 0)
             {
                 this.clearPaymentDetail();
                 this.TextBox_StudentId.Focus();

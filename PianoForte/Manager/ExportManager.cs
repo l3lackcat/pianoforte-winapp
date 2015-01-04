@@ -195,7 +195,7 @@ namespace PianoForte.Manager
 
                     double totalCoursePrice = 0;
 
-                    Payment tempPayment = PaymentManager.findPayment(tempEnrollment.PaymentId);
+                    Payment tempPayment = PaymentManager.findPayment(tempEnrollment.TransactionId);
                     if (tempPayment != null)
                     {
                         List<PaymentDetail> tempPaymentDetailList = PaymentDetailManager.findAllPaymentDetail(tempPayment.Id);
@@ -225,7 +225,7 @@ namespace PianoForte.Manager
                         this.addCellData(excelWorkSheet, "B" + (i + 3).ToString(), "B" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, tempEnrollment.Student.Id.ToString(), false, false, isLastRow, false, true);
                         this.addCellData(excelWorkSheet, "C" + (i + 3).ToString(), "C" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignLeft, courseName, false, false, isLastRow, false, true);
                         this.addCellData(excelWorkSheet, "D" + (i + 3).ToString(), "D" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignRight, totalCoursePrice.ToString(), "#,##0", false, false, isLastRow, false, true);
-                        this.addCellData(excelWorkSheet, "E" + (i + 3).ToString(), "E" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, tempEnrollment.PaymentId.ToString(), false, false, isLastRow, false, true);
+                        this.addCellData(excelWorkSheet, "E" + (i + 3).ToString(), "E" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, tempEnrollment.TransactionId.ToString(), false, false, isLastRow, false, true);
                         this.addCellData(excelWorkSheet, "F" + (i + 3).ToString(), "F" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, classStartDay, false, false, isLastRow, false, true);
                         this.addCellData(excelWorkSheet, "G" + (i + 3).ToString(), "G" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, classStartMonth, false, false, isLastRow, false, true);
                         this.addCellData(excelWorkSheet, "H" + (i + 3).ToString(), "H" + (i + 3).ToString(), Excel.XlHAlign.xlHAlignCenter, classStartYear, false, false, isLastRow, false, true);
@@ -454,7 +454,7 @@ namespace PianoForte.Manager
                     Classroom tempClassroom = null;
 
                     //Enrollment tempEnrollment = EnrollmentManager.findAllEnrollmentByPaymentId(tempPayment.Id);
-                    List<Enrollment> tempEnrollmentList = EnrollmentManager.findAllEnrollmentByPaymentId(tempPayment.Id);
+                    List<Enrollment> tempEnrollmentList = EnrollmentManager.findAllEnrollmentByTransactionId(tempPayment.Id);
                     for (int j = 0; j < tempEnrollmentList.Count; j++)
                     {
                         Enrollment tempEnrollment = tempEnrollmentList[j];

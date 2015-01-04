@@ -663,7 +663,7 @@ namespace PianoForte.View
             {
                 string insertString = "INSERT INTO enrollments (payment_id, student_id, course_id, enrollment_date, enrollment_status) VALUES(";
 
-                insertString += "'" + enrollment.PaymentId + "', ";
+                insertString += "'" + enrollment.TransactionId + "', ";
                 insertString += "'" + enrollment.Student.Id + "', ";
                 insertString += "'" + enrollment.Course.Id + "', ";
                 insertString += "'" + enrollment.EnrolledDate.ToString("yyyy-MM-dd HH:mm:ss") + "', ";
@@ -1510,149 +1510,163 @@ namespace PianoForte.View
             System.IO.File.WriteAllText(PianoForte.Constant.Constant.STARTUP_PATH + "\\json\\other_items.json", json);
         }
 
-        private void Button_Update_ClassroomStatus_Click(object sender, EventArgs e)
+        private void Button_InitTransaction_Click(object sender, EventArgs e)
         {
-            this.updateClassroomDetailStatusWorker.RunWorkerAsync();
-            ProgressBarManager.showProgressBar(true);
-        }
-
-        private void Button_Update_StudentStatus_Click(object sender, EventArgs e)
-        {
-            this.updateStudentStatusWorker.RunWorkerAsync();
-            ProgressBarManager.showProgressBar(true);
-        }
-
-        private void updateClassroomDetailStatusWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByEndDate(DateTime.Today);
-            int numberOfClassroomDetail = tempClassroomDetailList.Count;
-            int index = 0;
-
-            this.updateClassroomDetailStatusWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.UPDATE_CLASSROOM_STATUS);
-
-            foreach (ClassroomDetail cd in tempClassroomDetailList)
+            if (this.initialTransactionWorker.IsBusy == false)
             {
-                bool isPass = false;
-                DateTime today = DateTime.Today;
-
-                if (cd.ClassroomDate < today)
-                {
-                    isPass = true;
-                }
-                else
-                {
-                    TimeSpan time = TimeSpan.Parse(cd.ClassroomTime.Replace(".", ":"));
-                    DateTime classroomEndTime = DateTime.Today.Add(time).AddMinutes(cd.ClassroomDuration);
-
-                    if (classroomEndTime <= DateTime.Now)
-                    {
-                        isPass = true;
-                    }
-                }
-
-                if (isPass == true)
-                {
-                    cd.PreviousStatus = cd.CurrentStatus;
-                    cd.CurrentStatus = ClassroomDetail.ClassroomStatus.CHECKED_IN.ToString();
-
-                    ClassroomDetailManager.updateClassroomDetail(cd);
-                }
-
-                this.updateClassroomDetailStatusWorker.ReportProgress((index * 100) / numberOfClassroomDetail, ProgressBarManager.ProgressBarState.UPDATE_CLASSROOM_STATUS); 
-                index++;
+                this.initialTransactionWorker.RunWorkerAsync();
+                ProgressBarManager.showProgressBar(true);
             }
         }
 
-        private void updateClassroomDetailStatusWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void initialTransactionWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
-            ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState);
-        }
+            this.initialTransactionWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.INITIAL_TRANSACTION);
 
-        private void updateClassroomDetailStatusWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            ProgressBarManager.showProgressBar(false);
-        }
-
-        private void updateStudentStatusWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            List<Student> studentList = StudentManager.findAllStudent();
-            int numberOfStudent = studentList.Count;
+            List<Payment> paymentList = PaymentManager.findAllPayment();
+            int paymentListSize = paymentList.Count;
             int index = 0;
+            bool isRepeat = false;
 
-            this.updateStudentStatusWorker.ReportProgress(0, ProgressBarManager.ProgressBarState.UPDATE_STUDENT_STATUS);
-
-            foreach (Student s in studentList)
+            while (index < paymentListSize)
             {
-                DateTime? lastDate = null;
-                bool isActive = false;
-                List<Enrollment> enrollmentList = EnrollmentManager.findAllEnrollmentByStudentId(s.Id);
+                Payment payment = paymentList[index];
 
-                foreach (Enrollment en in enrollmentList)
+                if (payment.Id == 98)
                 {
-                    List<Classroom> classroomList = ClassroomManager.findAllClassroom(en.Id);
+                    Transaction transaction = this.insertTransaction(payment);
 
-                    foreach (Classroom c in classroomList)
+                    if (transaction != null)
                     {
-                        List<ClassroomDetail> classroomDetailList;
-
-                        if (isActive == false) {
-                            classroomDetailList = ClassroomDetailManager.findAllActiveClassroomDetailByClassroomId(c.Id);
-
-                            if (classroomDetailList.Count > 0)
-                            {
-                                isActive = true;
-                            }
-
-                            classroomDetailList.Clear();
-                        }
-
-
-                        classroomDetailList = ClassroomDetailManager.findLastDateOfClassroomDetailByClassroomId(c.Id);
-
-                        if (classroomDetailList.Count > 0)
+                        if (this.processTranactionDetail(transaction.Id, payment.Id) == true)
                         {
-                            ClassroomDetail cd = classroomDetailList[0];
-
-                            if (cd != null)
-                            {
-                                if ((lastDate == null) || (lastDate < cd.ClassroomDate))
-                                {
-                                    lastDate = cd.ClassroomDate;
-                                }
-                            }
-                            
+                            this.insertReceipt(transaction.Id, payment);
                         }
                     }
-                }
 
-                if (isActive == true)
-                {
-                    s.Status = Student.StudentStatus.ACTIVE.ToString();
+                    if (isRepeat == true)
+                    {
+                        this.initialTransactionWorker.ReportProgress((index * 100) / paymentListSize, ProgressBarManager.ProgressBarState.INITIAL_TRANSACTION);
+                        index++;
+                    }
+
+                    isRepeat = true;
                 }
                 else
                 {
-                    s.Status = Student.StudentStatus.INACTIVE.ToString();
+                    Transaction transaction = this.insertTransaction(payment);
+
+                    if (transaction != null)
+                    {
+                        if (this.processTranactionDetail(transaction.Id, payment.Id) == true)
+                        {
+                            this.insertReceipt(transaction.Id, payment);
+                        }
+                    }
+
+                    this.initialTransactionWorker.ReportProgress((index * 100) / paymentListSize, ProgressBarManager.ProgressBarState.INITIAL_TRANSACTION);
+                    index++;
                 }
+            }
 
-                s.LastDateOfClass = lastDate;
-
-                StudentManager.updateStudent(s);
-
-                this.updateStudentStatusWorker.ReportProgress((index * 100) / numberOfStudent, ProgressBarManager.ProgressBarState.UPDATE_STUDENT_STATUS);
-                index++;
+            for (int i = 0; i < paymentListSize; i++)
+            {
+                 
             }
         }
 
-        private void updateStudentStatusWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void initialTransactionWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
             ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState);
         }
 
-        private void updateStudentStatusWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void initialTransactionWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ProgressBarManager.showProgressBar(false);
+        }
+
+        private Transaction insertTransaction(Payment payment)
+        {
+            Transaction transaction = new Transaction();
+            transaction.Date = payment.PaymentDate;
+            transaction.Amount = payment.TotalPrice;
+            transaction.StudentId = payment.StudentId;
+            transaction.ReceiverId = payment.ReceiverId;
+
+            if (payment.Status == Payment.PaymentStatus.PAID.ToString())
+            {
+                transaction.Status = Transaction.TransactionStatus.PAID.ToString();
+            }
+            else if (payment.Status == Payment.PaymentStatus.NOT_PAID.ToString())
+            {
+                transaction.Status = Transaction.TransactionStatus.UNPAID.ToString();
+            }
+            else if (payment.Status == Payment.PaymentStatus.CANCELED.ToString())
+            {
+                transaction.Status = Transaction.TransactionStatus.CANCELED.ToString();
+            }
+
+            return TransactionManager.insertTransaction(transaction);
+        }
+
+        private TransactionDetail insertTransactionDetail(int transactionId, PaymentDetail paymentDetail)
+        {
+            TransactionDetail transactionDetail = new TransactionDetail();
+            transactionDetail.TransactionId = transactionId;
+            transactionDetail.Product.Id = paymentDetail.Product.Id;
+            transactionDetail.Product.Type = paymentDetail.Product.Type;
+            transactionDetail.Product.Name = paymentDetail.Product.Name;
+            transactionDetail.Product.Price = paymentDetail.Product.Price;
+            transactionDetail.Quantity = paymentDetail.Quantity;
+
+            return TransactionDetailManager.insertTransactionDetail(transactionDetail);
+
+        }
+
+        private Receipt insertReceipt(int transactionId, Payment payment)
+        {
+            Receipt receipt = new Receipt();
+            receipt.PrintReceiptId = payment.PrintPaymentId;
+            receipt.FirstReceiptId = 0;
+            receipt.TransactionId = transactionId;
+            receipt.StudentId = payment.StudentId;
+            receipt.ReceiverId = payment.ReceiverId;
+            receipt.Date = payment.PaymentDate;
+            receipt.CreditCardNumber = payment.CreditCardNumber;
+            receipt.Amount = payment.TotalPrice;
+
+            if (payment.Status == Payment.PaymentStatus.PAID.ToString())
+            {
+                receipt.Status = Transaction.TransactionStatus.PAID.ToString();
+            }
+            else if (payment.Status == Payment.PaymentStatus.NOT_PAID.ToString())
+            {
+                receipt.Status = Transaction.TransactionStatus.UNPAID.ToString();
+            }
+            else if (payment.Status == Payment.PaymentStatus.CANCELED.ToString())
+            {
+                receipt.Status = Transaction.TransactionStatus.CANCELED.ToString();
+            }
+
+            return ReceiptManager.insertReceipt(receipt);
+        }
+
+        private bool processTranactionDetail(int transactionId, int paymentId)
+        {
+            bool isSuccess = true;
+            List<PaymentDetail> paymentDetailList = PaymentDetailManager.findAllPaymentDetail(paymentId);
+
+            foreach (PaymentDetail paymentDetail in paymentDetailList)
+            {
+                if (this.insertTransactionDetail(transactionId, paymentDetail) == null)
+                {
+                    isSuccess = false;
+                    break;
+                }
+            }
+
+            return isSuccess;
         }
     }
 }

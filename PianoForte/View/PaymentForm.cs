@@ -412,7 +412,7 @@ namespace PianoForte.View
                             Enrollment tempEnrollment = this.courseForm.getEnrollment();
                             if (tempEnrollment != null)
                             {
-                                tempEnrollment.PaymentId = paymentId;
+                                tempEnrollment.TransactionId = paymentId;
                                 tempEnrollment.Student = this.student;
                                 tempEnrollment.Status = Enrollment.EnrollmentStatus.PAID.ToString();
                                 EnrollmentManager.processEnrollment(tempEnrollment); 
@@ -496,7 +496,7 @@ namespace PianoForte.View
 
         private void printReceipt(int paymentId)
         {
-            if (!ReceiptManager.printReceipt(paymentId))
+            if (!ReportManager.printReceipt(paymentId))
             {
                 MessageBox.Show(PianoForte.Constant.Constant.PRINTER_NOT_FOUND);
             }            

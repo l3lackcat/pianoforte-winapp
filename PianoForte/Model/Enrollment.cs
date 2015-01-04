@@ -9,8 +9,7 @@ namespace PianoForte.Model
     {
         public static string tableName = "enrollment";
         public static string columnEnrollmentId = "enrollmentId";
-        public static string columnPaymentId = "paymentId";
-        public static string columnSavedPaymentId = "savedPaymentId";
+        public static string columnTransactionId = "transactionId";
         public static string columnStudentId = "studentId";
         public static string columnCourseId = "courseId";        
         public static string columnEnrollmentDate = "enrollmentDate";
@@ -29,8 +28,7 @@ namespace PianoForte.Model
         };
 
         public int Id { get; set; }
-        public int PaymentId { get; set; }
-        public int SavedPaymentId { get; set; }
+        public int TransactionId { get; set; }
         public Student Student { get; set; }
         public Course Course { get; set; }
         public DateTime EnrolledDate { get; set; }

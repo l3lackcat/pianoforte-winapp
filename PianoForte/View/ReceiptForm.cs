@@ -34,7 +34,7 @@ namespace PianoForte.View
         {
             this.paymentId = paymentId;
 
-            DataSet dataSet = ReceiptManager.initReceiptReportTable(paymentId);
+            DataSet dataSet = ReportManager.initReceiptReportTable(paymentId);
             if (paymentStatus == Payment.PaymentStatus.PAID.ToString())
             {
                 ReceiptViewPaid receiptViewPaid = new ReceiptViewPaid();
@@ -98,7 +98,7 @@ namespace PianoForte.View
 
         private void Button_Print_Click(object sender, EventArgs e)
         {
-            if (!ReceiptManager.printReceipt(paymentId))
+            if (!ReportManager.printReceipt(paymentId))
             {
                 MessageBox.Show(PianoForte.Constant.Constant.PRINTER_NOT_FOUND);
             }          

@@ -42,6 +42,10 @@ namespace PianoForte.Dao
 
         public abstract PaymentDetailDao getPaymentDetailDao();
 
+        public abstract ProductDao getProductDao();
+
+        public abstract ReceiptDao getReceiptDao();
+
         public abstract RoomDao getRoomDao();
 
         public abstract RoomDetailDao getRoomDetailDao();
@@ -54,9 +58,11 @@ namespace PianoForte.Dao
 
         public abstract TeachingCourseDao getTeachingCourseDao();
 
-        public abstract UserDao getUserDao();
+        public abstract TransactionDao getTransactionDao();
 
-        public abstract ProductDao getProductDao();
+        public abstract TransactionDetailDao getTransactionDetailDao();
+
+        public abstract UserDao getUserDao();
 
         public static DaoFactory getDaoFactory(FactoryType factoryType)
         {

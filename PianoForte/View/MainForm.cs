@@ -310,8 +310,11 @@ namespace PianoForte.View
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.PreCloseWorker.RunWorkerAsync();
-            ProgressBarManager.showProgressBar(true);
+            if (this.PreCloseWorker.IsBusy == false)
+            {
+                this.PreCloseWorker.RunWorkerAsync();
+                ProgressBarManager.showProgressBar(true);
+            }
         }
 
         private void PreCloseWorker_DoWork(object sender, DoWorkEventArgs e)
