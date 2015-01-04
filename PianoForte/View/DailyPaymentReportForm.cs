@@ -58,7 +58,7 @@ namespace PianoForte.View
             }
             else
             {
-                this.tabControl1.TabPages[2].Enabled = false;
+                this.tabControl1.TabPages[1].Enabled = false;
             }
         }
 
