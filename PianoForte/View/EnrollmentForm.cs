@@ -440,7 +440,8 @@ namespace PianoForte.View
             classroom.Id = 1;
             classroom.TeacherId = this.teacherList[this.ComboBox_Classroom1_Teacher.SelectedIndex].Id;
             classroom.StartDate = this.DateTimePicker_Classroom1_StartDate.Value;
-            classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
+            //classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
+            classroom.ClassDayOfWeek = ConvertManager.toShortDayOfWeek_EN(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
             classroom.ClassTime = this.ComboBox_Classroom1_Time.Text;
 
             try
@@ -466,7 +467,8 @@ namespace PianoForte.View
                 classroom.Id = 2;
                 classroom.TeacherId = this.teacherList[this.ComboBox_Classroom2_Teacher.SelectedIndex].Id;
                 classroom.StartDate = this.DateTimePicker_Classroom2_StartDate.Value;
-                classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
+                //classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
+                classroom.ClassDayOfWeek = ConvertManager.toShortDayOfWeek_EN(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
                 classroom.ClassTime = this.ComboBox_Classroom2_Time.Text;
 
                 try

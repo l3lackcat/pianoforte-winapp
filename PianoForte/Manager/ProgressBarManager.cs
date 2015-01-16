@@ -17,7 +17,8 @@ namespace PianoForte.Manager
             GENERATE_DATE,
             BACKUP_DATABASE,
             UPDATE_STUDENT_STATUS,
-            UPDATE_CLASSROOM_STATUS
+            UPDATE_CLASSROOM_STATUS,
+            UPDATE_CLASSROOM_DAY_OF_WEEK
         }
 
         public static void showProgressBar(bool isVisible)
@@ -64,6 +65,11 @@ namespace PianoForte.Manager
                 case ProgressBarState.UPDATE_CLASSROOM_STATUS:
                     progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
                     progressBarDialogBox.update("Updating classrooms' status", progressPercentage);
+                    progressBarDialogBox.update(progressPercentage);
+                    break;
+                case ProgressBarState.UPDATE_CLASSROOM_DAY_OF_WEEK:
+                    progressBarDialogBox.setProgressBarStyle(System.Windows.Forms.ProgressBarStyle.Continuous);
+                    progressBarDialogBox.update("Updating classrooms' day of week", progressPercentage);
                     progressBarDialogBox.update(progressPercentage);
                     break;
             }

@@ -15,6 +15,14 @@ namespace PianoForte.Constant
         public const string FRIDAY_EN = "Friday";
         public const string SATURDAY_EN = "Saturday";
 
+        public const string SUNDAY_ABBR_EN = "Sun";
+        public const string MONDAY_ABBR_EN = "Mon";
+        public const string TUESDAY_ABBR_EN = "Tue";
+        public const string WEDNESDAY_ABBR_EN = "Wed";
+        public const string THURSDAY_ABBR_EN = "Thu";
+        public const string FRIDAY_ABBR_EN = "Fri";
+        public const string SATURDAY_ABBR_EN = "Sat";
+
         public const string SUNDAY_TH = "อาทิตย์";
         public const string MONDAY_TH = "จันทร์";
         public const string TUESDAY_TH = "อังคาร";

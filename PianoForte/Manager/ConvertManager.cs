@@ -181,6 +181,42 @@ namespace PianoForte.Manager
             return convertedCreditCardNumber;
         }
 
+        public static string toShortDayOfWeek_EN(string dayOfWeek)
+        {
+            string engDayOfWeek = dayOfWeek;
+
+            if ((dayOfWeek == DateTimeConstant.SUNDAY_TH) || (dayOfWeek == DateTimeConstant.SUNDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.SUNDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.MONDAY_TH) || (dayOfWeek == DateTimeConstant.MONDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.MONDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.TUESDAY_TH) || (dayOfWeek == DateTimeConstant.TUESDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.TUESDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.WEDNESDAY_TH) || (dayOfWeek == "พุทธ") || (dayOfWeek == DateTimeConstant.WEDNESDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.WEDNESDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.THURSDAY_TH) || (dayOfWeek == DateTimeConstant.THURSDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.THURSDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.FRIDAY_TH) || (dayOfWeek == DateTimeConstant.FRIDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.FRIDAY_ABBR_EN;
+            }
+            else if ((dayOfWeek == DateTimeConstant.SATURDAY_TH) || (dayOfWeek == DateTimeConstant.SATURDAY_EN))
+            {
+                engDayOfWeek = DateTimeConstant.SATURDAY_ABBR_EN;
+            }
+
+            return engDayOfWeek;
+        }
+
         public static string toThaiDayOfWeek(string dayOfWeek)
         {
             string thaiDayOfWeek = "";

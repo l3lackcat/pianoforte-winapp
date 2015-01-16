@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Button_UpdateClassroomDayOfWeek = new System.Windows.Forms.Button();
             this.Button_Update_ClassroomStatus = new System.Windows.Forms.Button();
             this.Button_Update_StudentStatus = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -54,6 +55,7 @@
             this.CheckBox_generate_students = new System.Windows.Forms.CheckBox();
             this.updateClassroomDetailStatusWorker = new System.ComponentModel.BackgroundWorker();
             this.updateStudentStatusWorker = new System.ComponentModel.BackgroundWorker();
+            this.updateClassroomDateOfWeekWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -70,6 +72,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.Button_UpdateClassroomDayOfWeek);
             this.tabPage1.Controls.Add(this.Button_Update_ClassroomStatus);
             this.tabPage1.Controls.Add(this.Button_Update_StudentStatus);
             this.tabPage1.Controls.Add(this.groupBox1);
@@ -81,11 +84,22 @@
             this.tabPage1.Text = "Database Migration";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // Button_UpdateClassroomDayOfWeek
+            // 
+            this.Button_UpdateClassroomDayOfWeek.Location = new System.Drawing.Point(6, 250);
+            this.Button_UpdateClassroomDayOfWeek.Name = "Button_UpdateClassroomDayOfWeek";
+            this.Button_UpdateClassroomDayOfWeek.Size = new System.Drawing.Size(175, 23);
+            this.Button_UpdateClassroomDayOfWeek.TabIndex = 3;
+            this.Button_UpdateClassroomDayOfWeek.Text = "Update Classroom DayOfWeek";
+            this.Button_UpdateClassroomDayOfWeek.UseVisualStyleBackColor = true;
+            this.Button_UpdateClassroomDayOfWeek.Click += new System.EventHandler(this.Button_UpdateClassroomDayOfWeek_Click);
+            // 
             // Button_Update_ClassroomStatus
             // 
+            this.Button_Update_ClassroomStatus.Enabled = false;
             this.Button_Update_ClassroomStatus.Location = new System.Drawing.Point(6, 192);
             this.Button_Update_ClassroomStatus.Name = "Button_Update_ClassroomStatus";
-            this.Button_Update_ClassroomStatus.Size = new System.Drawing.Size(150, 23);
+            this.Button_Update_ClassroomStatus.Size = new System.Drawing.Size(175, 23);
             this.Button_Update_ClassroomStatus.TabIndex = 2;
             this.Button_Update_ClassroomStatus.Text = "Update Classroom Status";
             this.Button_Update_ClassroomStatus.UseVisualStyleBackColor = true;
@@ -93,9 +107,10 @@
             // 
             // Button_Update_StudentStatus
             // 
+            this.Button_Update_StudentStatus.Enabled = false;
             this.Button_Update_StudentStatus.Location = new System.Drawing.Point(6, 221);
             this.Button_Update_StudentStatus.Name = "Button_Update_StudentStatus";
-            this.Button_Update_StudentStatus.Size = new System.Drawing.Size(150, 23);
+            this.Button_Update_StudentStatus.Size = new System.Drawing.Size(175, 23);
             this.Button_Update_StudentStatus.TabIndex = 1;
             this.Button_Update_StudentStatus.Text = "Update Student Status";
             this.Button_Update_StudentStatus.UseVisualStyleBackColor = true;
@@ -122,6 +137,7 @@
             this.groupBox1.Controls.Add(this.CheckBox_generate_users);
             this.groupBox1.Controls.Add(this.CheckBox_generate_teachers);
             this.groupBox1.Controls.Add(this.CheckBox_generate_students);
+            this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(740, 180);
@@ -335,6 +351,14 @@
             this.updateStudentStatusWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateStudentStatusWorker_RunWorkerCompleted);
             this.updateStudentStatusWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateStudentStatusWorker_ProgressChanged);
             // 
+            // updateClassroomDateOfWeekWorker
+            // 
+            this.updateClassroomDateOfWeekWorker.WorkerReportsProgress = true;
+            this.updateClassroomDateOfWeekWorker.WorkerSupportsCancellation = true;
+            this.updateClassroomDateOfWeekWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateClassroomDateOfWeekWorker_DoWork);
+            this.updateClassroomDateOfWeekWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.updateClassroomDateOfWeekWorker_RunWorkerCompleted);
+            this.updateClassroomDateOfWeekWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.updateClassroomDateOfWeekWorker_ProgressChanged);
+            // 
             // HiddenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,5 +403,7 @@
         private System.Windows.Forms.Button Button_Update_ClassroomStatus;
         public System.ComponentModel.BackgroundWorker updateClassroomDetailStatusWorker;
         public System.ComponentModel.BackgroundWorker updateStudentStatusWorker;
+        private System.Windows.Forms.Button Button_UpdateClassroomDayOfWeek;
+        public System.ComponentModel.BackgroundWorker updateClassroomDateOfWeekWorker;
     }
 }

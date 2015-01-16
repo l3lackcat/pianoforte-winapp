@@ -1400,5 +1400,10 @@ namespace PianoForte.View
                 this.TextBox_Barcode.Focus();
             }
         }
+
+        private void Button_ReloadUnpaidPaymentList_Click(object sender, EventArgs e)
+        {
+            this.updateUnpaidSavedPaymentDataGridView();
+        }
     }
 }

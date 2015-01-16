@@ -393,7 +393,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8D7D9EC53AA68680C66CBF3D21258480"
+        "MsmKey" = "8:_8D86E6B4152115FA2DB1ABCC9CBC10F0"
         "OwnerKey" = "8:_70E1C30E9B70497F8E740C1A39EF0841"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -748,7 +748,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8D7D9EC53AA68680C66CBF3D21258480"
+        "OwnerKey" = "8:_8D86E6B4152115FA2DB1ABCC9CBC10F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2101,14 +2101,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D7D9EC53AA68680C66CBF3D21258480"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D86E6B4152115FA2DB1ABCC9CBC10F0"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8D7D9EC53AA68680C66CBF3D21258480"
+                    "_8D86E6B4152115FA2DB1ABCC9CBC10F0"
                     {
                     "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
@@ -3391,14 +3391,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PianoForte Management Setup"
-        "ProductCode" = "8:{572B95A8-EA37-47E1-9895-A8E82ACB8CBE}"
-        "PackageCode" = "8:{3D954201-E391-4784-BA91-4CF0C2C825F6}"
+        "ProductCode" = "8:{B643275C-7B0B-4BBD-9D30-D132A00433FA}"
+        "PackageCode" = "8:{A8DE9A89-4F3B-4646-B547-26AB654CA429}"
         "UpgradeCode" = "8:{BE54E5C5-65ED-4053-9D7F-D65C5813931C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.33"
+        "ProductVersion" = "8:2.0.35"
         "Manufacturer" = "8:PianoForte"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

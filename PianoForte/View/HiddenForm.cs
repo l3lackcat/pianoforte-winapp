@@ -1654,5 +1654,38 @@ namespace PianoForte.View
         {
             ProgressBarManager.showProgressBar(false);
         }
+
+        private void Button_UpdateClassroomDayOfWeek_Click(object sender, EventArgs e)
+        {
+            this.updateClassroomDateOfWeekWorker.RunWorkerAsync();
+            ProgressBarManager.showProgressBar(true);
+        }
+
+        private void updateClassroomDateOfWeekWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<Classroom> classroomList = ClassroomManager.findAllClassroom();
+            int numberOfClassroom = classroomList.Count;
+            int index = 0;
+
+            foreach (Classroom classroom in classroomList)
+            {
+                classroom.ClassDayOfWeek = ConvertManager.toShortDayOfWeek_EN(classroom.ClassDayOfWeek);
+
+                ClassroomManager.updateClassroom(classroom);
+                this.updateClassroomDateOfWeekWorker.ReportProgress((index * 100) / numberOfClassroom, ProgressBarManager.ProgressBarState.UPDATE_CLASSROOM_DAY_OF_WEEK);
+                index++;
+            }
+        }
+
+        private void updateClassroomDateOfWeekWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBarManager.ProgressBarState progressBarState = (ProgressBarManager.ProgressBarState)e.UserState;
+            ProgressBarManager.updateProgressBar(e.ProgressPercentage, progressBarState);
+        }
+
+        private void updateClassroomDateOfWeekWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ProgressBarManager.showProgressBar(false);
+        }
     }
 }
