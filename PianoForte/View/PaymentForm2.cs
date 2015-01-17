@@ -473,22 +473,15 @@ namespace PianoForte.View
         private void searchStudent(int studentId)
         {
             this.reset(true);
+            this.setStudent(StudentManager.findStudent(studentId));
+        }
 
-            Student searchedStudent = StudentManager.findStudent(studentId);
-
-            //if (this.selectedStudentSavedPaymentIndex != 0)
-            //{
-            //    this.reset(true);
-            //}
-            //else
-            //{
-            //    this.TextBox_StudentNickname.Text = "";
-            //    this.TextBox_StudentFullName.Text = "";
-            //    this.TextBox_StudentPhoneNumber.Text = "";
-            //}
-
-            setStudent(searchedStudent);
-        }        
+        private void searchStudent(int studentId, int savedPaymentId)
+        {
+            this.reset(true);
+            this.unpaidSavedPaymentId = savedPaymentId;
+            this.setStudent(StudentManager.findStudent(studentId));
+        }
 
         private void searchUnpaidPayment(int studentId)
         {
@@ -498,6 +491,7 @@ namespace PianoForte.View
 
             if (numberOfSavedPayment > 0)
             {
+                
                 this.ComboBox_Unpaid_Payment.Visible = true;
                 this.ComboBox_Unpaid_Payment.Items.Clear();
                 this.ComboBox_Unpaid_Payment.Items.Add("ทำรายการใหม่");
@@ -513,7 +507,19 @@ namespace PianoForte.View
                     }
                 }
 
-                this.ComboBox_Unpaid_Payment.SelectedIndex = selectedIndex;
+                if (this.unpaidSavedPaymentId == 0) {
+                    DialogResult result = MessageBox.Show("ต้องการเปิดรายการค้างชำระหรือไม่?", "มีรายการค้างชำระ", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        this.ComboBox_Unpaid_Payment.SelectedIndex = numberOfSavedPayment;
+                    }
+                    else
+                    {
+                        this.ComboBox_Unpaid_Payment.SelectedIndex = 0;
+                    }
+                } else {
+                    this.ComboBox_Unpaid_Payment.SelectedIndex = selectedIndex;
+                }
             }
             else
             {
@@ -1106,8 +1112,7 @@ namespace PianoForte.View
             if (sp != null)
             {
                 this.selectedStudentSavedPaymentIndex = 0;
-                this.unpaidSavedPaymentId = sp.Id;
-                this.searchStudent(sp.StudentId);
+                this.searchStudent(sp.StudentId, sp.Id);
             }
         }
 
