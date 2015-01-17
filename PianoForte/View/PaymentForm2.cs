@@ -508,7 +508,7 @@ namespace PianoForte.View
                 }
 
                 if (this.unpaidSavedPaymentId == 0) {
-                    DialogResult result = MessageBox.Show("ต้องการเปิดรายการค้างชำระหรือไม่?", "มีรายการค้างชำระ", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show("มีรายการค้างชำระ " + numberOfSavedPayment + " รายการ ต้องการชำระหรือไม่?", "มีรายการค้างชำระ", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
                         this.ComboBox_Unpaid_Payment.SelectedIndex = numberOfSavedPayment;
