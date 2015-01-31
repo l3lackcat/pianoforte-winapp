@@ -58,8 +58,10 @@ namespace PianoForte.Constant
 
         public const string CONFIRM_PAYMENT = "คุณต้องการชำระเงิน?";
         public const string INVALID_CREDITCARD_NUMBER = "กรุณากรอกหมายเลขบัตรเครดิตให้ถูกต้อง";
-        public const string SAVE_PAYMENT_SUCCESS = "บันทึกใบเสร็จเรียบร้อยแล้ว";
-        public const string SAVE_PAYMENT_FAIL = "บันทึกใบเสร็จล้มเหลว";
+        public const string CANCEL_PAYMENT_SUCCESS = "ยกเลิกรายการค้างชำระเรียบร้อยแล้ว";
+        public const string CANCEL_PAYMENT_FAIL = "ยกเลิกรายการค้างชำระล้มเหลว";
+        public const string SAVE_PAYMENT_SUCCESS = "บันทึกรายการค้างชำระเรียบร้อยแล้ว";
+        public const string SAVE_PAYMENT_FAIL = "บันทึกรายการค้างชำระล้มเหลว";
         public const string PAYMENT_SUCCESS = "ชำระเงินเรียบร้อยแล้ว";
         public const string PAYMENT_FAIL = "ชำระเงินล้มเหลว";
     }

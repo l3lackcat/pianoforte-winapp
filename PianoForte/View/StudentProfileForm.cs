@@ -251,7 +251,7 @@ namespace PianoForte.View
 
             if (this.classroomDetailList.Count > 1)
             {
-                this.classroomDetailList = ClassroomDetailManager.sortClassroomDetailListByClassroomNo(this.classroomDetailList);
+                this.classroomDetailList = ClassroomDetailManager.sortClassroomDetailListByClassroomDate(this.classroomDetailList);
             }            
 
             this.refreshDataGridView_ClassroomDetail();
@@ -264,7 +264,7 @@ namespace PianoForte.View
             for (int i = 0; i < this.classroomDetailList.Count; i++)
             {
                 int n = this.DataGridView_ClassroomDetail.Rows.Add();
-                this.DataGridView_ClassroomDetail.Rows[n].Cells["ClassroomNo"].Value = this.classroomDetailList[i].ClassroomNo;
+                this.DataGridView_ClassroomDetail.Rows[n].Cells["ClassroomNo"].Value = i + 1;
                 this.DataGridView_ClassroomDetail.Rows[n].Cells["ClassroomDate"].Value = this.classroomDetailList[i].ClassroomDate.ToShortDateString();
                 this.DataGridView_ClassroomDetail.Rows[n].Cells["DisplayStatus"].Value = this.classroomDetailList[i].DisplayStatus;                
             }

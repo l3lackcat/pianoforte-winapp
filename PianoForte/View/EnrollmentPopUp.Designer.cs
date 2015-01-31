@@ -573,7 +573,7 @@
             this.Button_Submit.Name = "Button_Submit";
             this.Button_Submit.Size = new System.Drawing.Size(87, 28);
             this.Button_Submit.TabIndex = 54;
-            this.Button_Submit.Text = "ตกลง";
+            this.Button_Submit.Text = "ต่อไป";
             this.Button_Submit.UseVisualStyleBackColor = true;
             this.Button_Submit.Click += new System.EventHandler(this.Button_Submit_Click);
             // 

@@ -735,7 +735,7 @@ namespace PianoForte.View
                         string insertString = "INSERT INTO classroom_details (classroom_id, teacher_id, classroom_number, classroom_start, classroom_end, classroom_type, classroom_status, previous_classroom_detail_id, absence_id, holiday_id) VALUES(";
                         insertString += "'" + classroomDetail.ClassroomId + "', ";
                         insertString += "'" + classroomDetail.TeacherId + "', ";
-                        insertString += "'" + (int)classroomDetail.ClassroomNo + "', ";
+                        //insertString += "'" + (int)classroomDetail.ClassroomNo + "', ";
                         insertString += "'" + classroomStart.ToString("yyyy-MM-dd HH:mm:ss") + "', ";
                         insertString += "'" + classroomEnd.ToString("yyyy-MM-dd HH:mm:ss") + "', ";
 

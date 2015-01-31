@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaymentForm2));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -129,7 +129,6 @@
             this.Button_SelectCD = new System.Windows.Forms.Button();
             this.Button_SelectBook = new System.Windows.Forms.Button();
             this.Button_SelectCourse = new System.Windows.Forms.Button();
-            this.CheckBox_AddFirstRegisterCost = new System.Windows.Forms.CheckBox();
             this.Button_Save = new System.Windows.Forms.Button();
             this.panel26 = new System.Windows.Forms.Panel();
             this.DataGridView_UnpaidSavedPayment = new System.Windows.Forms.DataGridView();
@@ -137,6 +136,8 @@
             this.Col_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label28 = new System.Windows.Forms.Label();
             this.Button_ReloadUnpaidPaymentList = new System.Windows.Forms.Button();
+            this.Button_Cancel_UnpaidPayment = new System.Windows.Forms.Button();
+            this.CheckBox_AddFirstRegisterCost = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_PaymentDetail_Summary)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -247,20 +248,20 @@
             this.DataGridView_PaymentDetail_Summary.AllowUserToDeleteRows = false;
             this.DataGridView_PaymentDetail_Summary.AllowUserToResizeColumns = false;
             this.DataGridView_PaymentDetail_Summary.AllowUserToResizeRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.DataGridView_PaymentDetail_Summary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle57.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_PaymentDetail_Summary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle57;
             this.DataGridView_PaymentDetail_Summary.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.DataGridView_PaymentDetail_Summary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView_PaymentDetail_Summary.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
             this.DataGridView_PaymentDetail_Summary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridView_PaymentDetail_Summary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle58.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle58.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle58.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle58.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle58.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle58.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridView_PaymentDetail_Summary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
             this.DataGridView_PaymentDetail_Summary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView_PaymentDetail_Summary.ColumnHeadersVisible = false;
             this.DataGridView_PaymentDetail_Summary.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -271,14 +272,14 @@
             this.Price,
             this.TotalPrice,
             this.DeleteButton});
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridView_PaymentDetail_Summary.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle65.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle65.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle65.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle65.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle65.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle65.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridView_PaymentDetail_Summary.DefaultCellStyle = dataGridViewCellStyle65;
             this.DataGridView_PaymentDetail_Summary.GridColor = System.Drawing.Color.White;
             this.DataGridView_PaymentDetail_Summary.Location = new System.Drawing.Point(1, 1);
             this.DataGridView_PaymentDetail_Summary.MultiSelect = false;
@@ -297,9 +298,9 @@
             // No
             // 
             this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.No.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle59.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.No.DefaultCellStyle = dataGridViewCellStyle59;
             this.No.HeaderText = "#";
             this.No.Name = "No";
             this.No.ReadOnly = true;
@@ -310,9 +311,9 @@
             // ItemName
             // 
             this.ItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.ItemName.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle60.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.ItemName.DefaultCellStyle = dataGridViewCellStyle60;
             this.ItemName.HeaderText = "รายการ";
             this.ItemName.Name = "ItemName";
             this.ItemName.ReadOnly = true;
@@ -323,9 +324,9 @@
             // Quantity
             // 
             this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle61.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle61;
             this.Quantity.HeaderText = "จำนวน";
             this.Quantity.Name = "Quantity";
             this.Quantity.ReadOnly = true;
@@ -336,11 +337,11 @@
             // Discount
             // 
             this.Discount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle20.Format = "N2";
-            dataGridViewCellStyle20.NullValue = null;
-            this.Discount.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle62.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle62.Format = "N2";
+            dataGridViewCellStyle62.NullValue = null;
+            this.Discount.DefaultCellStyle = dataGridViewCellStyle62;
             this.Discount.HeaderText = "ส่วนลด";
             this.Discount.Name = "Discount";
             this.Discount.ReadOnly = true;
@@ -351,11 +352,11 @@
             // Price
             // 
             this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle21.Format = "N2";
-            dataGridViewCellStyle21.NullValue = null;
-            this.Price.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle63.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle63.Format = "N2";
+            dataGridViewCellStyle63.NullValue = null;
+            this.Price.DefaultCellStyle = dataGridViewCellStyle63;
             this.Price.HeaderText = "ราคา";
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
@@ -366,11 +367,11 @@
             // TotalPrice
             // 
             this.TotalPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle22.Format = "N2";
-            dataGridViewCellStyle22.NullValue = null;
-            this.TotalPrice.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle64.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle64.Format = "N2";
+            dataGridViewCellStyle64.NullValue = null;
+            this.TotalPrice.DefaultCellStyle = dataGridViewCellStyle64;
             this.TotalPrice.HeaderText = "รวม";
             this.TotalPrice.Name = "TotalPrice";
             this.TotalPrice.ReadOnly = true;
@@ -1227,19 +1228,6 @@
             this.Button_SelectCourse.UseVisualStyleBackColor = true;
             this.Button_SelectCourse.Click += new System.EventHandler(this.Button_SelectCourse_Click);
             // 
-            // CheckBox_AddFirstRegisterCost
-            // 
-            this.CheckBox_AddFirstRegisterCost.AutoSize = true;
-            this.CheckBox_AddFirstRegisterCost.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.CheckBox_AddFirstRegisterCost.Location = new System.Drawing.Point(12, 107);
-            this.CheckBox_AddFirstRegisterCost.Name = "CheckBox_AddFirstRegisterCost";
-            this.CheckBox_AddFirstRegisterCost.Size = new System.Drawing.Size(190, 20);
-            this.CheckBox_AddFirstRegisterCost.TabIndex = 49;
-            this.CheckBox_AddFirstRegisterCost.Text = "ค่าลงทะเบียนแรกเข้า 300 บาท";
-            this.CheckBox_AddFirstRegisterCost.UseVisualStyleBackColor = true;
-            this.CheckBox_AddFirstRegisterCost.Visible = false;
-            this.CheckBox_AddFirstRegisterCost.CheckedChanged += new System.EventHandler(this.CheckBox_AddFirstRegisterCost_CheckedChanged);
-            // 
             // Button_Save
             // 
             this.Button_Save.Enabled = false;
@@ -1267,33 +1255,33 @@
             this.DataGridView_UnpaidSavedPayment.AllowUserToDeleteRows = false;
             this.DataGridView_UnpaidSavedPayment.AllowUserToResizeColumns = false;
             this.DataGridView_UnpaidSavedPayment.AllowUserToResizeRows = false;
-            dataGridViewCellStyle24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.DataGridView_UnpaidSavedPayment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle66.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.DataGridView_UnpaidSavedPayment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle66;
             this.DataGridView_UnpaidSavedPayment.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.DataGridView_UnpaidSavedPayment.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridView_UnpaidSavedPayment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
             this.DataGridView_UnpaidSavedPayment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridView_UnpaidSavedPayment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle67.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle67.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle67.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle67.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle67.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle67.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridView_UnpaidSavedPayment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle67;
             this.DataGridView_UnpaidSavedPayment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView_UnpaidSavedPayment.ColumnHeadersVisible = false;
             this.DataGridView_UnpaidSavedPayment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Col_No,
             this.Col_Name});
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridView_UnpaidSavedPayment.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle70.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle70.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle70.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle70.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle70.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle70.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridView_UnpaidSavedPayment.DefaultCellStyle = dataGridViewCellStyle70;
             this.DataGridView_UnpaidSavedPayment.GridColor = System.Drawing.Color.White;
             this.DataGridView_UnpaidSavedPayment.Location = new System.Drawing.Point(1, 1);
             this.DataGridView_UnpaidSavedPayment.MultiSelect = false;
@@ -1309,9 +1297,9 @@
             // Col_No
             // 
             this.Col_No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.Col_No.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle68.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Col_No.DefaultCellStyle = dataGridViewCellStyle68;
             this.Col_No.HeaderText = "#";
             this.Col_No.Name = "Col_No";
             this.Col_No.ReadOnly = true;
@@ -1322,9 +1310,9 @@
             // Col_Name
             // 
             this.Col_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.Col_Name.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle69.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Col_Name.DefaultCellStyle = dataGridViewCellStyle69;
             this.Col_Name.HeaderText = "ชื่อ - สกลุ";
             this.Col_Name.Name = "Col_Name";
             this.Col_Name.ReadOnly = true;
@@ -1355,12 +1343,38 @@
             this.Button_ReloadUnpaidPaymentList.UseVisualStyleBackColor = true;
             this.Button_ReloadUnpaidPaymentList.Click += new System.EventHandler(this.Button_ReloadUnpaidPaymentList_Click);
             // 
+            // Button_Cancel_UnpaidPayment
+            // 
+            this.Button_Cancel_UnpaidPayment.Enabled = false;
+            this.Button_Cancel_UnpaidPayment.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.Button_Cancel_UnpaidPayment.Location = new System.Drawing.Point(93, 542);
+            this.Button_Cancel_UnpaidPayment.Name = "Button_Cancel_UnpaidPayment";
+            this.Button_Cancel_UnpaidPayment.Size = new System.Drawing.Size(100, 23);
+            this.Button_Cancel_UnpaidPayment.TabIndex = 54;
+            this.Button_Cancel_UnpaidPayment.Text = "ยกเลิกรายการ";
+            this.Button_Cancel_UnpaidPayment.UseVisualStyleBackColor = true;
+            this.Button_Cancel_UnpaidPayment.Click += new System.EventHandler(this.Button_Cancel_UnpaidPayment_Click);
+            // 
+            // CheckBox_AddFirstRegisterCost
+            // 
+            this.CheckBox_AddFirstRegisterCost.AutoSize = true;
+            this.CheckBox_AddFirstRegisterCost.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.CheckBox_AddFirstRegisterCost.Location = new System.Drawing.Point(12, 107);
+            this.CheckBox_AddFirstRegisterCost.Name = "CheckBox_AddFirstRegisterCost";
+            this.CheckBox_AddFirstRegisterCost.Size = new System.Drawing.Size(190, 20);
+            this.CheckBox_AddFirstRegisterCost.TabIndex = 49;
+            this.CheckBox_AddFirstRegisterCost.Text = "ค่าลงทะเบียนแรกเข้า 300 บาท";
+            this.CheckBox_AddFirstRegisterCost.UseVisualStyleBackColor = true;
+            this.CheckBox_AddFirstRegisterCost.Visible = false;
+            this.CheckBox_AddFirstRegisterCost.CheckedChanged += new System.EventHandler(this.CheckBox_AddFirstRegisterCost_CheckedChanged);
+            // 
             // PaymentForm2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(1016, 600);
+            this.Controls.Add(this.Button_Cancel_UnpaidPayment);
             this.Controls.Add(this.Button_ReloadUnpaidPaymentList);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.panel26);
@@ -1513,7 +1527,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button Button_Reset;
         private System.Windows.Forms.Button Button_Pay;
-        private System.Windows.Forms.CheckBox CheckBox_AddFirstRegisterCost;
         private System.Windows.Forms.ComboBox ComboBox_Unpaid_Payment;
         private System.Windows.Forms.Button Button_Save;
         private System.Windows.Forms.Label label26;
@@ -1531,5 +1544,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Col_No;
         private System.Windows.Forms.DataGridViewTextBoxColumn Col_Name;
         private System.Windows.Forms.Button Button_ReloadUnpaidPaymentList;
+        private System.Windows.Forms.Button Button_Cancel_UnpaidPayment;
+        private System.Windows.Forms.CheckBox CheckBox_AddFirstRegisterCost;
     }
 }

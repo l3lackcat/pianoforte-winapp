@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{243000DD-FF1B-4721-9E0D-B5CA80F87C31}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -285,6 +285,12 @@
     <Compile Include="View\CdDetailForm.Designer.cs">
       <DependentUpon>CdDetailForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ClassroomDateViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ClassroomDateViewer.Designer.cs">
+      <DependentUpon>ClassroomDateViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ClassroomForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -412,6 +418,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\CheckInMainForm.resx">
       <DependentUpon>CheckInMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ClassroomDateViewer.resx">
+      <DependentUpon>ClassroomDateViewer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ClassroomDetailForm.resx">

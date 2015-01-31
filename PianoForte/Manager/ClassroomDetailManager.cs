@@ -167,7 +167,7 @@ namespace PianoForte.Manager
                 {
                     ClassroomDetail classroomDetail = new ClassroomDetail();
                     classroomDetail.ClassroomId = classroomList[i].Id;
-                    classroomDetail.ClassroomNo = (((numberOfClassroom * j) + 1) + i) + 0.1;
+                    //classroomDetail.ClassroomNo = (((numberOfClassroom * j) + 1) + i) + 0.1;
                     classroomDetail.TeacherId = classroomList[i].TeacherId;
                     classroomDetail.ClassroomDate = classroomList[i].StartDate.AddDays(dayMultiplier * 7);
                     classroomDetail.ClassroomTime = classroomList[i].ClassTime;
@@ -209,22 +209,22 @@ namespace PianoForte.Manager
             return numberOfClassroomDetail;
         }
 
-        public static ClassroomDetail getLastClassroomNoOfNormalAndExtraClassroomDetail(int classroomId)
-        {
-            ClassroomDetail lastClassroomDetail = null;
+        //public static ClassroomDetail getLastClassroomNoOfNormalAndExtraClassroomDetail(int classroomId)
+        //{
+        //    ClassroomDetail lastClassroomDetail = null;
 
-            //List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.getAllNormalAndExtraClassroomDetailOrderByClassroomNo(classroomId);
-            List<ClassroomDetail.ClassroomType> classroomTypeList = new List<ClassroomDetail.ClassroomType>();
-            classroomTypeList.Add(ClassroomDetail.ClassroomType.NORMAL);
-            classroomTypeList.Add(ClassroomDetail.ClassroomType.EXTRA);
-            List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(classroomId, classroomTypeList, ClassroomDetail.columnClassroomNo);
-            if (tempClassroomDetailList.Count > 0)
-            {
-                lastClassroomDetail = tempClassroomDetailList[tempClassroomDetailList.Count - 1];
-            }
+        //    //List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.getAllNormalAndExtraClassroomDetailOrderByClassroomNo(classroomId);
+        //    List<ClassroomDetail.ClassroomType> classroomTypeList = new List<ClassroomDetail.ClassroomType>();
+        //    classroomTypeList.Add(ClassroomDetail.ClassroomType.NORMAL);
+        //    classroomTypeList.Add(ClassroomDetail.ClassroomType.EXTRA);
+        //    List<ClassroomDetail> tempClassroomDetailList = ClassroomDetailManager.findAllClassroomDetailByClassroomId(classroomId, classroomTypeList, ClassroomDetail.columnClassroomNo);
+        //    if (tempClassroomDetailList.Count > 0)
+        //    {
+        //        lastClassroomDetail = tempClassroomDetailList[tempClassroomDetailList.Count - 1];
+        //    }
 
-            return lastClassroomDetail;
-        }
+        //    return lastClassroomDetail;
+        //}
 
         public static ClassroomDetail getLastClassroomDateOfNormalAndExtraClassroomDetail(int classroomId)
         {
@@ -261,54 +261,54 @@ namespace PianoForte.Manager
 
         public static DateTime getMinClassroomDate(List<ClassroomDetail> classroomDetailList)
         {
-            int minIndex = 0;
+            int minDateIndex = 0;
 
             for (int i = 0; i < classroomDetailList.Count; i++)
             {
                 if (i > 0)
                 {
-                    if (classroomDetailList[i].ClassroomDate < classroomDetailList[minIndex].ClassroomDate)
+                    if (classroomDetailList[i].ClassroomDate < classroomDetailList[minDateIndex].ClassroomDate)
                     {
-                        minIndex = i;
+                        minDateIndex = i;
                     }
-                    else if (classroomDetailList[i].ClassroomDate == classroomDetailList[minIndex].ClassroomDate)
+                    else if (classroomDetailList[i].ClassroomDate == classroomDetailList[minDateIndex].ClassroomDate)
                     {
-                        string minTime = DateTimeManager.getMinTime(classroomDetailList[i].ClassroomTime, classroomDetailList[minIndex].ClassroomTime);
+                        string minTime = DateTimeManager.getMinTime(classroomDetailList[i].ClassroomTime, classroomDetailList[minDateIndex].ClassroomTime);
                         if (minTime == classroomDetailList[i].ClassroomTime)
                         {
-                            minIndex = i;
+                            minDateIndex = i;
                         }
                     }
                 }
             }
 
-            return classroomDetailList[minIndex].ClassroomDate;
+            return classroomDetailList[minDateIndex].ClassroomDate;
         }
 
         public static DateTime getMaxClassroomDate(List<ClassroomDetail> classroomDetailList)
         {
-            int maxIndex = 0;
+            int maxDateIndex = 0;
 
             for (int i = 0; i < classroomDetailList.Count; i++)
             {
                 if (i > 0)
                 {
-                    if (classroomDetailList[i].ClassroomDate > classroomDetailList[maxIndex].ClassroomDate)
+                    if (classroomDetailList[i].ClassroomDate > classroomDetailList[maxDateIndex].ClassroomDate)
                     {
-                        maxIndex = i;
+                        maxDateIndex = i;
                     }
-                    else if (classroomDetailList[i].ClassroomDate == classroomDetailList[maxIndex].ClassroomDate)
+                    else if (classroomDetailList[i].ClassroomDate == classroomDetailList[maxDateIndex].ClassroomDate)
                     {
-                        string minTime = DateTimeManager.getMinTime(classroomDetailList[i].ClassroomTime, classroomDetailList[maxIndex].ClassroomTime);
-                        if (minTime == classroomDetailList[maxIndex].ClassroomTime)
+                        string minTime = DateTimeManager.getMinTime(classroomDetailList[i].ClassroomTime, classroomDetailList[maxDateIndex].ClassroomTime);
+                        if (minTime == classroomDetailList[maxDateIndex].ClassroomTime)
                         {
-                            maxIndex = i;
+                            maxDateIndex = i;
                         }
                     }
                 }
             }
 
-            return classroomDetailList[maxIndex].ClassroomDate;
+            return classroomDetailList[maxDateIndex].ClassroomDate;
         }
 
         public static ClassroomDetail updateClassroomDetailType(string newType, ClassroomDetail classroomDetail)
@@ -385,7 +385,7 @@ namespace PianoForte.Manager
                 if (isUpdateSuccess)
                 {
                     ClassroomDetail newClassroomDetail = new ClassroomDetail(classroomDetail);
-                    newClassroomDetail.ClassroomNo = classroomDetail.ClassroomNo + 0.1;
+                    //newClassroomDetail.ClassroomNo = classroomDetail.ClassroomNo + 0.1;
                     newClassroomDetail.ClassroomDate = newClassroomDate;
                     newClassroomDetail.ClassroomTime = newClassroomTime;
                     newClassroomDetail.ClassroomDuration = classroomDetail.ClassroomDuration;
@@ -414,29 +414,29 @@ namespace PianoForte.Manager
         {
             bool returnFlag = false;
 
-            classroomDetail = ClassroomDetailManager.updateClassroomDetailStatus(newStatus, classroomDetail);
-            bool isUpdateSuccess = ClassroomDetailManager.updateClassroomDetail(classroomDetail);
-            if (isUpdateSuccess)
-            {
-                ClassroomDetail classroomDetailWithLastClassroomNo = ClassroomDetailManager.getLastClassroomNoOfNormalAndExtraClassroomDetail(classroomDetail.ClassroomId);
-                ClassroomDetail classroomDetailWithLastClassroomDate = ClassroomDetailManager.getLastClassroomDateOfNormalAndExtraClassroomDetail(classroomDetail.ClassroomId);
-                if ((classroomDetailWithLastClassroomNo != null) && (classroomDetailWithLastClassroomDate != null))
-                {
-                    ClassroomDetail newClassroomDetail = new ClassroomDetail();
-                    newClassroomDetail.ClassroomId = classroomDetail.ClassroomId;
-                    newClassroomDetail.ClassroomNo = classroomDetailWithLastClassroomNo.ClassroomNo + 1;
-                    newClassroomDetail.TeacherId = classroomDetail.TeacherId;
-                    newClassroomDetail.ClassroomDate = classroomDetailWithLastClassroomDate.ClassroomDate.AddDays(7);
-                    newClassroomDetail.ClassroomTime = classroomDetail.ClassroomTime;
-                    newClassroomDetail.ClassroomDuration = classroomDetail.ClassroomDuration;
-                    newClassroomDetail = ClassroomDetailManager.updateClassroomDetailType(ClassroomDetail.ClassroomType.EXTRA.ToString(), newClassroomDetail);
-                    newClassroomDetail = ClassroomDetailManager.updateClassroomDetailStatus(ClassroomDetail.ClassroomStatus.WAITING.ToString(), newClassroomDetail);
-                    newClassroomDetail.RoomDetailId = -1;
-                    newClassroomDetail.RegularClassroomDetailId = classroomDetail.ClassroomDetailId;
+            //classroomDetail = ClassroomDetailManager.updateClassroomDetailStatus(newStatus, classroomDetail);
+            //bool isUpdateSuccess = ClassroomDetailManager.updateClassroomDetail(classroomDetail);
+            //if (isUpdateSuccess)
+            //{
+            //    ClassroomDetail classroomDetailWithLastClassroomNo = ClassroomDetailManager.getLastClassroomNoOfNormalAndExtraClassroomDetail(classroomDetail.ClassroomId);
+            //    ClassroomDetail classroomDetailWithLastClassroomDate = ClassroomDetailManager.getLastClassroomDateOfNormalAndExtraClassroomDetail(classroomDetail.ClassroomId);
+            //    if ((classroomDetailWithLastClassroomNo != null) && (classroomDetailWithLastClassroomDate != null))
+            //    {
+            //        ClassroomDetail newClassroomDetail = new ClassroomDetail();
+            //        newClassroomDetail.ClassroomId = classroomDetail.ClassroomId;
+            //        //newClassroomDetail.ClassroomNo = classroomDetailWithLastClassroomNo.ClassroomNo + 1;
+            //        newClassroomDetail.TeacherId = classroomDetail.TeacherId;
+            //        newClassroomDetail.ClassroomDate = classroomDetailWithLastClassroomDate.ClassroomDate.AddDays(7);
+            //        newClassroomDetail.ClassroomTime = classroomDetail.ClassroomTime;
+            //        newClassroomDetail.ClassroomDuration = classroomDetail.ClassroomDuration;
+            //        newClassroomDetail = ClassroomDetailManager.updateClassroomDetailType(ClassroomDetail.ClassroomType.EXTRA.ToString(), newClassroomDetail);
+            //        newClassroomDetail = ClassroomDetailManager.updateClassroomDetailStatus(ClassroomDetail.ClassroomStatus.WAITING.ToString(), newClassroomDetail);
+            //        newClassroomDetail.RoomDetailId = -1;
+            //        newClassroomDetail.RegularClassroomDetailId = classroomDetail.ClassroomDetailId;
 
-                    returnFlag = ClassroomDetailManager.insertClassroomDetail(newClassroomDetail);
-                }
-            }
+            //        returnFlag = ClassroomDetailManager.insertClassroomDetail(newClassroomDetail);
+            //    }
+            //}
 
             return returnFlag;
         }
@@ -451,7 +451,7 @@ namespace PianoForte.Manager
             {
                 ClassroomDetail newClassroomDetail = new ClassroomDetail();
                 newClassroomDetail.ClassroomId = classroomDetail.ClassroomId;
-                newClassroomDetail.ClassroomNo = classroomDetail.ClassroomNo + 0.1;
+                //newClassroomDetail.ClassroomNo = classroomDetail.ClassroomNo + 0.1;
                 newClassroomDetail.TeacherId = teacherId;
                 newClassroomDetail.ClassroomDate = classroomDetail.ClassroomDate;
                 newClassroomDetail.ClassroomTime = classroomDetail.ClassroomTime;
@@ -509,17 +509,49 @@ namespace PianoForte.Manager
             return returnFlag;
         }
 
-        public static List<ClassroomDetail> sortClassroomDetailListByClassroomNo(List<ClassroomDetail> classroomDetailList)
+        //public static List<ClassroomDetail> sortClassroomDetailListByClassroomNo(List<ClassroomDetail> classroomDetailList)
+        //{
+        //    for (int i = 0; i < classroomDetailList.Count; i++)
+        //    {
+        //        for (int j = i + 1; j < classroomDetailList.Count; j++)
+        //        {
+        //            if (classroomDetailList[j].ClassroomNo < classroomDetailList[i].ClassroomNo)
+        //            {
+        //                ClassroomDetail tempClassroomDetail = classroomDetailList[i];
+        //                classroomDetailList[i] = classroomDetailList[j];
+        //                classroomDetailList[j] = tempClassroomDetail;
+        //            }
+        //        }
+        //    }
+
+        //    return classroomDetailList;
+        //}
+
+        public static List<ClassroomDetail> sortClassroomDetailListByClassroomDate(List<ClassroomDetail> classroomDetailList)
         {
             for (int i = 0; i < classroomDetailList.Count; i++)
             {
                 for (int j = i + 1; j < classroomDetailList.Count; j++)
                 {
-                    if (classroomDetailList[j].ClassroomNo < classroomDetailList[i].ClassroomNo)
+                    DateTime date1 = classroomDetailList[j].ClassroomDate;
+                    DateTime date2 = classroomDetailList[i].ClassroomDate;
+
+                    if (date1 < date2)
                     {
                         ClassroomDetail tempClassroomDetail = classroomDetailList[i];
                         classroomDetailList[i] = classroomDetailList[j];
                         classroomDetailList[j] = tempClassroomDetail;
+                    }
+                    else if (date1 == date2)
+                    {
+                        string time1 = classroomDetailList[i].ClassroomTime;
+                        string time2 = classroomDetailList[j].ClassroomTime;
+                        if (classroomDetailList[j].ClassroomTime == DateTimeManager.getMinTime(time1, time2))
+                        {
+                            ClassroomDetail tempClassroomDetail = classroomDetailList[i];
+                            classroomDetailList[i] = classroomDetailList[j];
+                            classroomDetailList[j] = tempClassroomDetail;
+                        }
                     }
                 }
             }
@@ -545,29 +577,6 @@ namespace PianoForte.Manager
             }
 
             return classroomDetailList;
-        }
-
-        public static List<DateTime> generateClassroomDate(List<Classroom> classroomList, int numberOfClassroom)
-        {
-            List<DateTime> classroomDateList = new List<DateTime>();
-            List<ClassroomDetail> classroomDetailList = new List<ClassroomDetail>();
-
-            for (int i = 0; i < classroomList.Count; i++)
-            {
-                DateTime startDate = classroomList[i].StartDate;
-                for (int j = 1; j <= (numberOfClassroom / classroomList.Count); j++)
-                {
-                    classroomDateList.Add(startDate.AddDays(7 * (j - 1)));
-                }
-            }
-
-            classroomDetailList = ClassroomDetailManager.sortClassroomDetailListByClassroomNo(classroomDetailList);
-            for (int i = 0; i < classroomDetailList.Count; i++)
-            {
-                classroomDateList.Add(classroomDetailList[i].ClassroomDate);
-            }
-
-            return classroomDateList;
         }
 
         public static PianoForteResult checkAvailable(ClassroomDetail classroomDetail, Course course, DateTime date, string time)

@@ -106,6 +106,7 @@ namespace PianoForte.View
 
             this.updateButtonPay();
             this.updateButtonSave();
+            this.updateButtonCancelUnpaidPayment();
         }
 
         public void updateFocusedTextBox()
@@ -346,6 +347,7 @@ namespace PianoForte.View
 
             this.Button_Pay.Enabled = false;
             this.Button_Save.Enabled = false;
+            this.Button_Cancel_UnpaidPayment.Enabled = false;
 
             this.updateUnpaidSavedPaymentDataGridView();
             this.updatePaymentDetailSummaryDataGridView();
@@ -398,7 +400,7 @@ namespace PianoForte.View
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["Price"].Value = product.Price;
                     this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["TotalPrice"].Value = (product.Price * paymentDetail.Quantity) - paymentDetail.Discount;
 
-                    if ((this.selectedStudentSavedPaymentIndex == 0) && (product.Id != this.firstRegister.Id))
+                    if ((paymentDetail.Id == 0) && (product.Id != this.firstRegister.Id))
                     {
                         ((DataGridViewImageCell)this.DataGridView_PaymentDetail_Summary.Rows[i].Cells["DeleteButton"]).Value = PianoForte.Properties.Resources.Delete;
                     }
@@ -508,7 +510,7 @@ namespace PianoForte.View
                 }
 
                 if (this.unpaidSavedPaymentId == 0) {
-                    DialogResult result = MessageBox.Show("มีรายการค้างชำระ " + numberOfSavedPayment + " รายการ ต้องการชำระหรือไม่?", "มีรายการค้างชำระ", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show("มีรายการค้างชำระ " + numberOfSavedPayment + " รายการ ต้องการเปิดดูหรือไม่?", "มีรายการค้างชำระ", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
                         this.ComboBox_Unpaid_Payment.SelectedIndex = numberOfSavedPayment;
@@ -707,9 +709,51 @@ namespace PianoForte.View
         {
             bool isEnableButtonSave = false;
 
-            if ((this.student != null) && (this.paymentDetailList.Count > 0) && (this.selectedStudentSavedPaymentIndex == 0))
+            if (this.selectedStudentSavedPaymentIndex == 0)
             {
-                isEnableButtonSave = true;
+                if (this.student != null)
+                {
+                    if (this.paymentDetailList.Count > 0)
+                    {
+                        if (this.enrollment == null)
+                        {
+                            isEnableButtonSave = true;
+                        }
+                        else
+                        {
+                            List<Classroom> classroomList = this.enrollment.ClassroomList;
+                            foreach (Classroom c in classroomList)
+                            {
+                                List<ClassroomDetail> classroomDetailList = this.enrollment.ClassroomIdClassroomDetailListDictionary[c.Id];
+
+                                foreach (ClassroomDetail cd in classroomDetailList)
+                                {
+                                    if (cd.ClassroomDate < DateTime.Today)
+                                    {
+                                        isEnableButtonSave = true;
+                                        break;
+                                    }
+                                }
+
+                                if (isEnableButtonSave == true)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (PaymentDetail paymentDetail in this.paymentDetailList)
+                {
+                    if (paymentDetail.Id == 0)
+                    {
+                        isEnableButtonSave = true;
+                        break;
+                    }
+                }
             }
 
             if (isEnableButtonSave == true)
@@ -719,6 +763,25 @@ namespace PianoForte.View
             else
             {
                 this.Button_Save.Enabled = false;
+            }
+        }
+
+        private void updateButtonCancelUnpaidPayment()
+        {
+            bool isEnableButtonCancel = false;
+
+            if (this.selectedStudentSavedPaymentIndex > 0)
+            {
+                isEnableButtonCancel = true;
+            }
+
+            if (isEnableButtonCancel == true)
+            {
+                this.Button_Cancel_UnpaidPayment.Enabled = true;
+            }
+            else
+            {
+                this.Button_Cancel_UnpaidPayment.Enabled = false;
             }
         }
 
@@ -755,7 +818,7 @@ namespace PianoForte.View
 
             if (newPayment != null)
             {
-                if (this.selectedStudentSavedPaymentIndex != 0)
+                if (this.selectedStudentSavedPaymentIndex > 0)
                 {
                     SavedPayment savedPayment = this.studentSavedPaymentList[this.selectedStudentSavedPaymentIndex - 1];
 
@@ -836,7 +899,7 @@ namespace PianoForte.View
             for (int i = 0; i < this.paymentDetailList.Count; i++)
             {
                 PaymentDetail paymentDetail = this.paymentDetailList[i];
-                if (paymentDetail != null)
+                if ((paymentDetail != null) && (paymentDetail.Id == 0))
                 {
                     paymentDetail.PaymentId = paymentId;
                     paymentDetail.SavedPaymentId = savedPaymentId;
@@ -940,7 +1003,28 @@ namespace PianoForte.View
         {
             int receiverId = this.mainForm.getUser().Id;
             double grandTotalPrice = this.getGrandTotalPrice();
-            SavedPayment savedPayment = SavedPaymentManager.processSavedPayment(this.student.Id, receiverId, grandTotalPrice, SavedPayment.SavedPaymentStatus.NOT_PAID);
+            SavedPayment savedPayment = null;
+
+            if (this.selectedStudentSavedPaymentIndex > 0)
+            {
+                savedPayment = this.studentSavedPaymentList[this.selectedStudentSavedPaymentIndex - 1];
+            }
+
+            if (savedPayment == null)
+            {
+                savedPayment = SavedPaymentManager.processSavedPayment(this.student.Id, receiverId, grandTotalPrice, SavedPayment.SavedPaymentStatus.NOT_PAID);   
+            }
+            else
+            {
+                savedPayment.ReceiverId = receiverId;
+                savedPayment.TotalPrice = grandTotalPrice;
+                savedPayment.SavedDate = DateTime.Today;
+
+                if (SavedPaymentManager.updateSavedPayment(savedPayment) == false)
+                {
+                    savedPayment = null;
+                }
+            }
 
             if (savedPayment != null)
             {
@@ -1018,25 +1102,28 @@ namespace PianoForte.View
 
         private void DataGridView_PaymentDetail_Summary_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.selectedStudentSavedPaymentIndex == 0)
+            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            if (numberOfPaymentDetailList > 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
-                if (numberOfPaymentDetailList > 0)
+                int rowIndex = e.RowIndex;
+                if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
                 {
-                    int rowIndex = e.RowIndex;
-                    if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
+                    if (e.ColumnIndex == 6)
                     {
-                        if (e.ColumnIndex == 6)
-                        {
-                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
+                        PaymentDetail paymentDetail = this.paymentDetailList[rowIndex];
 
-                            if (productId != this.firstRegister.Id)
+                        if (paymentDetail != null)
+                        {
+                            if (paymentDetail.Id == 0)
                             {
-                                this.Cursor = Cursors.Hand;
-                            }                            
+                                if (paymentDetail.Product.Id != this.firstRegister.Id)
+                                {
+                                    this.Cursor = Cursors.Hand;
+                                }
+                            }
                         }
                     }
-                } 
+                }
             }           
         }
 
@@ -1047,60 +1134,65 @@ namespace PianoForte.View
 
         private void DataGridView_PaymentDetail_Summary_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (this.selectedStudentSavedPaymentIndex == 0)
+            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            if (numberOfPaymentDetailList > 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
-                if (numberOfPaymentDetailList > 0)
+                int rowIndex = e.RowIndex;
+                if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
                 {
-                    int rowIndex = e.RowIndex;
-                    if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
+                    if (e.ColumnIndex == 6)
                     {
-                        if (e.ColumnIndex == 6)
+                        PaymentDetail paymentDetail = this.paymentDetailList[rowIndex];
+                        if (paymentDetail != null)
                         {
-                            int productId = this.paymentDetailList[e.RowIndex].Product.Id;
-
-                            if (productId != this.firstRegister.Id)
+                            if (paymentDetail.Id == 0)
                             {
-                                if (ConfirmDialogBox.show("คุณต้องการลบรายการนี้?"))
+                                int productId = paymentDetail.Product.Id;
+
+                                if (productId != this.firstRegister.Id)
                                 {
-                                    this.removePaymentDetail(productId);
+                                    if (ConfirmDialogBox.show("คุณต้องการลบรายการนี้?"))
+                                    {
+                                        this.removePaymentDetail(productId);
+                                    }
                                 }
-                            }                            
+
+                                this.Cursor = Cursors.Arrow;
+                            }
                         }
+                        
                     }
                 }
-
-                this.Cursor = Cursors.Arrow;
             }
         }
 
         private void DataGridView_PaymentDetail_Summary_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.selectedStudentSavedPaymentIndex == 0)
+            int numberOfPaymentDetailList = this.paymentDetailList.Count;
+            if (numberOfPaymentDetailList > 0)
             {
-                int numberOfPaymentDetailList = this.paymentDetailList.Count;
-                if (numberOfPaymentDetailList > 0)
+                int rowIndex = e.RowIndex;
+                if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
                 {
-                    int rowIndex = e.RowIndex;
-                    if ((rowIndex >= 0) && (rowIndex < numberOfPaymentDetailList))
+                    PaymentDetail paymentDetail = this.paymentDetailList[rowIndex];
+                    if (paymentDetail.Id == 0)
                     {
-                        PaymentDetail paymentDetail = this.paymentDetailList[rowIndex];
-
                         if (paymentDetail.Product.Type == Product.ProductType.COURSE.ToString())
                         {
+                            int tempCourseId = this.enrollment.Course.Id;
                             EnrollmentPopUp enrollmentPopup = new EnrollmentPopUp();
                             Enrollment enrollment = enrollmentPopup.showFormDialog(this, this.enrollment);
 
                             if (enrollment != null)
                             {
-                                this.removePaymentDetail(enrollment.Course.Id);
+                                this.removePaymentDetail(tempCourseId);
                                 this.updateEnrollment(enrollment);
                             }
                         }
+
+                        this.Cursor = Cursors.Arrow;
                     }
                 }
-
-                this.Cursor = Cursors.Arrow;
             }
         }
 
@@ -1280,10 +1372,22 @@ namespace PianoForte.View
 
         private void Button_SelectCourse_Click(object sender, EventArgs e)
         {
-            EnrollmentPopUp enrollmentPopUp = new EnrollmentPopUp();
-            Enrollment enrollment = enrollmentPopUp.showFormDialog(this);            
+            Enrollment enrollment = null;
 
-            this.updateEnrollment(enrollment);
+            EnrollmentPopUp enrollmentPopUp = new EnrollmentPopUp();
+            enrollment = enrollmentPopUp.showFormDialog(this);
+
+            if (enrollment != null)
+            {
+                this.updateEnrollment(enrollment);
+                //ClassroomDateViewer classroomDateViewer = new ClassroomDateViewer();
+                //enrollment = classroomDateViewer.showFormDialog(this, enrollment);
+
+                //if (enrollment != null)
+                //{
+                //    this.updateEnrollment(enrollment);
+                //}
+            }
         }
 
         private void Button_SelectBook_Click(object sender, EventArgs e)
@@ -1321,32 +1425,32 @@ namespace PianoForte.View
 
         private void CheckBox_AddFirstRegisterCost_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.CheckBox_AddFirstRegisterCost.Checked)
-            {
-                if (this.firstRegister == null)
-                {
-                    this.firstRegister = OtherCostManager.findOtherCost(4000001);
-                }
+            //if (this.CheckBox_AddFirstRegisterCost.Checked)
+            //{
+            //    if (this.firstRegister == null)
+            //    {
+            //        this.firstRegister = OtherCostManager.findOtherCost(4000001);
+            //    }
 
-                if (this.firstRegister != null)
-                {
-                    Product product = new Product();
-                    product.Id = this.firstRegister.Id;
-                    product.Type = Product.ProductType.OTHER.ToString();
-                    product.Name = this.firstRegister.Name;
-                    product.Price = this.firstRegister.Price;
+            //    if (this.firstRegister != null)
+            //    {
+            //        Product product = new Product();
+            //        product.Id = this.firstRegister.Id;
+            //        product.Type = Product.ProductType.OTHER.ToString();
+            //        product.Name = this.firstRegister.Name;
+            //        product.Price = this.firstRegister.Price;
 
-                    PaymentDetail paymentDetail = new PaymentDetail();
-                    paymentDetail.Product = product;
-                    paymentDetail.Quantity = 1;
+            //        PaymentDetail paymentDetail = new PaymentDetail();
+            //        paymentDetail.Product = product;
+            //        paymentDetail.Quantity = 1;
 
-                    this.addPaymentDetail(paymentDetail);
-                }
-            }
-            else
-            {
-                this.removePaymentDetail(this.firstRegister.Id);
-            }
+            //        this.addPaymentDetail(paymentDetail);
+            //    }
+            //}
+            //else
+            //{
+            //    this.removePaymentDetail(this.firstRegister.Id);
+            //}
         }
 
         private void ComboBox_Unpaid_Payment_SelectedIndexChanged(object sender, EventArgs e)
@@ -1383,32 +1487,57 @@ namespace PianoForte.View
 
         private void applyUnpaidPaymentView(bool isUnpaidPaymentView)
         {
-            this.TextBox_Barcode.Enabled = !isUnpaidPaymentView;
-            this.Button_SearchBarcode.Enabled = !isUnpaidPaymentView;
+            //this.TextBox_Barcode.Enabled = !isUnpaidPaymentView;
+            //this.Button_SearchBarcode.Enabled = !isUnpaidPaymentView;
 
-            this.Button_SelectCourse.Enabled = !isUnpaidPaymentView;
-            this.Button_SelectBook.Enabled = !isUnpaidPaymentView;
-            this.Button_SelectCD.Enabled = !isUnpaidPaymentView;
-            this.Button_AddOther.Enabled = !isUnpaidPaymentView;
+            //this.Button_SelectCourse.Enabled = !isUnpaidPaymentView;
+            //this.Button_SelectBook.Enabled = !isUnpaidPaymentView;
+            //this.Button_SelectCD.Enabled = !isUnpaidPaymentView;
+            //this.Button_AddOther.Enabled = !isUnpaidPaymentView;
 
-            this.CheckBox_AddFirstRegisterCost.Checked = false;
-            this.CheckBox_AddFirstRegisterCost.Enabled = !isUnpaidPaymentView;
+            //this.CheckBox_AddFirstRegisterCost.Checked = false;
+            //this.CheckBox_AddFirstRegisterCost.Enabled = !isUnpaidPaymentView;
 
             this.RadioButton_Cash.Checked = true;
 
             if (isUnpaidPaymentView == true)
             {
                 this.RadioButton_Cash.Focus();
+                this.Button_Cancel_UnpaidPayment.Enabled = true;
             }
             else
             {
                 this.TextBox_Barcode.Focus();
+                this.Button_Cancel_UnpaidPayment.Enabled = false;
             }
         }
 
         private void Button_ReloadUnpaidPaymentList_Click(object sender, EventArgs e)
         {
             this.updateUnpaidSavedPaymentDataGridView();
+        }
+
+        private void Button_Cancel_UnpaidPayment_Click(object sender, EventArgs e)
+        {
+            if (this.selectedStudentSavedPaymentIndex > 0)
+            {
+                SavedPayment savedPayment = this.studentSavedPaymentList[this.selectedStudentSavedPaymentIndex - 1];
+
+                if (savedPayment != null)
+                {
+                    savedPayment.Status = SavedPayment.SavedPaymentStatus.CANCELED.ToString();
+
+                    if (SavedPaymentManager.updateSavedPayment(savedPayment) == true)
+                    {
+                        MessageBox.Show(PianoForte.Constant.Constant.CANCEL_PAYMENT_SUCCESS);
+                        this.reset(true);
+                    }
+                    else
+                    {
+                        MessageBox.Show(PianoForte.Constant.Constant.CANCEL_PAYMENT_FAIL);
+                    }
+                }
+            }
         }
     }
 }

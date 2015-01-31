@@ -560,7 +560,6 @@ namespace PianoForte.View
             classroom.Id = -1;
             classroom.TeacherId = this.teacherList[this.ComboBox_Classroom1_Teacher.SelectedIndex].Id;
             classroom.StartDate = this.DateTimePicker_Classroom1_StartDate.Value;
-            //classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
             classroom.ClassDayOfWeek = ConvertManager.toShortDayOfWeek_EN(this.DateTimePicker_Classroom1_StartDate.Value.DayOfWeek.ToString());
             classroom.ClassTime = this.ComboBox_Classroom1_Time.Text;
 
@@ -587,7 +586,6 @@ namespace PianoForte.View
                 classroom.Id = -2;
                 classroom.TeacherId = this.teacherList[this.ComboBox_Classroom2_Teacher.SelectedIndex].Id;
                 classroom.StartDate = this.DateTimePicker_Classroom2_StartDate.Value;
-                //classroom.ClassDayOfWeek = ConvertManager.toThaiDayOfWeek(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
                 classroom.ClassDayOfWeek = ConvertManager.toShortDayOfWeek_EN(this.DateTimePicker_Classroom2_StartDate.Value.DayOfWeek.ToString());
                 classroom.ClassTime = this.ComboBox_Classroom2_Time.Text;
 
@@ -628,6 +626,30 @@ namespace PianoForte.View
 
             return numberOfClassroomDetail;
         }
+
+        //private List<DateTime> generateClassroomDateList1(DateTime startDate, int numberOfClassroom, int stepSize)
+        //{
+        //    List<DateTime> dateList = new List<DateTime>();
+
+        //    for (int i = 0; i < numberOfClassroom; i++)
+        //    {
+        //        dateList.Add(startDate.AddDays(i * stepSize * 7));
+        //    }
+
+        //    return dateList;
+        //}
+
+        //private List<DateTime> generateClassroomDateList2(DateTime startDate, int numberOfClassroom, int stepSize)
+        //{
+        //    List<DateTime> dateList = new List<DateTime>();
+
+        //    for (int i = 0; i < numberOfClassroom; i++)
+        //    {
+        //        dateList.Add(startDate.AddDays(i * stepSize * 7));
+        //    }
+
+        //    return dateList;
+        //}
 
         private void TextBox_CourseBarcode_KeyUp(object sender, KeyEventArgs e)
         {
@@ -725,19 +747,49 @@ namespace PianoForte.View
         {
             if (this.course != null)
             {
+                this.enrollment = null;
                 this.enrollment = new Enrollment(this.course);
                 this.enrollment.Course = this.course;
                 this.enrollment.EnrolledDate = DateTime.Today;
                 this.enrollment.Status = Enrollment.EnrollmentStatus.NOT_PAID.ToString();
                 this.enrollment.addClassroom(this.createClassroom1());
-                this.enrollment.addClassroom(this.createClassroom2());                                                
+                this.enrollment.addClassroom(this.createClassroom2());
+
+                if (this.enrollment.ClassroomList.Count > 1)
+                {
+                    Classroom classroom1 = this.enrollment.ClassroomList[0];
+                    Classroom classroom2 = this.enrollment.ClassroomList[1];
+
+                    if ((classroom1 != null) && (classroom2 != null))
+                    {
+                        if (classroom1.StartDate > classroom2.StartDate)
+                        {
+                            int classroom1Id = classroom1.Id;
+                            int classroom2Id = classroom2.Id;
+
+                            classroom1.Id = classroom2Id;
+                            classroom2.Id = classroom1Id;
+
+                            this.enrollment.ClassroomList.Clear();
+                            this.enrollment.ClassroomList.Add(classroom2);
+                            this.enrollment.ClassroomList.Add(classroom1);
+                        }
+                    }
+                }
 
                 if (this.enrollment.ClassroomList.Count > 0)
                 {
+                    ClassroomDateViewer classroomDateViewer = new ClassroomDateViewer();
+                    Enrollment tempEnrollment = null;
                     int numberOfClassroomDetail = Convert.ToInt32(this.ComboBox_NumberOfClassroomDetail.Text);
 
                     this.enrollment.ClassroomIdClassroomDetailListDictionary = ClassroomDetailManager.generateClassroomDetail(this.enrollment.ClassroomList, this.enrollment.Course, numberOfClassroomDetail);
-                    this.Close();
+                    tempEnrollment = classroomDateViewer.showFormDialog(caller, this.enrollment);
+
+                    if (tempEnrollment != null)
+                    {
+                        this.Close();
+                    }
                 }                
 
                 int actualNumberOfClassroom = Convert.ToInt32(this.ComboBox_NumberOfClassroomDetail.Text);

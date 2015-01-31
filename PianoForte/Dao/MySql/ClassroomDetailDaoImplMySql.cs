@@ -21,7 +21,7 @@ namespace PianoForte.Dao.MySql
             string sql = "INSERT INTO " +
                          ClassroomDetail.tableName + " (" +
                          ClassroomDetail.columnClassroomId + ", " +
-                         ClassroomDetail.columnClassroomNo + ", " +
+                         //ClassroomDetail.columnClassroomNo + ", " +
                          ClassroomDetail.columnTeacherId + ", " +
                          ClassroomDetail.columnClassroomDate + ", " +
                          ClassroomDetail.columnClassroomTime + ", " +
@@ -34,7 +34,7 @@ namespace PianoForte.Dao.MySql
                          ClassroomDetail.columnCommission + ") " +
                          "VALUES(" +
                          "?" + ClassroomDetail.columnClassroomId + ", " +
-                         "?" + ClassroomDetail.columnClassroomNo + ", " +
+                         //"?" + ClassroomDetail.columnClassroomNo + ", " +
                          "?" + ClassroomDetail.columnTeacherId + ", " +
                          "?" + ClassroomDetail.columnClassroomDate + ", " +
                          "?" + ClassroomDetail.columnClassroomTime + ", " +
@@ -54,7 +54,7 @@ namespace PianoForte.Dao.MySql
             string sql = "UPDATE " +
                          ClassroomDetail.tableName + " SET " +
                          ClassroomDetail.columnClassroomId + " = ?" + ClassroomDetail.columnClassroomId + ", " +
-                         ClassroomDetail.columnClassroomNo + " = ?" + ClassroomDetail.columnClassroomNo + ", " +
+                         //ClassroomDetail.columnClassroomNo + " = ?" + ClassroomDetail.columnClassroomNo + ", " +
                          ClassroomDetail.columnTeacherId + " = ?" + ClassroomDetail.columnTeacherId + ", " +
                          ClassroomDetail.columnClassroomDate + " = ?" + ClassroomDetail.columnClassroomDate + ", " +
                          ClassroomDetail.columnClassroomTime + " = ?" + ClassroomDetail.columnClassroomTime + ", " +
@@ -133,7 +133,7 @@ namespace PianoForte.Dao.MySql
             string sql = "SELECT * " +
                          "FROM " + ClassroomDetail.tableName + " " +
                          "WHERE " + ClassroomDetail.columnClassroomId + " = " + classroomId + " " +
-                         "ORDER BY " + ClassroomDetail.columnClassroomNo + " ASC";
+                         "ORDER BY " + ClassroomDetail.columnClassroomDate + " ASC";
 
             return this.processSelectCommand(sql);
         }
@@ -284,7 +284,7 @@ namespace PianoForte.Dao.MySql
                         MySqlCommand command = new MySqlCommand(sql, conn);
 
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomId, classroomDetail.ClassroomId);
-                        command.Parameters.AddWithValue(ClassroomDetail.columnClassroomNo, classroomDetail.ClassroomNo);
+                        //command.Parameters.AddWithValue(ClassroomDetail.columnClassroomNo, classroomDetail.ClassroomNo);
                         command.Parameters.AddWithValue(ClassroomDetail.columnTeacherId, classroomDetail.TeacherId);
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomDate, classroomDetail.ClassroomDate);
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomTime, classroomDetail.ClassroomTime);
@@ -341,7 +341,7 @@ namespace PianoForte.Dao.MySql
                         MySqlCommand command = new MySqlCommand(sql, conn);
 
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomId, classroomDetail.ClassroomId);
-                        command.Parameters.AddWithValue(ClassroomDetail.columnClassroomNo, classroomDetail.ClassroomNo);
+                        //command.Parameters.AddWithValue(ClassroomDetail.columnClassroomNo, classroomDetail.ClassroomNo);
                         command.Parameters.AddWithValue(ClassroomDetail.columnTeacherId, classroomDetail.TeacherId);
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomDate, classroomDetail.ClassroomDate);
                         command.Parameters.AddWithValue(ClassroomDetail.columnClassroomTime, classroomDetail.ClassroomTime);
@@ -470,7 +470,7 @@ namespace PianoForte.Dao.MySql
             ClassroomDetail classroomDetail = new ClassroomDetail();
             classroomDetail.ClassroomDetailId = Convert.ToInt32(data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomDetailId].ToString());
             classroomDetail.ClassroomId = Convert.ToInt32(data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomId].ToString());
-            classroomDetail.ClassroomNo = Convert.ToDouble(data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomNo].ToString());
+            //classroomDetail.ClassroomNo = Convert.ToDouble(data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomNo].ToString());
             classroomDetail.TeacherId = Convert.ToInt32(data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnTeacherId].ToString());
             classroomDetail.ClassroomDate = (DateTime)data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomDate];
             classroomDetail.ClassroomTime = data.Tables[ClassroomDetail.tableName].Rows[index][ClassroomDetail.columnClassroomTime].ToString();

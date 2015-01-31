@@ -10,7 +10,7 @@ namespace PianoForte.Model
         public static string tableName = "classroom_detail";
         public static string columnClassroomDetailId = "classroomDetailId";
         public static string columnClassroomId = "classroomId";
-        public static string columnClassroomNo = "classroomNo";
+        //public static string columnClassroomNo = "classroomNo";
         public static string columnTeacherId = "teacherId";
         public static string columnClassroomDate = "classroomDate";
         public static string columnClassroomTime = "classroomTime";
@@ -45,7 +45,7 @@ namespace PianoForte.Model
 
         private int classroomDetailId;
         private int classroomId;
-        private double classroomNo;
+        //private double classroomNo;
         private int teacherId;
         private DateTime classroomDate;
         private string classroomTime;
@@ -68,7 +68,7 @@ namespace PianoForte.Model
         {
             this.classroomDetailId = classroomDetail.ClassroomDetailId;
             this.classroomId = classroomDetail.ClassroomId;
-            this.classroomNo = classroomDetail.ClassroomNo;
+            //this.classroomNo = classroomDetail.ClassroomNo;
             this.teacherId = classroomDetail.TeacherId;
             this.classroomDate = classroomDetail.ClassroomDate;
             this.classroomTime = classroomDetail.ClassroomTime;
@@ -109,18 +109,18 @@ namespace PianoForte.Model
             }
         }
 
-        public double ClassroomNo
-        {
-            get
-            {
-                return this.classroomNo;
-            }
+        //public double ClassroomNo
+        //{
+        //    get
+        //    {
+        //        return this.classroomNo;
+        //    }
 
-            set
-            {
-                this.classroomNo = value;
-            }
-        }
+        //    set
+        //    {
+        //        this.classroomNo = value;
+        //    }
+        //}
 
         public int TeacherId
         {
