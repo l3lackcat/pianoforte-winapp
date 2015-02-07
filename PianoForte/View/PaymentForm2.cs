@@ -193,6 +193,7 @@ namespace PianoForte.View
             {
                 if (paymentDetail.Product.Id != 4000001)
                 {
+                    this.paymentDetailList[index].Product = paymentDetail.Product;
                     this.paymentDetailList[index].Quantity += paymentDetail.Quantity;
                 }
 
