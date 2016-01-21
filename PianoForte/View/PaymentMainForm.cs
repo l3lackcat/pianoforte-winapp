@@ -14,6 +14,9 @@ using PianoForte.Model;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
+
 namespace PianoForte.View
 {
     public partial class PaymentMainForm : Form, FormInterface
@@ -1009,6 +1012,92 @@ namespace PianoForte.View
             else
             {
                 this.TextBox_ChosenFile.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void Button_Choose_File2_Click(object sender, EventArgs e)
+        {
+            openFileDialog.InitialDirectory = "C:";
+            openFileDialog.Title = "Choose File";
+            openFileDialog.FileName = "";
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+            {
+                this.TextBox_ChosenFile2.Text = "";
+                this.Button_Print2.Enabled = false;
+            }
+            else
+            {
+                this.TextBox_ChosenFile2.Text = openFileDialog.FileName;
+                this.Button_Print2.Enabled = true;
+            }
+        }
+
+        private void Button_Print2_Click(object sender, EventArgs e)
+        {
+            User receiver = UserManager.findUser(4);
+
+            if (receiver != null)
+            {
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(this.TextBox_ChosenFile2.Text, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+                Excel.Range xlRange = xlWorkSheet.UsedRange;
+
+                int rowCount = xlRange.Rows.Count;
+                int colCount = xlRange.Columns.Count;
+
+                for (int i = 2; i <= rowCount; i++)
+                {
+                    int studentId = Convert.ToInt32((xlRange.Cells[i, 4] as Excel.Range).Value2.ToString());
+                    int paymentId = Convert.ToInt32((xlRange.Cells[i, 1] as Excel.Range).Value2.ToString());
+                    String discountRate = (xlRange.Cells[i, 12] as Excel.Range).Value2.ToString().Replace("%", "");
+
+                    Student student = new Student();
+                    student.Id = studentId;
+                    student.Firstname = (xlRange.Cells[i, 5] as Excel.Range).Value2.ToString();
+                    student.Lastname = (xlRange.Cells[i, 6] as Excel.Range).Value2.ToString();
+                    student.Nickname = (xlRange.Cells[i, 7] as Excel.Range).Value2.ToString();
+                    student.Phone2 = (xlRange.Cells[i, 8] as Excel.Range).Value2.ToString();
+                    student.Address = new Address();
+
+                    Product product = new Product();
+                    product.Id = i - 1;
+                    product.Name = (xlRange.Cells[i, 9] as Excel.Range).Value2.ToString();
+                    product.Price = Convert.ToDouble((xlRange.Cells[i, 10] as Excel.Range).Value2.ToString());
+                    product.Type = Product.ProductType.OTHER.ToString();
+
+                    PaymentDetail paymentDetail = new PaymentDetail();
+                    paymentDetail.Id = i - 1;
+                    paymentDetail.PaymentId = paymentId;
+                    paymentDetail.Product = product;
+                    paymentDetail.Quantity = Convert.ToInt32((xlRange.Cells[i, 11] as Excel.Range).Value2.ToString());
+                    paymentDetail.Discount = (product.Price * Convert.ToDouble(discountRate)) / 100;
+
+                    List<PaymentDetail> paymentDetailList = new List<PaymentDetail>();
+                    paymentDetailList.Add(paymentDetail);
+
+                    Payment payment = new Payment();
+                    payment.Id = paymentId;
+                    payment.StudentId = studentId;
+                    payment.ReceiverId = receiver.Id;
+                    payment.PaymentDate = Convert.ToDateTime((xlRange.Cells[i, 2] as Excel.Range).Value2.ToString());
+                    payment.TotalPrice = (paymentDetail.Product.Price - paymentDetail.Discount) * paymentDetail.Quantity;
+                    payment.TotalPriceText = ConvertManager.toBahtText(payment.TotalPrice);
+                    payment.CreditCardNumber = "";
+                    payment.Status = Payment.PaymentStatus.PAID.ToString();
+
+                    if ((xlRange.Cells[i, 3] as Excel.Range).Value2 != null)
+                    {
+                        payment.CreditCardNumber = ConvertManager.toDisplayCreditCardNumber((xlRange.Cells[i, 3] as Excel.Range).Value2.ToString());
+                    }
+
+                    if (!ReceiptManager.printCustomReceipt(payment, student, paymentDetailList, receiver))
+                    {
+                        MessageBox.Show(PianoForte.Constant.Constant.PRINTER_NOT_FOUND);
+                    }
+                }
             }
         }     
     }

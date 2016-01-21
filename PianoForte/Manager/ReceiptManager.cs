@@ -16,6 +16,36 @@ namespace PianoForte.Manager
 {
     public class ReceiptManager
     {
+        public static DataSet initCustomReceiptReportTable(Payment payment, Student student, List<PaymentDetail> paymentDetailList, User receiver)
+        {
+            DataSet dataSet = new DataSet();
+
+            DataTable dataTablePayment = ReceiptManager.initDataTablePayment();
+            DataTable dataTablePaymentDetail = ReceiptManager.initDataTablePaymentDetail();
+            DataTable dataTableReceiptFooter = ReceiptManager.initDataTableReceiptFooter();
+            DataTable dataTableStudent = ReceiptManager.initDataTableStudent();
+            DataTable dataTableUser = ReceiptManager.initDataTableUser();
+
+            if (payment != null)
+            {
+                dataTablePayment = ReceiptManager.addDataToDataTablePayment(dataTablePayment, payment);
+                dataTableStudent = ReceiptManager.addDataToDataTableStudent(dataTableStudent, student);
+                dataTablePaymentDetail = ReceiptManager.addDataToDataTablePaymentDetail(dataTablePaymentDetail, paymentDetailList);
+                dataTableUser = ReceiptManager.addDataToDataTableUser(dataTableUser, receiver);
+
+                dataSet.Tables.Add(dataTablePayment);
+                dataSet.Tables.Add(dataTablePaymentDetail);
+                dataSet.Tables.Add(dataTableStudent);
+                dataSet.Tables.Add(dataTableUser);
+                if (dataTableReceiptFooter.Rows.Count > 0)
+                {
+                    dataSet.Tables.Add(dataTableReceiptFooter);
+                }
+            }
+
+            return dataSet;
+        }
+
         public static DataSet initReceiptReportTable(int paymentId)
         {
             DataSet dataSet = new DataSet();
@@ -194,7 +224,12 @@ namespace PianoForte.Manager
 
         private static DataTable addDataToDataTablePaymentDetail(DataTable dataTablePaymentDetail, int paymentId)
         {
-            List<PaymentDetail> paymentDetailList = PaymentDetailManager.findAllPaymentDetail(paymentId);
+            ReceiptManager.addDataToDataTablePaymentDetail(dataTablePaymentDetail, PaymentDetailManager.findAllPaymentDetail(paymentId));
+            return dataTablePaymentDetail;
+        }
+
+        private static DataTable addDataToDataTablePaymentDetail(DataTable dataTablePaymentDetail, List<PaymentDetail> paymentDetailList)
+        {
             for (int i = 0; i < paymentDetailList.Count; i++)
             {
                 dataTablePaymentDetail.Rows.Add(paymentDetailList[i].Id,
@@ -294,7 +329,12 @@ namespace PianoForte.Manager
 
         private static DataTable addDataToDataTableStudent(DataTable dataTableStudent, int studentId)
         {
-            Student student = StudentManager.findStudent(studentId);
+            ReceiptManager.addDataToDataTableStudent(dataTableStudent, StudentManager.findStudent(studentId));
+            return dataTableStudent;
+        }
+
+        private static DataTable addDataToDataTableStudent(DataTable dataTableStudent, Student student)
+        {
             if (student != null)
             {
                 dataTableStudent.Rows.Add(student.Id,
@@ -311,14 +351,19 @@ namespace PianoForte.Manager
                                           student.Email,
                                           student.RegisteredDate,
                                           student.Status);
-            }            
+            }
 
             return dataTableStudent;
         }
 
         private static DataTable addDataToDataTableUser(DataTable dataTableUser, int userId)
         {
-            User user = UserManager.findUser(userId);
+            ReceiptManager.addDataToDataTableUser(dataTableUser, UserManager.findUser(userId));
+            return dataTableUser;
+        }
+
+        private static DataTable addDataToDataTableUser(DataTable dataTableUser, User user)
+        {
             if (user != null)
             {
                 dataTableUser.Rows.Add(user.Id,
@@ -329,6 +374,53 @@ namespace PianoForte.Manager
             }
 
             return dataTableUser;
+        }
+
+        public static bool printCustomReceipt(Payment payment, Student student, List<PaymentDetail> paymentDetailList, User receiver)
+        {
+            bool isPrintSuccess = false;
+
+            try
+            {
+                DataSet dataSet = ReceiptManager.initCustomReceiptReportTable(payment, student, paymentDetailList, receiver);
+
+                ReceiptPrint receiptPrint = new ReceiptPrint();
+                receiptPrint.Database.Tables[Payment.tableName].SetDataSource(dataSet.Tables[Payment.tableName]);
+                receiptPrint.Database.Tables[PaymentDetail.tableName].SetDataSource(dataSet.Tables[PaymentDetail.tableName]);
+                receiptPrint.Database.Tables[Student.tableName].SetDataSource(dataSet.Tables[Student.tableName]);
+                receiptPrint.Database.Tables[User.tableName].SetDataSource(dataSet.Tables[User.tableName]);
+                if (dataSet.Tables.Count > 4)
+                {
+                    if (dataSet.Tables[ReceiptFooter.tableName].Rows.Count > 0)
+                    {
+                        receiptPrint.Database.Tables[ReceiptFooter.tableName].SetDataSource(dataSet.Tables[ReceiptFooter.tableName]);
+                    }
+                }
+
+                foreach (String printer in PrinterSettings.InstalledPrinters)
+                {
+                    string printerName = printer.ToLower();
+                    if ((printerName == Constant.Constant.RECEIPT_PRINTER_LOCAL) ||
+                        (printerName == Constant.Constant.RECEIPT_PRINTER_NETWORK1) ||
+                        (printerName == Constant.Constant.RECEIPT_PRINTER_NETWORK2))
+                    {
+                        if (PrinterManager.isPrinterOnline(printer))
+                        {
+                            receiptPrint.PrintOptions.PrinterName = printerName;
+                            receiptPrint.PrintToPrinter(1, false, 0, 0);
+                            isPrintSuccess = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (System.Exception exception)
+            {
+                LogManager.writeLog(exception.Message);
+                isPrintSuccess = false;
+            }
+
+            return isPrintSuccess;
         }
 
         public static bool printReceipt(int paymentId)
