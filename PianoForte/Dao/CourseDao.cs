@@ -43,5 +43,7 @@ namespace PianoForte.Dao
         List<Course> findAllCourseByCourseCategoryIdAndCourseName(int courseCategoryId, string courseName, Course.CourseStatus status, int startIndex, int offset);
 
         List<Course> findAllCourseByCourseNameWithoutWildcard(string courseName);
+
+        List<Course> findAllCourseName();
     }
 }

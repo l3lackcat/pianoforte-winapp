@@ -133,8 +133,11 @@ namespace PianoForte.View
         {            
             if ((e.KeyCode == Keys.G) && (e.Alt) && (e.Control))
             {
-                HiddenForm hiddenForm = new HiddenForm();
-                hiddenForm.Show();
+                //HiddenForm hiddenForm = new HiddenForm();
+                //hiddenForm.Show();
+
+                HiddenForm2 hiddenForm2 = new HiddenForm2();
+                hiddenForm2.Show();
             }
             else
             {

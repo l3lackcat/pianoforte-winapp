@@ -181,6 +181,42 @@ namespace PianoForte.Manager
             return convertedCreditCardNumber;
         }
 
+        public static int toNumDayOfWeek(string dayOfWeek)
+        {
+            int numDayOfWeek = -1;
+
+            if (dayOfWeek == DateTimeConstant.SUNDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.SATURDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.MONDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.MONDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.TUESDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.TUESDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.WEDNESDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.WEDNESDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.THURSDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.THURSDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.FRIDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.FRIDAY_NUM;
+            }
+            else if (dayOfWeek == DateTimeConstant.SATURDAY_ABBR_EN)
+            {
+                numDayOfWeek = DateTimeConstant.SATURDAY_NUM;
+            }
+
+            return numDayOfWeek;
+        }
+
         public static string toShortDayOfWeek_EN(string dayOfWeek)
         {
             string engDayOfWeek = dayOfWeek;

@@ -7,6 +7,14 @@ namespace PianoForte.Constant
 {
     public class DateTimeConstant
     {
+        public const int SUNDAY_NUM = 0;
+        public const int MONDAY_NUM = 1;
+        public const int TUESDAY_NUM = 2;
+        public const int WEDNESDAY_NUM = 3;
+        public const int THURSDAY_NUM = 4;
+        public const int FRIDAY_NUM = 5;
+        public const int SATURDAY_NUM = 6;
+
         public const string SUNDAY_EN = "Sunday";
         public const string MONDAY_EN = "Monday";
         public const string TUESDAY_EN = "Tuesday";

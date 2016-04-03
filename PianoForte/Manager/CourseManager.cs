@@ -244,6 +244,19 @@ namespace PianoForte.Manager
 
         //--------------------------------------------------------------------------------
 
+        public static List<string> findAllCourseName()
+        {
+            List<string> courseNameList = new List<string>();
+            List<Course> courseList = courseDao.findAllCourseName();
+
+            for (int i = 0; i < courseList.Count; i++)
+            {
+                courseNameList.Add(courseList[i].Name);
+            }
+
+            return courseNameList;
+        }
+
         public static List<string> getAllActiveCourseName()
         {
             List<string> courseNameList = new List<string>();

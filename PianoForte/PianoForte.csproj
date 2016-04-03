@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{243000DD-FF1B-4721-9E0D-B5CA80F87C31}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -229,9 +229,23 @@
     <Compile Include="Manager\SavedPaymentManager.cs" />
     <Compile Include="Manager\SystemUpdateManager.cs" />
     <Compile Include="Manager\TeachingCourseManager.cs" />
+    <Compile Include="MigrationService\CourseCategoryService.cs" />
+    <Compile Include="MigrationService\CourseLevelService.cs" />
+    <Compile Include="MigrationService\CourseNameService.cs" />
+    <Compile Include="MigrationService\CoursePriceService.cs" />
+    <Compile Include="MigrationService\HelperService.cs" />
+    <Compile Include="MigrationService\ProductPriceService.cs" />
+    <Compile Include="MigrationService\ProductService.cs" />
+    <Compile Include="MigrationService\SaleDetailService.cs" />
+    <Compile Include="MigrationService\SaleService.cs" />
+    <Compile Include="MigrationService\ScheduleService.cs" />
+    <Compile Include="MigrationService\StudentService.cs" />
+    <Compile Include="MigrationService\TeacherService.cs" />
+    <Compile Include="MigrationService\TeachingCourseService.cs" />
     <Compile Include="Model\ProductPriceHistory.cs" />
     <Compile Include="Model\Holiday.cs" />
     <Compile Include="Model\SavedPayment.cs" />
+    <Compile Include="Model\Schedule.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -467,6 +481,9 @@
     <EmbeddedResource Include="View\HiddenForm.resx">
       <DependentUpon>HiddenForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\HiddenForm2.resx">
+      <DependentUpon>HiddenForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\HolidayMainForm.resx">
       <DependentUpon>HolidayMainForm.cs</DependentUpon>
@@ -843,6 +860,12 @@
     </Compile>
     <Compile Include="View\HiddenForm.Designer.cs">
       <DependentUpon>HiddenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\HiddenForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\HiddenForm2.Designer.cs">
+      <DependentUpon>HiddenForm2.cs</DependentUpon>
     </Compile>
     <Compile Include="View\HolidayMainForm.cs">
       <SubType>Form</SubType>

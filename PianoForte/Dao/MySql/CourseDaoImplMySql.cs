@@ -417,6 +417,15 @@ namespace PianoForte.Dao.MySql
 
         //--------------------------------------------------------------------------------
 
+        public List<Course> findAllCourseName()
+        {
+            string sql = "SELECT * " +
+                         "FROM " + Course.tableName + " " +
+                         "GROUP BY " + Course.columnCourseName;
+
+            return this.processSelectCommand(sql);
+        }
+
         private bool processInsertCommand(string sql, Course course) 
         {
             bool returnFlag = false;            
